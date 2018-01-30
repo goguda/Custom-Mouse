@@ -34,6 +34,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,17 +51,13 @@
     <Compile Include="CustomMouseService.Designer.cs">
       <DependentUpon>CustomMouseService.cs</DependentUpon>
     </Compile>
+    <Compile Include="HardwareController.cs" />
+    <Compile Include="OSController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CustomMouse\CustomMouse.csproj">
-      <Project>{14d84c05-0af2-4770-ac7f-c2d1d5eb84db}</Project>
-      <Name>CustomMouse</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

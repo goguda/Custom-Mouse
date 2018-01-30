@@ -1,6 +1,6 @@
 ﻿namespace CustomMouseService
 {
-    partial class Service1
+    partial class CustomMouseService
     {
         /// <summary> 
         /// Required designer variable.

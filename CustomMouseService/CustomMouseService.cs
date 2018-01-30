@@ -7,13 +7,12 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
-using CustomMouse;
 
 namespace CustomMouseService
 {
-    public partial class Service1 : ServiceBase
+    public partial class CustomMouseService : ServiceBase
     {
-        public Service1()
+        public CustomMouseService()
         {
             InitializeComponent();
         }

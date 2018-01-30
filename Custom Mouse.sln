@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomMouse", "CustomMouse\CustomMouse.csproj", "{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomMouseService", "CustomMouseService\CustomMouseService.csproj", "{2A33E09F-5A4E-4AB7-BDCC-99756E0AFADF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomMouseGUI", "CustomMouseGUI\CustomMouseGUI.csproj", "{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,14 +15,6 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}.Debug|x64.ActiveCfg = Debug|x64
-		{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}.Debug|x64.Build.0 = Debug|x64
-		{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}.Release|x64.ActiveCfg = Release|x64
-		{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}.Release|x64.Build.0 = Release|x64
 		{2A33E09F-5A4E-4AB7-BDCC-99756E0AFADF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2A33E09F-5A4E-4AB7-BDCC-99756E0AFADF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A33E09F-5A4E-4AB7-BDCC-99756E0AFADF}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -31,6 +23,14 @@ Global
 		{2A33E09F-5A4E-4AB7-BDCC-99756E0AFADF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2A33E09F-5A4E-4AB7-BDCC-99756E0AFADF}.Release|x64.ActiveCfg = Release|Any CPU
 		{2A33E09F-5A4E-4AB7-BDCC-99756E0AFADF}.Release|x64.Build.0 = Release|Any CPU
+		{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}.Debug|x64.ActiveCfg = Debug|x64
+		{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}.Debug|x64.Build.0 = Debug|x64
+		{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}.Release|x64.ActiveCfg = Release|x64
+		{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
