@@ -19,7 +19,7 @@ namespace Custom_Mouse
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            OSController.SimulateRightClick();
         }
     }
 }
