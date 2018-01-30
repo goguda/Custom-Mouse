@@ -1,4 +1,4 @@
-﻿namespace Custom_Mouse
+﻿namespace CustomMouse
 {
     partial class FrmMain
     {

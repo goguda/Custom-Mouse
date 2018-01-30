@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Custom_Mouse
+namespace CustomMouse
 {
     class HardwareController
     {

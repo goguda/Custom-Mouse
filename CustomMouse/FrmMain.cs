@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Custom_Mouse
+namespace CustomMouse
 {
     public partial class FrmMain : Form
     {
@@ -19,7 +19,6 @@ namespace Custom_Mouse
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            OSController.SimulateRightClick();
         }
     }
 }

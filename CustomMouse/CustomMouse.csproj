@@ -67,12 +67,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomMouseService.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="CustomMouseService.Designer.cs">
-      <DependentUpon>CustomMouseService.cs</DependentUpon>
-    </Compile>
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>

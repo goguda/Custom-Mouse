@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace Custom_Mouse
+namespace CustomMouse
 {
     static class OSController
     {

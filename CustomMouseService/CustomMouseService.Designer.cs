@@ -1,6 +1,6 @@
-﻿namespace Custom_Mouse
+﻿namespace CustomMouseService
 {
-    partial class CustomMouseService
+    partial class Service1
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            this.ServiceName = "CustomMouseService";
+            this.ServiceName = "Service1";
         }
 
         #endregion
