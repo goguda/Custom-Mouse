@@ -74,5 +74,32 @@ namespace CustomMouseGUI
             }
             clicked.BackColor = Color.Red;
         }
+
+        private void mnuExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void mnuOpenControlCenter_Click(object sender, EventArgs e)
+        {
+            Show();
+        }
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                Hide();
+            }
+        }
+
+        private void nfyTrayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                Show();
+            }
+        }
     }
 }
