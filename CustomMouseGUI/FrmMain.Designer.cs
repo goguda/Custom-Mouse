@@ -1,6 +1,6 @@
 ﻿namespace CustomMouseGUI
 {
-    partial class FrmMain
+    partial class frmMain
     {
         /// <summary>
         /// Required designer variable.
@@ -29,26 +29,40 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.nfyTrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.pnlInputSelection = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // nfyTrayIcon
             // 
             this.nfyTrayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("nfyTrayIcon.Icon")));
-            this.nfyTrayIcon.Text = "notifyIcon1";
+            this.nfyTrayIcon.Text = "Custom Mouse Control Center";
             this.nfyTrayIcon.Visible = true;
             // 
-            // Form1
+            // pnlInputSelection
+            // 
+            this.pnlInputSelection.AutoScroll = true;
+            this.pnlInputSelection.BackColor = System.Drawing.Color.Gray;
+            this.pnlInputSelection.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pnlInputSelection.Location = new System.Drawing.Point(0, 0);
+            this.pnlInputSelection.Name = "pnlInputSelection";
+            this.pnlInputSelection.Size = new System.Drawing.Size(391, 693);
+            this.pnlInputSelection.TabIndex = 0;
+            // 
+            // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1194, 708);
+            this.BackColor = System.Drawing.Color.DimGray;
+            this.ClientSize = new System.Drawing.Size(1213, 693);
+            this.Controls.Add(this.pnlInputSelection);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "Custom Mouse Control Center";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 
@@ -57,6 +71,7 @@
         #endregion
 
         private System.Windows.Forms.NotifyIcon nfyTrayIcon;
+        private System.Windows.Forms.Panel pnlInputSelection;
     }
 }
 
