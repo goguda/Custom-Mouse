@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{2A33E09F-5A4E-4AB7-BDCC-99756E0AFADF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Custom_Mouse_Service</RootNamespace>
+    <RootNamespace>CustomMouseService</RootNamespace>
     <AssemblyName>Custom Mouse Service</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -51,15 +51,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomMousePipeService.cs" />
     <Compile Include="CustomMouseService.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="CustomMouseService.Designer.cs">
       <DependentUpon>CustomMouseService.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomMouseServiceCommunicator.cs" />
     <Compile Include="HardwareController.cs" />
-    <Compile Include="ICustomMouseServiceCommunicator.cs" />
+    <Compile Include="ICustomMousePipeService.cs" />
     <Compile Include="OSController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
