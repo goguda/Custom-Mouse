@@ -18,7 +18,13 @@ namespace CustomMouseGUI
         }
 
         // Store references to buttons for quicker colour change
-        Button[] uiButtons;
+        private Button[] uiButtons;
+
+        private ButtonSetting[] buttonSettings;
+
+        private ButtonSetting currentSetting;
+
+        private bool isJoystickView;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -32,7 +38,15 @@ namespace CustomMouseGUI
             uiButtons[5] = btnButton5;
             uiButtons[6] = btnButton6;
 
+            buttonSettings = new ButtonSetting[6];
+
+            for (int i = 0; i < 6; i++)
+            {
+                buttonSettings[i] = new ButtonSetting(uiButtons[i + 1]);
+            }
+
             btnJoystick.PerformClick();
+            isJoystickView = true;
         }
 
         private void mnuExit_Click(object sender, EventArgs e)
@@ -66,42 +80,102 @@ namespace CustomMouseGUI
         {
             btnJoystick.BackColor = Color.FromArgb(230, 0, 0);
             SetDefaultButtonColour((Button)sender);
+
+            if (!isJoystickView)
+            {
+                SetToJoystickLayout();
+
+            }
         }
 
         private void btnButton1_Click(object sender, EventArgs e)
         {
             btnButton1.BackColor = Color.FromArgb(230, 0, 0);
             SetDefaultButtonColour((Button)sender);
+
+            if (isJoystickView)
+            {
+                SetToButtonLayout();
+            }
+
+            currentSetting = buttonSettings[0];
+
+            LoadButtonSettingsIntoLayout(currentSetting);
         }
 
         private void btnButton2_Click(object sender, EventArgs e)
         {
             btnButton2.BackColor = Color.FromArgb(230, 0, 0);
             SetDefaultButtonColour((Button)sender);
+
+            if (isJoystickView)
+            {
+                SetToButtonLayout();
+            }
+
+            currentSetting = buttonSettings[1];
+
+            LoadButtonSettingsIntoLayout(currentSetting);
         }
 
         private void btnButton3_Click(object sender, EventArgs e)
         {
             btnButton3.BackColor = Color.FromArgb(230, 0, 0);
             SetDefaultButtonColour((Button)sender);
+
+            if (isJoystickView)
+            {
+                SetToButtonLayout();
+            }
+
+            currentSetting = buttonSettings[2];
+
+            LoadButtonSettingsIntoLayout(currentSetting);
         }
 
         private void btnButton4_Click(object sender, EventArgs e)
         {
             btnButton4.BackColor = Color.FromArgb(230, 0, 0);
             SetDefaultButtonColour((Button)sender);
+
+            if (isJoystickView)
+            {
+                SetToButtonLayout();
+            }
+
+            currentSetting = buttonSettings[3];
+
+            LoadButtonSettingsIntoLayout(currentSetting);
         }
 
         private void btnButton5_Click(object sender, EventArgs e)
         {
             btnButton5.BackColor = Color.FromArgb(230, 0, 0);
             SetDefaultButtonColour((Button)sender);
+
+            if (isJoystickView)
+            {
+                SetToButtonLayout();
+            }
+
+            currentSetting = buttonSettings[4];
+
+            LoadButtonSettingsIntoLayout(currentSetting);
         }
 
         private void btnButton6_Click(object sender, EventArgs e)
         {
             btnButton6.BackColor = Color.FromArgb(230, 0, 0);
             SetDefaultButtonColour((Button)sender);
+
+            if (isJoystickView)
+            {
+                SetToButtonLayout();
+            }
+
+            currentSetting = buttonSettings[5];
+
+            LoadButtonSettingsIntoLayout(currentSetting);
         }
 
         private void SetDefaultButtonColour(Button selected)
@@ -111,8 +185,133 @@ namespace CustomMouseGUI
                 if (selected != button)
                 {
                     button.BackColor = Color.FromArgb(170, 0, 0);
+                    button.FlatAppearance.MouseOverBackColor = Color.Empty;
+                    button.FlatAppearance.MouseDownBackColor = Color.FromArgb(204, 0, 0);
                 }
             }
+
+            selected.FlatAppearance.MouseOverBackColor = Color.FromArgb(230, 0, 0);
+            selected.FlatAppearance.MouseDownBackColor = Color.FromArgb(230, 0, 0);
+        }
+
+        private void SetToJoystickLayout()
+        {
+            lblJoystickSensitivity.Visible = true;
+            lblJoystickDescription.Visible = true;
+            lblLessSensitive.Visible = true;
+            lblMoreSensitive.Visible = true;
+            lblCursorSpeed.Visible = true;
+            lblCursorDescription.Visible = true;
+            lblSlower.Visible = true;
+            lblFaster.Visible = true;
+
+            trkJoystick.Visible = true;
+            trkCursor.Visible = true;
+
+            radLeftClick.Visible = false;
+            radRightClick.Visible = false;
+            radOSK.Visible = false;
+            radSentence.Visible = false;
+            radProgram.Visible = false;
+            radShortcut.Visible = false;
+
+            lblPhrase.Visible = false;
+            txtPhrase.Visible = false;
+            picProgramIcon.Visible = false;
+            lblProgramName.Visible = false;
+            lblShortcut.Visible = false;
+
+            btnProgramChange.Visible = false;
+            btnKeyboardShortcutChange.Visible = false;
+
+            isJoystickView = true;
+        }
+
+        private void SetToButtonLayout()
+        {
+            radLeftClick.Visible = true;
+            radRightClick.Visible = true;
+            radOSK.Visible = true;
+            radSentence.Visible = true;
+            radProgram.Visible = true;
+            radShortcut.Visible = true;
+
+            lblPhrase.Visible = true;
+            txtPhrase.Visible = true;
+            picProgramIcon.Visible = true;
+            lblProgramName.Visible = true;
+            lblShortcut.Visible = true;
+
+            btnProgramChange.Visible = true;
+            btnKeyboardShortcutChange.Visible = true;
+
+            lblJoystickSensitivity.Visible = false;
+            lblJoystickDescription.Visible = false;
+            lblLessSensitive.Visible = false;
+            lblMoreSensitive.Visible = false;
+            lblCursorSpeed.Visible = false;
+            lblCursorDescription.Visible = false;
+            lblSlower.Visible = false;
+            lblFaster.Visible = false;
+
+            trkJoystick.Visible = false;
+            trkCursor.Visible = false;
+
+            isJoystickView = false;
+        }
+
+        private void LoadButtonSettingsIntoLayout(ButtonSetting settings)
+        {
+            if (isJoystickView)
+                return;
+
+            switch (currentSetting.Setting)
+            {
+                case ButtonSetting.SettingMode.None:
+                    radLeftClick.Checked = false;
+                    radRightClick.Checked = false;
+                    radOSK.Checked = false;
+                    radSentence.Checked = false;
+                    radProgram.Checked = false;
+                    radShortcut.Checked = false;
+                    break;
+                case ButtonSetting.SettingMode.LeftClick:
+                    radLeftClick.Select();
+                    break;
+                case ButtonSetting.SettingMode.RightClick:
+                    radRightClick.Select();
+                    break;
+                case ButtonSetting.SettingMode.OnScreenKeyboard:
+                    radOSK.Select();
+                    break;
+                case ButtonSetting.SettingMode.TypePhrase:
+                    radSentence.Select();
+                    break;
+                case ButtonSetting.SettingMode.OpenProgram:
+                    radProgram.Select();
+                    break;
+                case ButtonSetting.SettingMode.KeyboardShortcut:
+                    radShortcut.Select();
+                    break;
+            }
+        }
+
+        private void radLeftClick_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radLeftClick.Checked)
+                currentSetting.Setting = ButtonSetting.SettingMode.LeftClick;
+        }
+
+        private void radRightClick_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radRightClick.Checked)
+                currentSetting.Setting = ButtonSetting.SettingMode.RightClick;
+        }
+
+        private void radOSK_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radOSK.Checked)
+                currentSetting.Setting = ButtonSetting.SettingMode.OnScreenKeyboard;
         }
 
         private void radSentence_CheckedChanged(object sender, EventArgs e)
@@ -121,12 +320,25 @@ namespace CustomMouseGUI
             {
                 txtPhrase.Enabled = true;
                 lblPhrase.Enabled = true;
+                currentSetting.Setting = ButtonSetting.SettingMode.TypePhrase;
             }
             else
             {
                 txtPhrase.Enabled = false;
                 lblPhrase.Enabled = false;
             }
+        }
+
+        private void radProgram_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radProgram.Checked)
+                currentSetting.Setting = ButtonSetting.SettingMode.OpenProgram;
+        }
+
+        private void radShortcut_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radShortcut.Checked)
+                currentSetting.Setting = ButtonSetting.SettingMode.KeyboardShortcut;
         }
     }
 }
