@@ -47,6 +47,8 @@ namespace CustomMouseGUI
 
             btnJoystick.PerformClick();
             isJoystickView = true;
+
+            HardwareListener test = new HardwareListener();
         }
 
         private void mnuExit_Click(object sender, EventArgs e)
@@ -267,7 +269,7 @@ namespace CustomMouseGUI
 
             switch (currentSetting.Setting)
             {
-                case ButtonSetting.SettingMode.None:
+                case ButtonSetting.ButtonSettingMode.None:
                     radLeftClick.Checked = false;
                     radRightClick.Checked = false;
                     radOSK.Checked = false;
@@ -275,22 +277,22 @@ namespace CustomMouseGUI
                     radProgram.Checked = false;
                     radShortcut.Checked = false;
                     break;
-                case ButtonSetting.SettingMode.LeftClick:
+                case ButtonSetting.ButtonSettingMode.LeftClick:
                     radLeftClick.Select();
                     break;
-                case ButtonSetting.SettingMode.RightClick:
+                case ButtonSetting.ButtonSettingMode.RightClick:
                     radRightClick.Select();
                     break;
-                case ButtonSetting.SettingMode.OnScreenKeyboard:
+                case ButtonSetting.ButtonSettingMode.OnScreenKeyboard:
                     radOSK.Select();
                     break;
-                case ButtonSetting.SettingMode.TypePhrase:
+                case ButtonSetting.ButtonSettingMode.TypePhrase:
                     radSentence.Select();
                     break;
-                case ButtonSetting.SettingMode.OpenProgram:
+                case ButtonSetting.ButtonSettingMode.OpenProgram:
                     radProgram.Select();
                     break;
-                case ButtonSetting.SettingMode.KeyboardShortcut:
+                case ButtonSetting.ButtonSettingMode.KeyboardShortcut:
                     radShortcut.Select();
                     break;
             }
@@ -299,46 +301,37 @@ namespace CustomMouseGUI
         private void radLeftClick_CheckedChanged(object sender, EventArgs e)
         {
             if (radLeftClick.Checked)
-                currentSetting.Setting = ButtonSetting.SettingMode.LeftClick;
+                currentSetting.Setting = ButtonSetting.ButtonSettingMode.LeftClick;
         }
 
         private void radRightClick_CheckedChanged(object sender, EventArgs e)
         {
             if (radRightClick.Checked)
-                currentSetting.Setting = ButtonSetting.SettingMode.RightClick;
+                currentSetting.Setting = ButtonSetting.ButtonSettingMode.RightClick;
         }
 
         private void radOSK_CheckedChanged(object sender, EventArgs e)
         {
             if (radOSK.Checked)
-                currentSetting.Setting = ButtonSetting.SettingMode.OnScreenKeyboard;
+                currentSetting.Setting = ButtonSetting.ButtonSettingMode.OnScreenKeyboard;
         }
 
         private void radSentence_CheckedChanged(object sender, EventArgs e)
         {
             if (radSentence.Checked)
-            {
-                txtPhrase.Enabled = true;
-                lblPhrase.Enabled = true;
-                currentSetting.Setting = ButtonSetting.SettingMode.TypePhrase;
-            }
-            else
-            {
-                txtPhrase.Enabled = false;
-                lblPhrase.Enabled = false;
-            }
+                currentSetting.Setting = ButtonSetting.ButtonSettingMode.TypePhrase;
         }
 
         private void radProgram_CheckedChanged(object sender, EventArgs e)
         {
             if (radProgram.Checked)
-                currentSetting.Setting = ButtonSetting.SettingMode.OpenProgram;
+                currentSetting.Setting = ButtonSetting.ButtonSettingMode.OpenProgram;
         }
 
         private void radShortcut_CheckedChanged(object sender, EventArgs e)
         {
             if (radShortcut.Checked)
-                currentSetting.Setting = ButtonSetting.SettingMode.KeyboardShortcut;
+                currentSetting.Setting = ButtonSetting.ButtonSettingMode.KeyboardShortcut;
         }
     }
 }

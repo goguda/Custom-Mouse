@@ -10,18 +10,18 @@ namespace CustomMouseGUI
     class ButtonSetting
     {
 
-        public enum SettingMode { None, LeftClick, RightClick, OnScreenKeyboard, TypePhrase, OpenProgram, KeyboardShortcut };
+        public enum ButtonSettingMode { None, LeftClick, RightClick, OnScreenKeyboard, TypePhrase, OpenProgram, KeyboardShortcut };
 
         private readonly Button button;
-        private SettingMode mode;
+        private ButtonSettingMode mode;
 
         public ButtonSetting(Button button)
         {
             this.button = button;
-            this.mode = SettingMode.None;
+            this.mode = ButtonSettingMode.None;
         }
 
-        public SettingMode Setting
+        public ButtonSettingMode Setting
         {
             get
             {

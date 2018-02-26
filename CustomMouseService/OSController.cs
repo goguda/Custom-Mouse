@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -39,6 +40,11 @@ namespace CustomMouseService
         {
             mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0);
             mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
+        }
+
+        public static void OpenOnScreenKeyboard()
+        {
+            Process.Start("osk.exe");
         }
     }
 }
