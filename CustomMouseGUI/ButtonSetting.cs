@@ -15,12 +15,16 @@ namespace CustomMouseGUI
         private readonly Button button;
         private ButtonSettingMode mode;
         private string phrase;
+        private string programDir;
+        private string[] keyCombination;
 
         public ButtonSetting(Button button)
         {
             this.button = button;
             this.mode = ButtonSettingMode.None;
             this.phrase = String.Empty;
+            this.programDir = String.Empty;
+            this.keyCombination = new string[4];
         }
 
         public ButtonSettingMode Setting
@@ -52,6 +56,30 @@ namespace CustomMouseGUI
             get
             {
                 return button;
+            }
+        }
+
+        public string ProgramDirectory
+        {
+            get
+            {
+                return programDir;
+            }
+            set
+            {
+                programDir = value;
+            }
+        }
+
+        public string[] KeyCombination
+        {
+            get
+            {
+                return keyCombination;
+            }
+            set
+            {
+                keyCombination = value;
             }
         }
 
