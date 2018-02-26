@@ -48,7 +48,7 @@ namespace CustomMouseGUI
             btnJoystick.PerformClick();
             isJoystickView = true;
 
-            HardwareListener test = new HardwareListener();
+            //HardwareListener test = new HardwareListener();
         }
 
         private void mnuExit_Click(object sender, EventArgs e)
