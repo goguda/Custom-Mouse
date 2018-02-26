@@ -46,8 +46,6 @@
             this.grpSettings = new System.Windows.Forms.GroupBox();
             this.radRightClick = new System.Windows.Forms.RadioButton();
             this.lblSlower = new System.Windows.Forms.Label();
-            this.lblFaster = new System.Windows.Forms.Label();
-            this.trkCursor = new System.Windows.Forms.TrackBar();
             this.lblLessSensitive = new System.Windows.Forms.Label();
             this.lblMoreSensitive = new System.Windows.Forms.Label();
             this.lblCursorDescription = new System.Windows.Forms.Label();
@@ -67,12 +65,14 @@
             this.radLeftClick = new System.Windows.Forms.RadioButton();
             this.lblJoystickDescription = new System.Windows.Forms.Label();
             this.lblJoystickSensitivity = new System.Windows.Forms.Label();
+            this.lblFaster = new System.Windows.Forms.Label();
+            this.trkCursor = new System.Windows.Forms.TrackBar();
             this.cxtTrayIcon.SuspendLayout();
             this.pnlInputSelection.SuspendLayout();
             this.grpSettings.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trkCursor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkJoystick)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picProgramIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkCursor)).BeginInit();
             this.SuspendLayout();
             // 
             // nfyTrayIcon
@@ -306,25 +306,6 @@
             this.lblSlower.Text = "Slower";
             this.lblSlower.Visible = false;
             // 
-            // lblFaster
-            // 
-            this.lblFaster.AutoSize = true;
-            this.lblFaster.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFaster.Location = new System.Drawing.Point(297, 298);
-            this.lblFaster.Name = "lblFaster";
-            this.lblFaster.Size = new System.Drawing.Size(46, 19);
-            this.lblFaster.TabIndex = 21;
-            this.lblFaster.Text = "Faster";
-            this.lblFaster.Visible = false;
-            // 
-            // trkCursor
-            // 
-            this.trkCursor.Location = new System.Drawing.Point(127, 298);
-            this.trkCursor.Name = "trkCursor";
-            this.trkCursor.Size = new System.Drawing.Size(164, 45);
-            this.trkCursor.TabIndex = 20;
-            this.trkCursor.Visible = false;
-            // 
             // lblLessSensitive
             // 
             this.lblLessSensitive.AutoSize = true;
@@ -379,7 +360,6 @@
             // 
             // btnKeyboardShortcutChange
             // 
-            this.btnKeyboardShortcutChange.Enabled = false;
             this.btnKeyboardShortcutChange.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnKeyboardShortcutChange.ForeColor = System.Drawing.Color.Black;
             this.btnKeyboardShortcutChange.Location = new System.Drawing.Point(194, 313);
@@ -463,13 +443,13 @@
             // 
             // txtPhrase
             // 
-            this.txtPhrase.Enabled = false;
             this.txtPhrase.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPhrase.Location = new System.Drawing.Point(92, 160);
             this.txtPhrase.Name = "txtPhrase";
             this.txtPhrase.Size = new System.Drawing.Size(308, 29);
             this.txtPhrase.TabIndex = 4;
             this.txtPhrase.Visible = false;
+            this.txtPhrase.TextChanged += new System.EventHandler(this.txtPhrase_TextChanged);
             // 
             // lblPhrase
             // 
@@ -543,6 +523,25 @@
             this.lblJoystickSensitivity.Text = "Joystick Sensitivity";
             this.lblJoystickSensitivity.Visible = false;
             // 
+            // lblFaster
+            // 
+            this.lblFaster.AutoSize = true;
+            this.lblFaster.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFaster.Location = new System.Drawing.Point(297, 298);
+            this.lblFaster.Name = "lblFaster";
+            this.lblFaster.Size = new System.Drawing.Size(46, 19);
+            this.lblFaster.TabIndex = 21;
+            this.lblFaster.Text = "Faster";
+            this.lblFaster.Visible = false;
+            // 
+            // trkCursor
+            // 
+            this.trkCursor.Location = new System.Drawing.Point(127, 298);
+            this.trkCursor.Name = "trkCursor";
+            this.trkCursor.Size = new System.Drawing.Size(164, 45);
+            this.trkCursor.TabIndex = 20;
+            this.trkCursor.Visible = false;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -564,9 +563,9 @@
             this.pnlInputSelection.ResumeLayout(false);
             this.grpSettings.ResumeLayout(false);
             this.grpSettings.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trkCursor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkJoystick)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picProgramIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkCursor)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -603,13 +602,13 @@
         private System.Windows.Forms.Label lblCursorSpeed;
         private System.Windows.Forms.TrackBar trkJoystick;
         private System.Windows.Forms.Label lblSlower;
-        private System.Windows.Forms.Label lblFaster;
-        private System.Windows.Forms.TrackBar trkCursor;
         private System.Windows.Forms.Label lblLessSensitive;
         private System.Windows.Forms.Label lblMoreSensitive;
         private System.Windows.Forms.Label lblJoystickDescription;
         private System.Windows.Forms.Label lblJoystickSensitivity;
         private System.Windows.Forms.RadioButton radRightClick;
+        private System.Windows.Forms.Label lblFaster;
+        private System.Windows.Forms.TrackBar trkCursor;
     }
 }
 

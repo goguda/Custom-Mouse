@@ -296,6 +296,8 @@ namespace CustomMouseGUI
                     radShortcut.Select();
                     break;
             }
+
+            txtPhrase.Text = currentSetting.Phrase;
         }
 
         private void radLeftClick_CheckedChanged(object sender, EventArgs e)
@@ -332,6 +334,11 @@ namespace CustomMouseGUI
         {
             if (radShortcut.Checked)
                 currentSetting.Setting = ButtonSetting.ButtonSettingMode.KeyboardShortcut;
+        }
+
+        private void txtPhrase_TextChanged(object sender, EventArgs e)
+        {
+            currentSetting.Phrase = txtPhrase.Text;
         }
     }
 }

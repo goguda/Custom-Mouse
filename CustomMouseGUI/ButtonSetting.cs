@@ -14,11 +14,13 @@ namespace CustomMouseGUI
 
         private readonly Button button;
         private ButtonSettingMode mode;
+        private string phrase;
 
         public ButtonSetting(Button button)
         {
             this.button = button;
             this.mode = ButtonSettingMode.None;
+            this.phrase = String.Empty;
         }
 
         public ButtonSettingMode Setting
@@ -30,6 +32,18 @@ namespace CustomMouseGUI
             set
             {
                 mode = value;
+            }
+        }
+
+        public string Phrase
+        {
+            get
+            {
+                return phrase;
+            }
+            set
+            {
+                phrase = value;
             }
         }
 
