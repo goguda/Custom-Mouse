@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ButtonSetting.cs" />
     <Compile Include="CustomMousePipeService.cs" />
     <Compile Include="CustomMouseService.cs">
       <SubType>Component</SubType>

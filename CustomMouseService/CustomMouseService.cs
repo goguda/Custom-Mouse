@@ -11,24 +11,52 @@ using System.Threading.Tasks;
 
 namespace CustomMouseService
 {
-    public partial class CustomMouseService : ServiceBase
+    partial class CustomMouseService : ServiceBase
     {
-        internal static ServiceHost host = null;
-        public CustomMouseService()
+
+        internal static ServiceHost customMouseServiceHost;
+        private static CustomMouseService instance;
+
+        private CustomMouseService()
         {
             InitializeComponent();
         }
 
+        public static CustomMouseService GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new CustomMouseService();
+            }
+
+            return instance;
+        }
+
+        public void run()
+        {
+            OSController.MoveCursor(100, 100);
+        }
+
         protected override void OnStart(string[] args)
         {
-            if (host != null)
+            if (customMouseServiceHost != null)
             {
-                host.Close();
+                customMouseServiceHost.Close();
             }
+
+            customMouseServiceHost = new ServiceHost(typeof(CustomMousePipeService));
+            customMouseServiceHost.Open();
         }
 
         protected override void OnStop()
         {
+            if (customMouseServiceHost != null)
+            {
+                customMouseServiceHost.Close();
+                customMouseServiceHost = null;
+            }
         }
+
+        
     }
 }

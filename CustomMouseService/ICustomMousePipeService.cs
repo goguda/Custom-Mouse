@@ -11,7 +11,11 @@ namespace CustomMouseService
     [ServiceContract]
     public interface ICustomMousePipeService
     {
+        //[OperationContract]
+        //ButtonSetting GetButtonSetting(int buttonNumber);
+        //[OperationContract]
+        //void SetButtonSetting(int buttonNumber, ButtonSetting toSet);
         [OperationContract]
-        void DoWork();
+        int Test();
     }
 }

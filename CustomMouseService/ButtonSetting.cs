@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CustomMouseGUI
-{
-    class ButtonSetting
+namespace CustomMouseService
+{   
+    [Serializable]
+    public class ButtonSetting
     {
 
         public enum ButtonSettingMode { None, LeftClick, RightClick, OnScreenKeyboard, TypePhrase, OpenProgram, KeyboardShortcut };

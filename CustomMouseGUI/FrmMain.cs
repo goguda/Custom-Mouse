@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CustomMouseService;
+using System.ServiceModel;
 
 namespace CustomMouseGUI
 {
@@ -26,8 +28,19 @@ namespace CustomMouseGUI
 
         private bool isJoystickView;
 
+        private ICustomMousePipeService servicePipe;
+
         private void Form1_Load(object sender, EventArgs e)
         {
+            ChannelFactory<ICustomMousePipeService> serviceChannel = 
+                new ChannelFactory<ICustomMousePipeService>(
+                new NetNamedPipeBinding(NetNamedPipeSecurityMode.Transport),
+                new EndpointAddress("net.pipe://localhost/CustomMouseService"));
+            servicePipe = serviceChannel.CreateChannel();
+
+            this.Text = servicePipe.Test().ToString();
+            serviceChannel.Close();
+
             uiButtons = new Button[7];
 
             uiButtons[0] = btnJoystick;
@@ -48,7 +61,10 @@ namespace CustomMouseGUI
             btnJoystick.PerformClick();
             isJoystickView = true;
 
-            //HardwareListener test = new HardwareListener();
+            HardwareListener test = new HardwareListener();
+            test.Start();
+
+
         }
 
         private void mnuExit_Click(object sender, EventArgs e)

@@ -17,7 +17,7 @@ namespace CustomMouseService
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
-                new CustomMouseService()
+                CustomMouseService.GetInstance()
             };
             ServiceBase.Run(ServicesToRun);
         }
