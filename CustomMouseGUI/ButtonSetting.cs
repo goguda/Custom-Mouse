@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CustomMouseService
+namespace CustomMouseController
 {   
     [Serializable]
     public class ButtonSetting

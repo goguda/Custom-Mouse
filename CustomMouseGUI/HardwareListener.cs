@@ -7,7 +7,7 @@ using System.IO.Ports;
 using System.Management;
 using System.Threading;
 
-namespace CustomMouseService
+namespace CustomMouseController
 {
     public sealed class HardwareListener
     {
