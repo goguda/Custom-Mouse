@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomMouseController", "CustomMouseGUI\CustomMouseController.csproj", "{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomMouseController", "CustomMouseController\CustomMouseController.csproj", "{14D84C05-0AF2-4770-AC7F-C2D1D5EB84DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

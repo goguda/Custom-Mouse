@@ -11,20 +11,16 @@ namespace CustomMouseController
 {
     public sealed class HardwareListener
     {
-
-        private HardwareListener controller;
-        private Thread connection;
         private SerialPort device;
         private bool connected;
 
         public HardwareListener()
         {
-            this.connection = new Thread(new ThreadStart(ListenForConnectDisconnect));
         }
 
         public void Start()
         {
-            connection.Start();
+            ListenForConnectDisconnect();
         }
 
         private void ListenForConnectDisconnect()
