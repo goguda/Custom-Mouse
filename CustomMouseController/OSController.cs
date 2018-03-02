@@ -2,6 +2,8 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.ComponentModel;
+using System;
 
 namespace CustomMouseController
 {
@@ -19,6 +21,15 @@ namespace CustomMouseController
         CharSet = CharSet.Auto, CallingConvention= CallingConvention.StdCall)]
         public static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons,
         int dwExtraInfo);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern int Wow64DisableWow64FsRedirection(ref IntPtr ptr);
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern int Wow64EnableWow64FsRedirection(ref IntPtr ptr);
 
         public static void MoveCursor(int x, int y)
         {
@@ -44,7 +55,17 @@ namespace CustomMouseController
 
         public static void OpenOnScreenKeyboard()
         {
-            Process.Start("osk.exe");
+            try
+            {
+                Process.Start("osk.exe");
+            }
+            catch (Win32Exception) // Needed for Windows 10 and some other 64-bit versions of Windows when running in 32-bit mode
+            {
+                IntPtr wow64 = IntPtr.Zero;
+                Wow64DisableWow64FsRedirection(ref wow64);
+                Process.Start("osk.exe");
+                Wow64EnableWow64FsRedirection(ref wow64);
+            }
         }
     }
 }

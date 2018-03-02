@@ -12,10 +12,12 @@ namespace CustomMouseController
     public sealed class HardwareListener
     {
         private SerialPort device;
+        private DeviceSettings settings;
         private bool connected;
 
         public HardwareListener()
         {
+            settings = DeviceSettings.Instance;
         }
 
         public void Start()
