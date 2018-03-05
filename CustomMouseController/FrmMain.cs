@@ -22,7 +22,10 @@ namespace CustomMouseController
 
         private ButtonSetting[] buttonSettings;
 
+        private int currentButton;
         private ButtonSetting currentSetting;
+
+        private DeviceSettings settings;
 
         private bool isJoystickView;
 
@@ -49,11 +52,19 @@ namespace CustomMouseController
             btnJoystick.PerformClick();
             isJoystickView = true;
 
+            settings = DeviceSettings.Instance;
         }
 
         private void mnuExit_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            DialogResult result = MessageBox.Show("Closing this application will cause the Custom Mouse to operate only as a basic" +
+                " mouse without additional features such as programmable hotkeys. Are you sure you would like to do this?", "Exiting Custom Mouse Controller",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
         }
 
         private void mnuOpenControlCenter_Click(object sender, EventArgs e)
@@ -101,6 +112,7 @@ namespace CustomMouseController
             }
 
             currentSetting = buttonSettings[0];
+            currentButton = 1;
 
             LoadButtonSettingsIntoLayout(currentSetting);
         }
@@ -116,6 +128,7 @@ namespace CustomMouseController
             }
 
             currentSetting = buttonSettings[1];
+            currentButton = 2;
 
             LoadButtonSettingsIntoLayout(currentSetting);
         }
@@ -131,6 +144,7 @@ namespace CustomMouseController
             }
 
             currentSetting = buttonSettings[2];
+            currentButton = 3;
 
             LoadButtonSettingsIntoLayout(currentSetting);
         }
@@ -146,6 +160,7 @@ namespace CustomMouseController
             }
 
             currentSetting = buttonSettings[3];
+            currentButton = 4;
 
             LoadButtonSettingsIntoLayout(currentSetting);
         }
@@ -161,6 +176,7 @@ namespace CustomMouseController
             }
 
             currentSetting = buttonSettings[4];
+            currentButton = 5;
 
             LoadButtonSettingsIntoLayout(currentSetting);
         }
@@ -176,6 +192,7 @@ namespace CustomMouseController
             }
 
             currentSetting = buttonSettings[5];
+            currentButton = 6;
 
             LoadButtonSettingsIntoLayout(currentSetting);
         }
@@ -304,36 +321,42 @@ namespace CustomMouseController
         {
             if (radLeftClick.Checked)
                 currentSetting.Setting = ButtonSetting.ButtonSettingMode.LeftClick;
+            settings.SetButtonSetting(currentButton, currentSetting);
         }
 
         private void radRightClick_CheckedChanged(object sender, EventArgs e)
         {
             if (radRightClick.Checked)
                 currentSetting.Setting = ButtonSetting.ButtonSettingMode.RightClick;
+            settings.SetButtonSetting(currentButton, currentSetting);
         }
 
         private void radOSK_CheckedChanged(object sender, EventArgs e)
         {
             if (radOSK.Checked)
                 currentSetting.Setting = ButtonSetting.ButtonSettingMode.OnScreenKeyboard;
+            settings.SetButtonSetting(currentButton, currentSetting);
         }
 
         private void radSentence_CheckedChanged(object sender, EventArgs e)
         {
             if (radSentence.Checked)
                 currentSetting.Setting = ButtonSetting.ButtonSettingMode.TypePhrase;
+            settings.SetButtonSetting(currentButton, currentSetting);
         }
 
         private void radProgram_CheckedChanged(object sender, EventArgs e)
         {
             if (radProgram.Checked)
                 currentSetting.Setting = ButtonSetting.ButtonSettingMode.OpenProgram;
+            settings.SetButtonSetting(currentButton, currentSetting);
         }
 
         private void radShortcut_CheckedChanged(object sender, EventArgs e)
         {
             if (radShortcut.Checked)
                 currentSetting.Setting = ButtonSetting.ButtonSettingMode.KeyboardShortcut;
+            settings.SetButtonSetting(currentButton, currentSetting);
         }
 
         private void txtPhrase_TextChanged(object sender, EventArgs e)

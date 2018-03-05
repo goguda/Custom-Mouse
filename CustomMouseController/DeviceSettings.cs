@@ -37,5 +37,15 @@ namespace CustomMouseController
                 return loadedPreviousSession;
             }
         }
+
+        public void SetButtonSetting(int buttonNumber, ButtonSetting settings)
+        {
+            if (buttonNumber > 6 || buttonNumber < 1 || settings == null)
+            {
+                return;
+            }
+
+            buttonSettings[buttonNumber - 1] = settings;
+        }
     }
 }
