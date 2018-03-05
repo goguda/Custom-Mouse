@@ -87,18 +87,36 @@
   <ItemGroup>
     <Compile Include="ButtonSetting.cs" />
     <Compile Include="DeviceSettings.cs" />
+    <Compile Include="FrmKeyboardShortcut.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmKeyboardShortcut.Designer.cs">
+      <DependentUpon>FrmKeyboardShortcut.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmSelectProgram.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSelectProgram.Designer.cs">
+      <DependentUpon>FrmSelectProgram.cs</DependentUpon>
+    </Compile>
     <Compile Include="HardwareListener.cs" />
     <Compile Include="OSController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FrmKeyboardShortcut.resx">
+      <DependentUpon>FrmKeyboardShortcut.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSelectProgram.resx">
+      <DependentUpon>FrmSelectProgram.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -363,5 +363,17 @@ namespace CustomMouseController
         {
             currentSetting.Phrase = txtPhrase.Text;
         }
+
+        private void btnKeyboardShortcutChange_Click(object sender, EventArgs e)
+        {
+            FrmKeyboardShortcut dialog = new FrmKeyboardShortcut();
+            dialog.ShowDialog();
+        }
+
+        private void btnProgramChange_Click(object sender, EventArgs e)
+        {
+            FrmSelectProgram dialog = new FrmSelectProgram();
+            dialog.ShowDialog();
+        }
     }
 }
