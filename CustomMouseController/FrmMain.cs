@@ -366,14 +366,44 @@ namespace CustomMouseController
 
         private void btnKeyboardShortcutChange_Click(object sender, EventArgs e)
         {
-            FrmKeyboardShortcut dialog = new FrmKeyboardShortcut();
-            dialog.ShowDialog();
+            using (FrmKeyboardShortcut dialog = new FrmKeyboardShortcut(currentSetting))
+            {
+                dialog.ShowDialog();
+                if (dialog.DialogResult == DialogResult.OK)
+                {
+                    UpdateKeyboardShortcut();
+                }
+            }
         }
 
         private void btnProgramChange_Click(object sender, EventArgs e)
         {
             FrmSelectProgram dialog = new FrmSelectProgram();
             dialog.ShowDialog();
+        }
+
+        private void UpdateKeyboardShortcut()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("Assigned: ");
+            string[] keys = currentSetting.KeyCombination;
+
+            for (int i = 0; i < keys.Length; i++)
+            {
+                if (keys[i] == null)
+                    break;
+
+                if (i == 0)
+                {
+                    builder.Append(keys[i]);
+                }
+                else
+                {
+                    builder.Append("+" + keys[i]);
+                }
+            }
+
+            lblShortcut.Text = builder.ToString();
         }
     }
 }

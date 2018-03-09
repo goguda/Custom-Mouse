@@ -25,7 +25,6 @@ namespace CustomMouseController
             this.mode = ButtonSettingMode.None;
             this.phrase = String.Empty;
             this.programDir = String.Empty;
-            this.keyCombination = new string[4];
         }
 
         public ButtonSettingMode Setting

@@ -56,8 +56,11 @@
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(138, 42);
             this.btnOK.TabIndex = 15;
+            this.btnOK.TabStop = false;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            this.btnOK.MouseLeave += new System.EventHandler(this.btnOK_MouseLeave);
             // 
             // btnClear
             // 
@@ -68,9 +71,11 @@
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(138, 42);
             this.btnClear.TabIndex = 16;
+            this.btnClear.TabStop = false;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            this.btnClear.MouseLeave += new System.EventHandler(this.btnClear_MouseLeave);
             // 
             // btnCancel
             // 
@@ -81,9 +86,11 @@
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(138, 42);
             this.btnCancel.TabIndex = 17;
+            this.btnCancel.TabStop = false;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnCancel.MouseLeave += new System.EventHandler(this.btnCancel_MouseLeave);
             // 
             // lblShortcut
             // 

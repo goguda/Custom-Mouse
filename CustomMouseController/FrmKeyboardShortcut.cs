@@ -14,20 +14,26 @@ namespace CustomMouseController
     {
 
         private string[] shortcut;
-        public FrmKeyboardShortcut()
+        private ButtonSetting buttonSetting;
+
+        public FrmKeyboardShortcut(ButtonSetting buttonSetting)
         {
             InitializeComponent();
 
-            shortcut = new string[4];
+            this.shortcut = new string[4];
+            this.buttonSetting = buttonSetting;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             Close();
         }
 
         private void FrmKeyboardShortcut_KeyDown(object sender, KeyEventArgs e)
         {
+
+            Console.WriteLine(e.KeyCode);
             int numItems = shortcut.Count(x => !string.IsNullOrEmpty(x));
 
             if (numItems == 4)
@@ -64,7 +70,28 @@ namespace CustomMouseController
                     case Keys.Delete:
                         toAdd = "DELETE";
                         break;
-                    // numbers
+                    case Keys.Enter:
+                        toAdd = "ENTER";
+                        break;
+                    case Keys.End:
+                        toAdd = "END";
+                        break;
+                    case Keys.Insert:
+                        toAdd = "INSERT";
+                        break;
+                    case Keys.Home:
+                        toAdd = "HOME";
+                        break;
+                    case Keys.PageUp:
+                        toAdd = "PGEUP";
+                        break;
+                    case Keys.PageDown:
+                        toAdd = "PGEDWN";
+                        break;
+                    // number keys
+                    case Keys.Oemtilde:
+                        toAdd = "`";
+                        break;
                     case Keys.D0:
                         toAdd = "0";
                         break;
@@ -94,6 +121,12 @@ namespace CustomMouseController
                         break;
                     case Keys.D9:
                         toAdd = "9";
+                        break;
+                    case Keys.OemMinus:
+                        toAdd = "-";
+                        break;
+                    case Keys.Oemplus:
+                        toAdd = "=";
                         break;
                     // letters
                     case Keys.A:
@@ -181,6 +214,61 @@ namespace CustomMouseController
                     case Keys.OemPeriod:
                         toAdd = ".";
                         break;
+                    case Keys.OemQuestion:
+                        toAdd = "/";
+                        break;
+                    case Keys.Oem5:
+                        toAdd = "\\";
+                            break;
+                    case Keys.OemOpenBrackets:
+                        toAdd = "[";
+                        break;
+                    case Keys.OemCloseBrackets:
+                        toAdd = "]";
+                        break;
+                    case Keys.OemSemicolon:
+                        toAdd = ";";
+                        break;
+                    case Keys.OemQuotes:
+                        toAdd = "'";
+                        break;
+                    // function keys
+                    case Keys.F1:
+                        toAdd = "F1";
+                        break;
+                    case Keys.F2:
+                        toAdd = "F2";
+                        break;
+                    case Keys.F3:
+                        toAdd = "F3";
+                        break;
+                    case Keys.F4:
+                        toAdd = "F4";
+                        break;
+                    case Keys.F5:
+                        toAdd = "F5";
+                        break;
+                    case Keys.F6:
+                        toAdd = "F6";
+                        break;
+                    case Keys.F7:
+                        toAdd = "F7";
+                        break;
+                    case Keys.F8:
+                        toAdd = "F8";
+                        break;
+                    case Keys.F9:
+                        toAdd = "F9";
+                        break;
+                    case Keys.F10:
+                        toAdd = "F10";
+                        break;
+                    case Keys.F11:
+                        toAdd = "F11";
+                        break;
+                    case Keys.F12:
+                        toAdd = "F12";
+                        break;
                 }
             }
 
@@ -226,6 +314,46 @@ namespace CustomMouseController
         {
             shortcut = new string[4];
             UpdateUI();
+            lblInstructions.Focus();
+        }
+
+        private void btnClear_MouseLeave(object sender, EventArgs e)
+        {
+            lblInstructions.Focus();
+        }
+
+        private void btnCancel_MouseLeave(object sender, EventArgs e)
+        {
+            lblInstructions.Focus();
+        }
+
+        private void btnOK_MouseLeave(object sender, EventArgs e)
+        {
+            lblInstructions.Focus();
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            if (shortcut.Count(x => !String.IsNullOrEmpty(x)) == 0)
+            {
+                DialogResult msg = MessageBox.Show("No keyboard combination has been assigned. Would you " +
+                    "like to go back and assign one?", "No Keyboard Shortcut", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                
+                if (msg == DialogResult.No)
+                {
+                    DialogResult = DialogResult.Cancel;
+                    Close();
+                    return;
+                }
+                else if (msg == DialogResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            buttonSetting.KeyCombination = shortcut;
+            DialogResult = DialogResult.OK;
+            Close();
         }
     }
 }
