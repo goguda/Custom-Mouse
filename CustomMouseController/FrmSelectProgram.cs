@@ -15,7 +15,7 @@ namespace CustomMouseController
 {
     public partial class FrmSelectProgram : Form
     {
-        private string[] files;
+        private FileInfo[] files;
         public FrmSelectProgram()
         {
             InitializeComponent();
@@ -28,28 +28,43 @@ namespace CustomMouseController
 
         private void FrmSelectProgram_Load(object sender, EventArgs e)
         {
-            string[] files = Directory.GetFiles(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs",
+            string[] filePaths = Directory.GetFiles(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs",
                                         "*.lnk", SearchOption.AllDirectories);
+
+            files = new FileInfo[filePaths.Length];
+            
+            for (int i = 0; i < filePaths.Length; i++)
+            {
+                files[i] = new FileInfo(filePaths[i]);
+            }
+
+            Array.Sort(files, delegate(FileInfo file1, FileInfo file2)
+            {
+                return file1.Name.CompareTo(file2.Name);
+            });
 
             ImageList icons = new ImageList();
             icons.ImageSize = new Size(32, 32);
             icons.ColorDepth = ColorDepth.Depth32Bit;
-            string[] programNames;
 
             int counter = 0;
-            foreach (string file in files)
+            foreach (FileInfo file in files)
             {
-                FileInfo info = new FileInfo(file);
+            
+                icons.Images.Add(Icon.ExtractAssociatedIcon(file.FullName));
 
-                icons.Images.Add(Icon.ExtractAssociatedIcon(file));
-
-                ListViewItem item = new ListViewItem(info.Name.Substring(0, info.Name.IndexOf(info.Extension)));
+                ListViewItem item = new ListViewItem(file.Name.Substring(0, file.Name.IndexOf(file.Extension)));
                 item.ImageIndex = counter;
                 counter++;
                 lstPrograms.Items.Add(item);
             }
 
             lstPrograms.SmallImageList = icons;
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

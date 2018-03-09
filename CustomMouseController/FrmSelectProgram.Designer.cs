@@ -45,7 +45,6 @@
             this.lstPrograms.Name = "lstPrograms";
             this.lstPrograms.ShowGroups = false;
             this.lstPrograms.Size = new System.Drawing.Size(759, 605);
-            this.lstPrograms.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lstPrograms.TabIndex = 0;
             this.lstPrograms.UseCompatibleStateImageBehavior = false;
             this.lstPrograms.View = System.Windows.Forms.View.Details;
@@ -90,6 +89,7 @@
             this.btnOK.TabIndex = 19;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // FrmSelectProgram
             // 
