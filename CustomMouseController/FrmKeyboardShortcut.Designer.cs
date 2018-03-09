@@ -28,22 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblJoystickDescription = new System.Windows.Forms.Label();
+            this.lblInstructions = new System.Windows.Forms.Label();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.lblShortcut = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // lblJoystickDescription
+            // lblInstructions
             // 
-            this.lblJoystickDescription.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblJoystickDescription.ForeColor = System.Drawing.Color.White;
-            this.lblJoystickDescription.Location = new System.Drawing.Point(15, 9);
-            this.lblJoystickDescription.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.lblJoystickDescription.Name = "lblJoystickDescription";
-            this.lblJoystickDescription.Size = new System.Drawing.Size(726, 107);
-            this.lblJoystickDescription.TabIndex = 14;
-            this.lblJoystickDescription.Text = "Press the keys in the shortcut you would like to assign one by one, and click OK " +
+            this.lblInstructions.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInstructions.ForeColor = System.Drawing.Color.White;
+            this.lblInstructions.Location = new System.Drawing.Point(15, 9);
+            this.lblInstructions.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblInstructions.Name = "lblInstructions";
+            this.lblInstructions.Size = new System.Drawing.Size(726, 107);
+            this.lblInstructions.TabIndex = 14;
+            this.lblInstructions.Text = "Press the keys in the shortcut you would like to assign one by one, and click OK " +
     "when done.";
             // 
             // btnOK
@@ -69,6 +70,7 @@
             this.btnClear.TabIndex = 16;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnCancel
             // 
@@ -83,6 +85,17 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // lblShortcut
+            // 
+            this.lblShortcut.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblShortcut.ForeColor = System.Drawing.Color.White;
+            this.lblShortcut.Location = new System.Drawing.Point(15, 86);
+            this.lblShortcut.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblShortcut.Name = "lblShortcut";
+            this.lblShortcut.Size = new System.Drawing.Size(726, 110);
+            this.lblShortcut.TabIndex = 18;
+            this.lblShortcut.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FrmKeyboardShortcut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
@@ -90,16 +103,18 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(62)))), ((int)(((byte)(80)))));
             this.ClientSize = new System.Drawing.Size(756, 284);
             this.ControlBox = false;
+            this.Controls.Add(this.lblShortcut);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.lblJoystickDescription);
+            this.Controls.Add(this.lblInstructions);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.KeyPreview = true;
             this.Name = "FrmKeyboardShortcut";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Assign Keyboard Shortcut";
+            this.Load += new System.EventHandler(this.FrmKeyboardShortcut_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmKeyboardShortcut_KeyDown);
             this.ResumeLayout(false);
 
@@ -107,9 +122,10 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lblJoystickDescription;
+        private System.Windows.Forms.Label lblInstructions;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Label lblShortcut;
     }
 }

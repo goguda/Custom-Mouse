@@ -1,4 +1,6 @@
-﻿using System;
+﻿using IWshRuntimeLibrary;
+using Shell32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -38,6 +40,7 @@ namespace CustomMouseController
             foreach (string file in files)
             {
                 FileInfo info = new FileInfo(file);
+
                 icons.Images.Add(Icon.ExtractAssociatedIcon(file));
 
                 ListViewItem item = new ListViewItem(info.Name.Substring(0, info.Name.IndexOf(info.Extension)));
