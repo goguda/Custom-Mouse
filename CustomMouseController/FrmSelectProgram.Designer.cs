@@ -40,11 +40,12 @@
             this.lstPrograms.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.clmProgram});
             this.lstPrograms.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.lstPrograms.Location = new System.Drawing.Point(12, 98);
+            this.lstPrograms.Location = new System.Drawing.Point(7, 53);
+            this.lstPrograms.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.lstPrograms.MultiSelect = false;
             this.lstPrograms.Name = "lstPrograms";
             this.lstPrograms.ShowGroups = false;
-            this.lstPrograms.Size = new System.Drawing.Size(759, 605);
+            this.lstPrograms.Size = new System.Drawing.Size(416, 326);
             this.lstPrograms.TabIndex = 0;
             this.lstPrograms.UseCompatibleStateImageBehavior = false;
             this.lstPrograms.View = System.Windows.Forms.View.Details;
@@ -58,10 +59,9 @@
             // 
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.ForeColor = System.Drawing.Color.Black;
-            this.btnCancel.Location = new System.Drawing.Point(480, 712);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(6);
+            this.btnCancel.Location = new System.Drawing.Point(266, 386);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(138, 42);
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 17;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -71,10 +71,9 @@
             // 
             this.lblInstructions.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblInstructions.ForeColor = System.Drawing.Color.White;
-            this.lblInstructions.Location = new System.Drawing.Point(15, 9);
-            this.lblInstructions.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblInstructions.Location = new System.Drawing.Point(8, 5);
             this.lblInstructions.Name = "lblInstructions";
-            this.lblInstructions.Size = new System.Drawing.Size(753, 86);
+            this.lblInstructions.Size = new System.Drawing.Size(411, 47);
             this.lblInstructions.TabIndex = 18;
             this.lblInstructions.Text = "Select the program that you would like to open and click OK.";
             // 
@@ -82,10 +81,9 @@
             // 
             this.btnOK.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnOK.ForeColor = System.Drawing.Color.Black;
-            this.btnOK.Location = new System.Drawing.Point(630, 712);
-            this.btnOK.Margin = new System.Windows.Forms.Padding(6);
+            this.btnOK.Location = new System.Drawing.Point(348, 386);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(138, 42);
+            this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 19;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
@@ -93,16 +91,18 @@
             // 
             // FrmSelectProgram
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(62)))), ((int)(((byte)(80)))));
-            this.ClientSize = new System.Drawing.Size(783, 769);
+            this.ClientSize = new System.Drawing.Size(427, 417);
             this.ControlBox = false;
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.lblInstructions);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lstPrograms);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "FrmSelectProgram";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

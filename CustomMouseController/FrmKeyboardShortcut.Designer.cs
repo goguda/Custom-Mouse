@@ -39,10 +39,9 @@
             // 
             this.lblInstructions.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblInstructions.ForeColor = System.Drawing.Color.White;
-            this.lblInstructions.Location = new System.Drawing.Point(15, 9);
-            this.lblInstructions.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblInstructions.Location = new System.Drawing.Point(8, 5);
             this.lblInstructions.Name = "lblInstructions";
-            this.lblInstructions.Size = new System.Drawing.Size(726, 107);
+            this.lblInstructions.Size = new System.Drawing.Size(396, 58);
             this.lblInstructions.TabIndex = 14;
             this.lblInstructions.Text = "Press the keys in the shortcut you would like to assign one by one, and click OK " +
     "when done.";
@@ -51,10 +50,9 @@
             // 
             this.btnOK.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnOK.ForeColor = System.Drawing.Color.Black;
-            this.btnOK.Location = new System.Drawing.Point(603, 214);
-            this.btnOK.Margin = new System.Windows.Forms.Padding(6);
+            this.btnOK.Location = new System.Drawing.Point(329, 116);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(138, 42);
+            this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 15;
             this.btnOK.TabStop = false;
             this.btnOK.Text = "OK";
@@ -64,12 +62,12 @@
             // 
             // btnClear
             // 
+            this.btnClear.Enabled = false;
             this.btnClear.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClear.ForeColor = System.Drawing.Color.Black;
-            this.btnClear.Location = new System.Drawing.Point(453, 214);
-            this.btnClear.Margin = new System.Windows.Forms.Padding(6);
+            this.btnClear.Location = new System.Drawing.Point(247, 116);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(138, 42);
+            this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 16;
             this.btnClear.TabStop = false;
             this.btnClear.Text = "Clear";
@@ -81,10 +79,9 @@
             // 
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.ForeColor = System.Drawing.Color.Black;
-            this.btnCancel.Location = new System.Drawing.Point(15, 214);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(6);
+            this.btnCancel.Location = new System.Drawing.Point(8, 116);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(138, 42);
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 17;
             this.btnCancel.TabStop = false;
             this.btnCancel.Text = "Cancel";
@@ -96,19 +93,19 @@
             // 
             this.lblShortcut.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblShortcut.ForeColor = System.Drawing.Color.White;
-            this.lblShortcut.Location = new System.Drawing.Point(15, 86);
-            this.lblShortcut.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblShortcut.Location = new System.Drawing.Point(8, 47);
             this.lblShortcut.Name = "lblShortcut";
-            this.lblShortcut.Size = new System.Drawing.Size(726, 110);
+            this.lblShortcut.Size = new System.Drawing.Size(396, 60);
             this.lblShortcut.TabIndex = 18;
             this.lblShortcut.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FrmKeyboardShortcut
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(62)))), ((int)(((byte)(80)))));
-            this.ClientSize = new System.Drawing.Size(756, 284);
+            this.ClientSize = new System.Drawing.Size(412, 147);
             this.ControlBox = false;
             this.Controls.Add(this.lblShortcut);
             this.Controls.Add(this.btnCancel);
@@ -117,6 +114,7 @@
             this.Controls.Add(this.lblInstructions);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "FrmKeyboardShortcut";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

@@ -32,8 +32,6 @@ namespace CustomMouseController
 
         private void FrmKeyboardShortcut_KeyDown(object sender, KeyEventArgs e)
         {
-
-            Console.WriteLine(e.KeyCode);
             int numItems = shortcut.Count(x => !string.IsNullOrEmpty(x));
 
             if (numItems == 4)
@@ -303,6 +301,15 @@ namespace CustomMouseController
             }
 
             lblShortcut.Text = builder.ToString();
+
+            if (shortcut.Count(x => !String.IsNullOrEmpty(x)) == 0)
+            {
+                btnClear.Enabled = false;
+            }
+            else
+            {
+                btnClear.Enabled = true;
+            }
         }
 
         private void FrmKeyboardShortcut_Load(object sender, EventArgs e)

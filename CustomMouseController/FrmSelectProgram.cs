@@ -1,5 +1,4 @@
 ﻿using IWshRuntimeLibrary;
-using Shell32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,7 +14,7 @@ namespace CustomMouseController
 {
     public partial class FrmSelectProgram : Form
     {
-        private FileInfo[] files;
+        private List<IWshShortcut> files;
         public FrmSelectProgram()
         {
             InitializeComponent();
@@ -31,34 +30,50 @@ namespace CustomMouseController
             string[] filePaths = Directory.GetFiles(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs",
                                         "*.lnk", SearchOption.AllDirectories);
 
-            files = new FileInfo[filePaths.Length];
-            
+            files = new List<IWshShortcut>();
+
+            WshShell shell = new WshShell();
+
             for (int i = 0; i < filePaths.Length; i++)
             {
-                files[i] = new FileInfo(filePaths[i]);
+                IWshShortcut link = (IWshShortcut)shell.CreateShortcut(filePaths[i]);
+
+                string path = link.TargetPath;
+
+                if (!System.IO.File.Exists(link.TargetPath) && link.TargetPath.ToLower().Contains("program files (x86)"))
+                {
+                    path = path.Substring(0, path.ToLower().IndexOf("program files (x86)")) + @"Program Files" + path.Substring(path.ToLower().IndexOf("program files (x86)") + 19);
+                }
+
+                if (System.IO.File.Exists(path))
+                    files.Add(link);
             }
 
-            Array.Sort(files, delegate(FileInfo file1, FileInfo file2)
+            files.Sort(delegate(IWshShortcut file1, IWshShortcut file2)
             {
-                return file1.Name.CompareTo(file2.Name);
+                return Path.GetFileName(file1.FullName).CompareTo(Path.GetFileName(file2.FullName));
             });
 
             ImageList icons = new ImageList();
             icons.ImageSize = new Size(32, 32);
             icons.ColorDepth = ColorDepth.Depth32Bit;
-
             int counter = 0;
-            foreach (FileInfo file in files)
+            foreach (IWshShortcut file in files)
             {
-            
-                icons.Images.Add(Icon.ExtractAssociatedIcon(file.FullName));
+                string path = file.TargetPath;
 
-                ListViewItem item = new ListViewItem(file.Name.Substring(0, file.Name.IndexOf(file.Extension)));
+                if (!System.IO.File.Exists(file.TargetPath) && file.TargetPath.ToLower().Contains("program files (x86)"))
+                {
+                    path = path.Substring(0, path.ToLower().IndexOf("program files (x86)")) + @"Program Files" + path.Substring(path.ToLower().IndexOf("program files (x86)") + 19);
+                }
+
+                icons.Images.Add(Icon.ExtractAssociatedIcon(path));
+
+                ListViewItem item = new ListViewItem(Path.GetFileNameWithoutExtension(file.FullName));
                 item.ImageIndex = counter;
                 counter++;
                 lstPrograms.Items.Add(item);
             }
-
             lstPrograms.SmallImageList = icons;
         }
 
