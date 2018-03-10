@@ -16,7 +16,7 @@ namespace CustomMouseController
         private readonly Button button;
         private ButtonSettingMode mode;
         private string phrase;
-        private string programDir;
+        private ProgramInfo program;
         private string[] keyCombination;
 
         public ButtonSetting(Button button)
@@ -24,7 +24,6 @@ namespace CustomMouseController
             this.button = button;
             this.mode = ButtonSettingMode.None;
             this.phrase = String.Empty;
-            this.programDir = String.Empty;
         }
 
         public ButtonSettingMode Setting
@@ -59,15 +58,15 @@ namespace CustomMouseController
             }
         }
 
-        public string ProgramDirectory
+        public ProgramInfo ProgramInfo
         {
             get
             {
-                return programDir;
+                return program;
             }
             set
             {
-                programDir = value;
+                program = value;
             }
         }
 

@@ -108,6 +108,7 @@
     <Compile Include="HardwareListener.cs" />
     <Compile Include="OSController.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ProgramInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmKeyboardShortcut.resx">
       <DependentUpon>FrmKeyboardShortcut.cs</DependentUpon>

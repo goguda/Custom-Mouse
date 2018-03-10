@@ -378,8 +378,14 @@ namespace CustomMouseController
 
         private void btnProgramChange_Click(object sender, EventArgs e)
         {
-            FrmSelectProgram dialog = new FrmSelectProgram();
-            dialog.ShowDialog();
+            using (FrmSelectProgram dialog = new FrmSelectProgram(currentSetting))
+            {
+                dialog.ShowDialog();
+                if (dialog.DialogResult == DialogResult.OK)
+                {
+                    UpdateAssignedProgram();
+                }
+            }
         }
 
         private void UpdateKeyboardShortcut()
@@ -404,6 +410,12 @@ namespace CustomMouseController
             }
 
             lblShortcut.Text = builder.ToString();
+        }
+
+        private void UpdateAssignedProgram()
+        {
+            lblProgramName.Text = currentSetting.ProgramInfo.Name;
+            picProgramIcon.Image = currentSetting.ProgramInfo.Icon.ToBitmap();
         }
     }
 }

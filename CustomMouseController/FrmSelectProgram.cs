@@ -14,10 +14,12 @@ namespace CustomMouseController
 {
     public partial class FrmSelectProgram : Form
     {
+        private ButtonSetting buttonSetting;
         private List<IWshShortcut> files;
-        public FrmSelectProgram()
+        public FrmSelectProgram(ButtonSetting buttonSetting)
         {
             InitializeComponent();
+            this.buttonSetting = buttonSetting;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -79,7 +81,28 @@ namespace CustomMouseController
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            if (lstPrograms.SelectedIndices.Count == 0)
+            {
+                return;
+            }
 
+            IWshShortcut selected = files[lstPrograms.SelectedIndices[0]];
+
+            string path = selected.TargetPath;
+
+            if (!System.IO.File.Exists(selected.TargetPath) && selected.TargetPath.ToLower().Contains("program files (x86)"))
+            {
+                path = path.Substring(0, path.ToLower().IndexOf("program files (x86)")) + @"Program Files" + path.Substring(path.ToLower().IndexOf("program files (x86)") + 19);
+            }
+
+            Icon programIcon = Icon.ExtractAssociatedIcon(path);
+
+            ProgramInfo toSave = new ProgramInfo(Path.GetFileNameWithoutExtension(selected.FullName), programIcon, path);
+
+            buttonSetting.ProgramInfo = toSave;
+
+            DialogResult = DialogResult.OK;
+            Close();
         }
     }
 }
