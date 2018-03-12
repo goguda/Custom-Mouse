@@ -298,6 +298,7 @@ namespace CustomMouseController
                     radOSK.Checked = false;
                     radSentence.Checked = false;
                     radProgram.Checked = false;
+                    radWebsite.Checked = false;
                     radShortcut.Checked = false;
                     break;
                 case ButtonSetting.ButtonSettingMode.LeftClick:
@@ -315,12 +316,16 @@ namespace CustomMouseController
                 case ButtonSetting.ButtonSettingMode.OpenProgram:
                     radProgram.Select();
                     break;
+                case ButtonSetting.ButtonSettingMode.OpenWebsite:
+                    radWebsite.Select();
+                    break;
                 case ButtonSetting.ButtonSettingMode.KeyboardShortcut:
                     radShortcut.Select();
                     break;
             }
 
             txtPhrase.Text = currentSetting.Phrase;
+            txtWebsite.Text = currentSetting.WebsiteURL;
         }
 
         private void radLeftClick_CheckedChanged(object sender, EventArgs e)
@@ -358,6 +363,14 @@ namespace CustomMouseController
             settings.SetButtonSetting(currentButton, currentSetting);
         }
 
+
+        private void radWebsite_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radWebsite.Checked)
+                currentSetting.Setting = ButtonSetting.ButtonSettingMode.OpenWebsite;
+            settings.SetButtonSetting(currentButton, currentSetting);
+        }
+
         private void radShortcut_CheckedChanged(object sender, EventArgs e)
         {
             if (radShortcut.Checked)
@@ -368,6 +381,11 @@ namespace CustomMouseController
         private void txtPhrase_TextChanged(object sender, EventArgs e)
         {
             currentSetting.Phrase = txtPhrase.Text;
+        }
+
+        private void txtWebsite_TextChanged(object sender, EventArgs e)
+        {
+            currentSetting.WebsiteURL = txtWebsite.Text;
         }
 
         private void btnKeyboardShortcutChange_Click(object sender, EventArgs e)

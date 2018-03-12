@@ -11,11 +11,12 @@ namespace CustomMouseController
     public class ButtonSetting
     {
 
-        public enum ButtonSettingMode { None, LeftClick, RightClick, OnScreenKeyboard, TypePhrase, OpenProgram, KeyboardShortcut };
+        public enum ButtonSettingMode { None, LeftClick, RightClick, OnScreenKeyboard, TypePhrase, OpenProgram, OpenWebsite, KeyboardShortcut };
 
         private readonly Button button;
         private ButtonSettingMode mode;
         private string phrase;
+        private string url;
         private ProgramInfo program;
         private string[] keyCombination;
 
@@ -47,6 +48,18 @@ namespace CustomMouseController
             set
             {
                 phrase = value;
+            }
+        }
+
+        public string WebsiteURL
+        {
+            get
+            {
+                return url;
+            }
+            set
+            {
+                url = value;
             }
         }
 
