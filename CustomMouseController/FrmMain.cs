@@ -328,24 +328,8 @@ namespace CustomMouseController
             txtPhrase.Text = currentSetting.Phrase;
             txtWebsite.Text = currentSetting.WebsiteURL;
 
-            if (currentSetting.ProgramInfo == null)
-            {
-                lblProgramName.Text = "Not Assigned";
-                picProgramIcon.Image = null;
-            }
-            else
-            {
-                UpdateAssignedProgram();
-            }
-
-            if (currentSetting.KeyCombination == null)
-            {
-                lblShortcut.Text = "Not Assigned";
-            }
-            else
-            {
-                UpdateKeyboardShortcut();
-            }
+            UpdateAssignedProgram();
+            UpdateKeyboardShortcut();
 
         }
 
@@ -435,32 +419,84 @@ namespace CustomMouseController
 
         private void UpdateKeyboardShortcut()
         {
-            StringBuilder builder = new StringBuilder();
-            builder.Append("Assigned: ");
-            string[] keys = currentSetting.KeyCombination;
-
-            for (int i = 0; i < keys.Length; i++)
+            if (currentSetting.KeyCombination == null)
             {
-                if (keys[i] == null)
-                    break;
+                lblShortcut.Text = "Not Assigned";
+            }
+            else
+            {
+                StringBuilder builder = new StringBuilder();
+                builder.Append("Assigned: ");
+                string[] keys = currentSetting.KeyCombination;
 
-                if (i == 0)
+                for (int i = 0; i < keys.Length; i++)
                 {
-                    builder.Append(keys[i]);
+                    if (keys[i] == null)
+                        break;
+
+                    if (i == 0)
+                    {
+                        builder.Append(keys[i]);
+                    }
+                    else
+                    {
+                        builder.Append("+" + keys[i]);
+                    }
                 }
-                else
-                {
-                    builder.Append("+" + keys[i]);
-                }
+
+                lblShortcut.Text = builder.ToString();
             }
 
-            lblShortcut.Text = builder.ToString();
+            lblShortcut.AutoSize = true;
+
+            Point newLocation = new Point(lblShortcut.Location.X + lblShortcut.Size.Width + 4, btnKeyboardShortcutChange.Location.Y);
+
+            if (newLocation.X > txtPhrase.Location.X + txtPhrase.Size.Width - btnKeyboardShortcutChange.Width)
+            {
+                newLocation = new Point(txtPhrase.Location.X + txtPhrase.Size.Width - btnKeyboardShortcutChange.Width, newLocation.Y);
+                btnKeyboardShortcutChange.Location = newLocation;
+                int height = lblShortcut.Height;
+                lblShortcut.AutoSize = false;
+                lblShortcut.Height = height;
+                lblShortcut.Width = btnKeyboardShortcutChange.Location.X - lblShortcut.Location.X;
+            }
+            else
+            {
+                btnKeyboardShortcutChange.Location = newLocation;
+            }
         }
 
         private void UpdateAssignedProgram()
         {
-            lblProgramName.Text = currentSetting.ProgramInfo.Name;
-            picProgramIcon.Image = currentSetting.ProgramInfo.Icon.ToBitmap();
+
+            if (currentSetting.ProgramInfo == null)
+            {
+                lblProgramName.Text = "Not Assigned";
+                picProgramIcon.Image = null;
+            }
+            else
+            {
+                lblProgramName.Text = currentSetting.ProgramInfo.Name;
+                picProgramIcon.Image = currentSetting.ProgramInfo.Icon.ToBitmap();
+            }
+
+            lblProgramName.AutoSize = true;
+
+            Point newLocation = new Point(lblProgramName.Location.X + lblProgramName.Size.Width + 4, btnProgramChange.Location.Y);
+
+            if (newLocation.X > txtPhrase.Location.X + txtPhrase.Size.Width - btnProgramChange.Width)
+            {
+                newLocation = new Point(txtPhrase.Location.X + txtPhrase.Size.Width - btnProgramChange.Width, newLocation.Y);
+                btnProgramChange.Location = newLocation;
+                int height = lblProgramName.Height;
+                lblProgramName.AutoSize = false;
+                lblProgramName.Height = height;
+                lblProgramName.Width = btnProgramChange.Location.X - lblProgramName.Location.X;
+            }
+            else
+            {
+                btnProgramChange.Location = newLocation;
+            }
         }
     }
 }

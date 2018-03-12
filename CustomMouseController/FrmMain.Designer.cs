@@ -259,7 +259,6 @@
             this.grpSettings.Controls.Add(this.lblJoystickSensitivity);
             this.grpSettings.Controls.Add(this.lblSlower);
             this.grpSettings.Controls.Add(this.lblFaster);
-            this.grpSettings.Controls.Add(this.trkCursor);
             this.grpSettings.Controls.Add(this.lblLessSensitive);
             this.grpSettings.Controls.Add(this.lblMoreSensitive);
             this.grpSettings.Controls.Add(this.lblCursorDescription);
@@ -279,6 +278,7 @@
             this.grpSettings.Controls.Add(this.radSentence);
             this.grpSettings.Controls.Add(this.radOSK);
             this.grpSettings.Controls.Add(this.radLeftClick);
+            this.grpSettings.Controls.Add(this.trkCursor);
             this.grpSettings.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpSettings.ForeColor = System.Drawing.Color.White;
             this.grpSettings.Location = new System.Drawing.Point(414, 11);
@@ -416,7 +416,6 @@
             this.trkJoystick.Name = "trkJoystick";
             this.trkJoystick.Size = new System.Drawing.Size(301, 80);
             this.trkJoystick.TabIndex = 14;
-            this.trkJoystick.Value = 1;
             this.trkJoystick.Visible = false;
             // 
             // txtWebsite
@@ -474,7 +473,7 @@
             // 
             this.btnKeyboardShortcutChange.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnKeyboardShortcutChange.ForeColor = System.Drawing.Color.Black;
-            this.btnKeyboardShortcutChange.Location = new System.Drawing.Point(356, 726);
+            this.btnKeyboardShortcutChange.Location = new System.Drawing.Point(246, 726);
             this.btnKeyboardShortcutChange.Margin = new System.Windows.Forms.Padding(6);
             this.btnKeyboardShortcutChange.Name = "btnKeyboardShortcutChange";
             this.btnKeyboardShortcutChange.Size = new System.Drawing.Size(138, 42);
@@ -486,14 +485,14 @@
             // 
             // lblShortcut
             // 
+            this.lblShortcut.AutoEllipsis = true;
             this.lblShortcut.AutoSize = true;
             this.lblShortcut.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblShortcut.Location = new System.Drawing.Point(46, 726);
             this.lblShortcut.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblShortcut.Name = "lblShortcut";
-            this.lblShortcut.Size = new System.Drawing.Size(263, 38);
+            this.lblShortcut.Size = new System.Drawing.Size(0, 38);
             this.lblShortcut.TabIndex = 10;
-            this.lblShortcut.Text = "Assigned: CTRL + V";
             this.lblShortcut.Visible = false;
             // 
             // radShortcut
@@ -514,7 +513,7 @@
             // 
             this.btnProgramChange.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnProgramChange.ForeColor = System.Drawing.Color.Black;
-            this.btnProgramChange.Location = new System.Drawing.Point(356, 447);
+            this.btnProgramChange.Location = new System.Drawing.Point(323, 447);
             this.btnProgramChange.Margin = new System.Windows.Forms.Padding(6);
             this.btnProgramChange.Name = "btnProgramChange";
             this.btnProgramChange.Size = new System.Drawing.Size(138, 42);
@@ -526,14 +525,14 @@
             // 
             // lblProgramName
             // 
+            this.lblProgramName.AutoEllipsis = true;
             this.lblProgramName.AutoSize = true;
             this.lblProgramName.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProgramName.Location = new System.Drawing.Point(123, 447);
             this.lblProgramName.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblProgramName.Name = "lblProgramName";
-            this.lblProgramName.Size = new System.Drawing.Size(218, 38);
+            this.lblProgramName.Size = new System.Drawing.Size(0, 38);
             this.lblProgramName.TabIndex = 7;
-            this.lblProgramName.Text = "Google Chrome";
             this.lblProgramName.Visible = false;
             // 
             // picProgramIcon
