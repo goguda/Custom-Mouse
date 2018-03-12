@@ -59,7 +59,7 @@ namespace CustomMouseController
         private void mnuExit_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Closing this application will cause the Custom Mouse to operate only as a basic" +
-                " mouse without additional features such as programmable hotkeys. Are you sure you would like to do this?", "Exiting Custom Mouse Controller",
+                " mouse without any additional features such as programmable hotkeys. Are you sure you would like to do this?", "Exiting Custom Mouse Controller",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
