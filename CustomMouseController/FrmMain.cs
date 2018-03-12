@@ -232,12 +232,15 @@ namespace CustomMouseController
             radOSK.Visible = false;
             radSentence.Visible = false;
             radProgram.Visible = false;
+            radWebsite.Visible = false;
             radShortcut.Visible = false;
 
             lblPhrase.Visible = false;
             txtPhrase.Visible = false;
             picProgramIcon.Visible = false;
             lblProgramName.Visible = false;
+            lblWebsite.Visible = false;
+            txtWebsite.Visible = false;
             lblShortcut.Visible = false;
 
             btnProgramChange.Visible = false;
@@ -253,12 +256,15 @@ namespace CustomMouseController
             radOSK.Visible = true;
             radSentence.Visible = true;
             radProgram.Visible = true;
+            radWebsite.Visible = true;
             radShortcut.Visible = true;
 
             lblPhrase.Visible = true;
             txtPhrase.Visible = true;
             picProgramIcon.Visible = true;
             lblProgramName.Visible = true;
+            lblWebsite.Visible = true;
+            txtWebsite.Visible = true;
             lblShortcut.Visible = true;
 
             btnProgramChange.Visible = true;
