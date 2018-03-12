@@ -326,6 +326,26 @@ namespace CustomMouseController
 
             txtPhrase.Text = currentSetting.Phrase;
             txtWebsite.Text = currentSetting.WebsiteURL;
+
+            if (currentSetting.ProgramInfo == null)
+            {
+                lblProgramName.Text = "Not Assigned";
+                picProgramIcon.Image = null;
+            }
+            else
+            {
+                UpdateAssignedProgram();
+            }
+
+            if (currentSetting.KeyCombination == null)
+            {
+                lblShortcut.Text = "Not Assigned";
+            }
+            else
+            {
+                UpdateKeyboardShortcut();
+            }
+
         }
 
         private void radLeftClick_CheckedChanged(object sender, EventArgs e)
