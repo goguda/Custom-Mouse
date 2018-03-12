@@ -14,11 +14,11 @@ namespace CustomMouseController
         private string path;
         private Icon icon;
 
-        public ProgramInfo(string name, Icon icon, string path)
+        public ProgramInfo(string name, string path, Icon icon)
         {
             this.name = name;
-            this.icon = icon;
             this.path = path;
+            this.icon = icon;
         }
 
         public string Name

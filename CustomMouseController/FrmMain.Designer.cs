@@ -79,7 +79,7 @@
             // 
             this.nfyTrayIcon.ContextMenuStrip = this.cxtTrayIcon;
             this.nfyTrayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("nfyTrayIcon.Icon")));
-            this.nfyTrayIcon.Text = "Custom Mouse Control Center";
+            this.nfyTrayIcon.Text = "Custom Mouse Controller";
             this.nfyTrayIcon.Visible = true;
             this.nfyTrayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.nfyTrayIcon_MouseDoubleClick);
             // 
@@ -124,7 +124,7 @@
             this.pnlInputSelection.Controls.Add(this.btnJoystick);
             this.pnlInputSelection.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlInputSelection.Location = new System.Drawing.Point(0, 0);
-            this.pnlInputSelection.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnlInputSelection.Margin = new System.Windows.Forms.Padding(2);
             this.pnlInputSelection.Name = "pnlInputSelection";
             this.pnlInputSelection.Size = new System.Drawing.Size(213, 375);
             this.pnlInputSelection.TabIndex = 1;
@@ -137,7 +137,7 @@
             this.btnButton6.Font = new System.Drawing.Font("Segoe UI Semibold", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnButton6.ForeColor = System.Drawing.Color.White;
             this.btnButton6.Location = new System.Drawing.Point(0, 322);
-            this.btnButton6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnButton6.Margin = new System.Windows.Forms.Padding(2);
             this.btnButton6.Name = "btnButton6";
             this.btnButton6.Size = new System.Drawing.Size(213, 54);
             this.btnButton6.TabIndex = 0;
@@ -154,7 +154,7 @@
             this.btnButton5.Font = new System.Drawing.Font("Segoe UI Semibold", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnButton5.ForeColor = System.Drawing.Color.White;
             this.btnButton5.Location = new System.Drawing.Point(0, 268);
-            this.btnButton5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnButton5.Margin = new System.Windows.Forms.Padding(2);
             this.btnButton5.Name = "btnButton5";
             this.btnButton5.Size = new System.Drawing.Size(213, 54);
             this.btnButton5.TabIndex = 0;
@@ -171,7 +171,7 @@
             this.btnButton4.Font = new System.Drawing.Font("Segoe UI Semibold", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnButton4.ForeColor = System.Drawing.Color.White;
             this.btnButton4.Location = new System.Drawing.Point(0, 215);
-            this.btnButton4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnButton4.Margin = new System.Windows.Forms.Padding(2);
             this.btnButton4.Name = "btnButton4";
             this.btnButton4.Size = new System.Drawing.Size(213, 54);
             this.btnButton4.TabIndex = 0;
@@ -188,7 +188,7 @@
             this.btnButton3.Font = new System.Drawing.Font("Segoe UI Semibold", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnButton3.ForeColor = System.Drawing.Color.White;
             this.btnButton3.Location = new System.Drawing.Point(0, 161);
-            this.btnButton3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnButton3.Margin = new System.Windows.Forms.Padding(2);
             this.btnButton3.Name = "btnButton3";
             this.btnButton3.Size = new System.Drawing.Size(213, 54);
             this.btnButton3.TabIndex = 0;
@@ -205,7 +205,7 @@
             this.btnButton2.Font = new System.Drawing.Font("Segoe UI Semibold", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnButton2.ForeColor = System.Drawing.Color.White;
             this.btnButton2.Location = new System.Drawing.Point(0, 107);
-            this.btnButton2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnButton2.Margin = new System.Windows.Forms.Padding(2);
             this.btnButton2.Name = "btnButton2";
             this.btnButton2.Size = new System.Drawing.Size(213, 54);
             this.btnButton2.TabIndex = 0;
@@ -222,7 +222,7 @@
             this.btnButton1.Font = new System.Drawing.Font("Segoe UI Semibold", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnButton1.ForeColor = System.Drawing.Color.White;
             this.btnButton1.Location = new System.Drawing.Point(0, 54);
-            this.btnButton1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnButton1.Margin = new System.Windows.Forms.Padding(2);
             this.btnButton1.Name = "btnButton1";
             this.btnButton1.Size = new System.Drawing.Size(213, 54);
             this.btnButton1.TabIndex = 0;
@@ -239,7 +239,7 @@
             this.btnJoystick.Font = new System.Drawing.Font("Segoe UI Semibold", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnJoystick.ForeColor = System.Drawing.Color.White;
             this.btnJoystick.Location = new System.Drawing.Point(0, 0);
-            this.btnJoystick.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnJoystick.Margin = new System.Windows.Forms.Padding(2);
             this.btnJoystick.Name = "btnJoystick";
             this.btnJoystick.Size = new System.Drawing.Size(213, 54);
             this.btnJoystick.TabIndex = 0;
@@ -555,7 +555,7 @@
             this.Controls.Add(this.pnlInputSelection);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

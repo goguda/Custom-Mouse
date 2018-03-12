@@ -97,12 +97,24 @@ namespace CustomMouseController
 
             Icon programIcon = Icon.ExtractAssociatedIcon(path);
 
-            ProgramInfo toSave = new ProgramInfo(Path.GetFileNameWithoutExtension(selected.FullName), programIcon, path);
+            ProgramInfo toSave = new ProgramInfo(Path.GetFileNameWithoutExtension(selected.FullName), path, programIcon);
 
             buttonSetting.ProgramInfo = toSave;
 
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void lstPrograms_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lstPrograms.SelectedIndices.Count == 0)
+            {
+                btnOK.Enabled = false;
+            }
+            else
+            {
+                btnOK.Enabled = true;
+            }
         }
     }
 }
