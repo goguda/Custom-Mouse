@@ -53,6 +53,7 @@ namespace CustomMouseController
             isJoystickView = true;
 
             settings = DeviceSettings.Instance;
+
         }
 
         private void mnuExit_Click(object sender, EventArgs e)

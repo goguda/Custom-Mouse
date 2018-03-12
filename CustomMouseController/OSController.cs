@@ -67,5 +67,15 @@ namespace CustomMouseController
                 Wow64EnableWow64FsRedirection(ref wow64);
             }
         }
+
+        public static void OpenWebsite(string url)
+        {
+            if (url.Length < 7 || url.Substring(0, 7) != "http://" && url.Substring(0, 8) != "https://")
+            {
+                url = "http://" + url;
+            }
+
+            Process.Start(url);
+        }
     }
 }
