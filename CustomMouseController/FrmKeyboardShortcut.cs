@@ -348,7 +348,8 @@ namespace CustomMouseController
                 
                 if (msg == DialogResult.No)
                 {
-                    DialogResult = DialogResult.Cancel;
+                    buttonSetting.KeyCombination = null;
+                    DialogResult = DialogResult.OK;
                     Close();
                     return;
                 }

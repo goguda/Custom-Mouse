@@ -64,12 +64,12 @@
             this.radShortcut = new System.Windows.Forms.RadioButton();
             this.btnProgramChange = new System.Windows.Forms.Button();
             this.lblProgramName = new System.Windows.Forms.Label();
-            this.picProgramIcon = new System.Windows.Forms.PictureBox();
             this.txtPhrase = new System.Windows.Forms.TextBox();
             this.lblPhrase = new System.Windows.Forms.Label();
             this.radSentence = new System.Windows.Forms.RadioButton();
             this.radOSK = new System.Windows.Forms.RadioButton();
             this.radLeftClick = new System.Windows.Forms.RadioButton();
+            this.picProgramIcon = new System.Windows.Forms.PictureBox();
             this.cxtTrayIcon.SuspendLayout();
             this.pnlInputSelection.SuspendLayout();
             this.grpSettings.SuspendLayout();
@@ -535,18 +535,6 @@
             this.lblProgramName.TabIndex = 7;
             this.lblProgramName.Visible = false;
             // 
-            // picProgramIcon
-            // 
-            this.picProgramIcon.Image = ((System.Drawing.Image)(resources.GetObject("picProgramIcon.Image")));
-            this.picProgramIcon.Location = new System.Drawing.Point(53, 436);
-            this.picProgramIcon.Margin = new System.Windows.Forms.Padding(6);
-            this.picProgramIcon.Name = "picProgramIcon";
-            this.picProgramIcon.Size = new System.Drawing.Size(59, 59);
-            this.picProgramIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picProgramIcon.TabIndex = 6;
-            this.picProgramIcon.TabStop = false;
-            this.picProgramIcon.Visible = false;
-            // 
             // txtPhrase
             // 
             this.txtPhrase.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -611,6 +599,17 @@
             this.radLeftClick.UseVisualStyleBackColor = true;
             this.radLeftClick.Visible = false;
             this.radLeftClick.CheckedChanged += new System.EventHandler(this.radLeftClick_CheckedChanged);
+            // 
+            // picProgramIcon
+            //
+            this.picProgramIcon.Location = new System.Drawing.Point(53, 436);
+            this.picProgramIcon.Margin = new System.Windows.Forms.Padding(6);
+            this.picProgramIcon.Name = "picProgramIcon";
+            this.picProgramIcon.Size = new System.Drawing.Size(59, 59);
+            this.picProgramIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picProgramIcon.TabIndex = 6;
+            this.picProgramIcon.TabStop = false;
+            this.picProgramIcon.Visible = false;
             // 
             // frmMain
             // 
