@@ -448,6 +448,10 @@ namespace CustomMouseController
                 {
                     picProgramIcon.Image = currentButtonSetting.ProgramInfo.Icon.ToBitmap();
                 }
+                else
+                {
+                    picProgramIcon.Image = Properties.Resources.notAssignedIcon;
+                }
             }
             else
             {
@@ -458,6 +462,10 @@ namespace CustomMouseController
                 if (currentButtonSetting.ProgramInfo != null)
                 {
                     picProgramIcon.Image = currentButtonSetting.ProgramInfo.GrayscaleIcon.ToBitmap();
+                }
+                else
+                {
+                    picProgramIcon.Image = Properties.Resources.notAssignedGrayscaleIcon;
                 }
             }
 
@@ -590,7 +598,15 @@ namespace CustomMouseController
             if (currentButtonSetting.ProgramInfo == null)
             {
                 lblProgramName.Text = "Not Assigned";
-                picProgramIcon.Image = null;
+                if (!radProgram.Checked)
+                {
+                    picProgramIcon.Image = Properties.Resources.notAssignedGrayscaleIcon;
+                }
+                else if (radProgram.Checked &&
+                  (picProgramIcon.Image == null || !picProgramIcon.Image.Equals(Properties.Resources.notAssignedIcon)))
+                {
+                    picProgramIcon.Image = Properties.Resources.notAssignedIcon;
+                }
             }
             else
             {

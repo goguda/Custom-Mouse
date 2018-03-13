@@ -59,5 +59,25 @@ namespace CustomMouseController.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap notAssignedGrayscaleIcon {
+            get {
+                object obj = ResourceManager.GetObject("notAssignedGrayscaleIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap notAssignedIcon {
+            get {
+                object obj = ResourceManager.GetObject("notAssignedIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

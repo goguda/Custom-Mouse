@@ -29,6 +29,7 @@ namespace CustomMouseController
         {
             while (true)
             {
+                OSController.MoveCursor(5, 5);
                 bool isConnected = false;
                 ManagementObjectSearcher portSearcher = new ManagementObjectSearcher("Select * From Win32_SerialPort");
                 ManagementObjectCollection ports = portSearcher.Get();
