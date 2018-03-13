@@ -98,6 +98,7 @@ namespace CustomMouseController
             if (result == DialogResult.Yes)
             {
                 settings.SaveSettings();
+                HardwareListener.Instance.Dispose();
                 Application.Exit();
             }
         }

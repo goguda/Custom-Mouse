@@ -25,8 +25,6 @@ namespace CustomMouseController
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmMain());
 
-            // Close listener thread after application is closed
-            listeningThread.Abort();
         }
     }
 }

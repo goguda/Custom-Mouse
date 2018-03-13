@@ -9,15 +9,30 @@ using System.Threading;
 
 namespace CustomMouseController
 {
-    public sealed class HardwareListener
+    public sealed class HardwareListener : IDisposable
     {
+        private static volatile HardwareListener instance;
         private SerialPort device;
         private DeviceSettings settings;
         private bool connected;
+        private bool disposed;
 
         public HardwareListener()
         {
             settings = DeviceSettings.Instance;
+        }
+
+        public static HardwareListener Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new HardwareListener();
+                }
+
+                return instance;
+            }
         }
 
         public void Start()
@@ -27,9 +42,8 @@ namespace CustomMouseController
 
         private void ListenForConnectDisconnect()
         {
-            while (true)
+            while (!disposed)
             {
-                OSController.MoveCursor(5, 5);
                 bool isConnected = false;
                 ManagementObjectSearcher portSearcher = new ManagementObjectSearcher("Select * From Win32_SerialPort");
                 ManagementObjectCollection ports = portSearcher.Get();
@@ -104,5 +118,29 @@ namespace CustomMouseController
                     break;
             }
         }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    if (device != null)
+                    {
+                        device.Close();
+                        device.Dispose();
+                    }
+                }
+            }
+
+            disposed = true;
+        }
+
     }
 }
