@@ -27,6 +27,7 @@ namespace CustomMouseController
             this.button = button;
             this.mode = ButtonSettingMode.None;
             this.phrase = String.Empty;
+            this.url = String.Empty;
         }
 
         public ButtonSettingMode Setting
@@ -49,6 +50,9 @@ namespace CustomMouseController
             }
             set
             {
+                if (value == null) // never allow a null phrase
+                    return;
+
                 phrase = value;
             }
         }
@@ -61,6 +65,9 @@ namespace CustomMouseController
             }
             set
             {
+                if (value == null) // never allow a null website
+                    return;
+
                 url = value;
             }
         }

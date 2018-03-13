@@ -68,6 +68,11 @@ namespace CustomMouseController
             }
         }
 
+        public static void OpenExecutable(string path)
+        {
+            Process.Start(path);
+        }
+
         public static void OpenWebsite(string url)
         {
             if (url.Length < 7 || url.Substring(0, 7) != "http://" && url.Substring(0, 8) != "https://")
@@ -76,6 +81,11 @@ namespace CustomMouseController
             }
 
             Process.Start(url);
+        }
+
+        public static void PerformKeyboardShortcut(string[] keys)
+        {
+
         }
     }
 }

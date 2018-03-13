@@ -77,6 +77,32 @@ namespace CustomMouseController
                 Console.WriteLine(command.Substring(0, command.IndexOf("\r")));
         }
 
-
+        private void PerformButtonAction(ButtonSetting button)
+        {
+            switch (button.Setting)
+            {
+                case ButtonSetting.ButtonSettingMode.LeftClick:
+                    OSController.SimulateLeftClick();
+                    break;
+                case ButtonSetting.ButtonSettingMode.RightClick:
+                    OSController.SimulateRightClick();
+                    break;
+                case ButtonSetting.ButtonSettingMode.OnScreenKeyboard:
+                    OSController.OpenOnScreenKeyboard();
+                    break;
+                case ButtonSetting.ButtonSettingMode.TypePhrase:
+                    OSController.TypePhrase(button.Phrase);
+                    break;
+                case ButtonSetting.ButtonSettingMode.OpenProgram:
+                    OSController.OpenExecutable(button.ProgramInfo.Path);
+                    break;
+                case ButtonSetting.ButtonSettingMode.OpenWebsite:
+                    OSController.OpenWebsite(button.WebsiteURL);
+                    break;
+                case ButtonSetting.ButtonSettingMode.KeyboardShortcut:
+                    OSController.PerformKeyboardShortcut(button.KeyCombination);
+                    break;
+            }
+        }
     }
 }
