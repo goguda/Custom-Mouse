@@ -106,6 +106,7 @@
       <DependentUpon>FrmSelectProgram.cs</DependentUpon>
     </Compile>
     <Compile Include="HardwareListener.cs" />
+    <Compile Include="JoystickSetting.cs" />
     <Compile Include="OSController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramInfo.cs" />
