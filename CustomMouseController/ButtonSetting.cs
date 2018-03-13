@@ -13,7 +13,9 @@ namespace CustomMouseController
 
         public enum ButtonSettingMode { None, LeftClick, RightClick, OnScreenKeyboard, TypePhrase, OpenProgram, OpenWebsite, KeyboardShortcut };
 
-        private readonly Button button;
+        [NonSerialized]
+        private Button button;
+
         private ButtonSettingMode mode;
         private string phrase;
         private string url;
@@ -68,6 +70,10 @@ namespace CustomMouseController
             get
             {
                 return button;
+            }
+            set
+            {
+                button = value;
             }
         }
 

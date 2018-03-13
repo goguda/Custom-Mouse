@@ -42,17 +42,41 @@ namespace CustomMouseController
             uiButtons[5] = btnButton5;
             uiButtons[6] = btnButton6;
 
+            settings = DeviceSettings.Instance;
             buttonSettings = new ButtonSetting[6];
 
-            for (int i = 0; i < 6; i++)
+            if (settings.LoadedPreviousSession)
             {
-                buttonSettings[i] = new ButtonSetting(uiButtons[i + 1]);
+                buttonSettings[0] = settings.GetButtonSetting(1);
+                buttonSettings[1] = settings.GetButtonSetting(2);
+                buttonSettings[2] = settings.GetButtonSetting(3);
+                buttonSettings[3] = settings.GetButtonSetting(4);
+                buttonSettings[4] = settings.GetButtonSetting(5);
+                buttonSettings[5] = settings.GetButtonSetting(6);
+
+                for (int i = 0; i < 6; i++)
+                {
+                    buttonSettings[i].AssignedButton = uiButtons[i + 1];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    buttonSettings[i] = new ButtonSetting(uiButtons[i + 1]);
+                    settings.SetButtonSetting(i + 1, buttonSettings[i]);
+                }
+            }
+
+            //show warning if programs assigned last session have not been found
+            if (settings.NotAllProgramsLoaded)
+            {
+                MessageBox.Show("One or more programs that were assigned to the buttons have been uninstalled or moved since " +
+                    "last run. Their assignments have been removed.", "Custom Mouse Controller - Missing Programs", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             btnJoystick.PerformClick();
             isJoystickView = true;
-
-            settings = DeviceSettings.Instance;
 
         }
 
@@ -64,6 +88,7 @@ namespace CustomMouseController
 
             if (result == DialogResult.Yes)
             {
+                settings.SaveSettings();
                 Application.Exit();
             }
         }
@@ -79,6 +104,11 @@ namespace CustomMouseController
             {
                 e.Cancel = true;
                 Hide();
+            }
+
+            if (e.CloseReason == CloseReason.WindowsShutDown)
+            {
+                settings.SaveSettings();
             }
         }
 

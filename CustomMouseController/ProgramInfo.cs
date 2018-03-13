@@ -10,8 +10,10 @@ namespace CustomMouseController
     [Serializable]
     public class ProgramInfo
     {
-        string name;
+        private string name;
         private string path;
+
+        [NonSerialized]
         private Icon icon;
 
         public ProgramInfo(string name, string path, Icon icon)
