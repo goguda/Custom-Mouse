@@ -3,18 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CustomMouseController
 {
+    [Serializable]
     public class JoystickSetting
     {
+        [NonSerialized]
+        private Button button;
+
         private int speedMultiplier;
         private int sensitivityMultiplier;
 
-        public JoystickSetting()
+        public JoystickSetting(Button uiButton)
         {
-            speedMultiplier = 1;
-            sensitivityMultiplier = 1;
+            button = uiButton;
+            speedMultiplier = 6;
+            sensitivityMultiplier = 6;
         }
 
         public int SpeedMultiplier
@@ -37,7 +43,19 @@ namespace CustomMouseController
             }
             set
             {
-                speedMultiplier = value;
+                sensitivityMultiplier = value;
+            }
+        }
+
+        public Button AssignedButton
+        {
+            get
+            {
+                return button;
+            }
+            set
+            {
+                button = value;
             }
         }
     }

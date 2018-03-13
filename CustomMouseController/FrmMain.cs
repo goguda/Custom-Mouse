@@ -23,8 +23,9 @@ namespace CustomMouseController
         private ButtonSetting[] buttonSettings;
 
         private int currentButton;
-        private ButtonSetting currentSetting;
 
+        private JoystickSetting currentJoystickSetting;
+        private ButtonSetting currentButtonSetting;
         private DeviceSettings settings;
 
         private bool isJoystickView;
@@ -42,6 +43,9 @@ namespace CustomMouseController
             uiButtons[5] = btnButton5;
             uiButtons[6] = btnButton6;
 
+            trkJoystick.MouseWheel += new MouseEventHandler(trackBar_MouseWheel);
+            trkCursor.MouseWheel += new MouseEventHandler(trackBar_MouseWheel);
+
             settings = DeviceSettings.Instance;
             buttonSettings = new ButtonSetting[6];
 
@@ -54,6 +58,9 @@ namespace CustomMouseController
                 buttonSettings[4] = settings.GetButtonSetting(5);
                 buttonSettings[5] = settings.GetButtonSetting(6);
 
+                currentJoystickSetting = settings.JoystickSetting;
+                currentJoystickSetting.AssignedButton = uiButtons[0];
+
                 for (int i = 0; i < 6; i++)
                 {
                     buttonSettings[i].AssignedButton = uiButtons[i + 1];
@@ -61,6 +68,8 @@ namespace CustomMouseController
             }
             else
             {
+                currentJoystickSetting = new JoystickSetting(uiButtons[0]);
+                settings.JoystickSetting = currentJoystickSetting;
                 for (int i = 0; i < 6; i++)
                 {
                     buttonSettings[i] = new ButtonSetting(uiButtons[i + 1]);
@@ -130,6 +139,9 @@ namespace CustomMouseController
                 SetToJoystickLayout();
 
             }
+
+            trkCursor.Value = currentJoystickSetting.SpeedMultiplier;
+            trkJoystick.Value = currentJoystickSetting.SensitivityMultiplier;
         }
 
         private void btnButton1_Click(object sender, EventArgs e)
@@ -142,10 +154,10 @@ namespace CustomMouseController
                 SetToButtonLayout();
             }
 
-            currentSetting = buttonSettings[0];
+            currentButtonSetting = buttonSettings[0];
             currentButton = 1;
 
-            LoadButtonSettingsIntoLayout(currentSetting);
+            LoadButtonSettingsIntoLayout(currentButtonSetting);
         }
 
         private void btnButton2_Click(object sender, EventArgs e)
@@ -158,10 +170,10 @@ namespace CustomMouseController
                 SetToButtonLayout();
             }
 
-            currentSetting = buttonSettings[1];
+            currentButtonSetting = buttonSettings[1];
             currentButton = 2;
 
-            LoadButtonSettingsIntoLayout(currentSetting);
+            LoadButtonSettingsIntoLayout(currentButtonSetting);
         }
 
         private void btnButton3_Click(object sender, EventArgs e)
@@ -174,10 +186,10 @@ namespace CustomMouseController
                 SetToButtonLayout();
             }
 
-            currentSetting = buttonSettings[2];
+            currentButtonSetting = buttonSettings[2];
             currentButton = 3;
 
-            LoadButtonSettingsIntoLayout(currentSetting);
+            LoadButtonSettingsIntoLayout(currentButtonSetting);
         }
 
         private void btnButton4_Click(object sender, EventArgs e)
@@ -190,10 +202,10 @@ namespace CustomMouseController
                 SetToButtonLayout();
             }
 
-            currentSetting = buttonSettings[3];
+            currentButtonSetting = buttonSettings[3];
             currentButton = 4;
 
-            LoadButtonSettingsIntoLayout(currentSetting);
+            LoadButtonSettingsIntoLayout(currentButtonSetting);
         }
 
         private void btnButton5_Click(object sender, EventArgs e)
@@ -206,10 +218,10 @@ namespace CustomMouseController
                 SetToButtonLayout();
             }
 
-            currentSetting = buttonSettings[4];
+            currentButtonSetting = buttonSettings[4];
             currentButton = 5;
 
-            LoadButtonSettingsIntoLayout(currentSetting);
+            LoadButtonSettingsIntoLayout(currentButtonSetting);
         }
 
         private void btnButton6_Click(object sender, EventArgs e)
@@ -222,10 +234,10 @@ namespace CustomMouseController
                 SetToButtonLayout();
             }
 
-            currentSetting = buttonSettings[5];
+            currentButtonSetting = buttonSettings[5];
             currentButton = 6;
 
-            LoadButtonSettingsIntoLayout(currentSetting);
+            LoadButtonSettingsIntoLayout(currentButtonSetting);
         }
 
         private void SetDefaultButtonColour(Button selected)
@@ -321,7 +333,7 @@ namespace CustomMouseController
             if (isJoystickView)
                 return;
 
-            switch (currentSetting.Setting)
+            switch (currentButtonSetting.Setting)
             {
                 case ButtonSetting.ButtonSettingMode.None:
                     radLeftClick.Checked = false;
@@ -355,8 +367,8 @@ namespace CustomMouseController
                     break;
             }
 
-            txtPhrase.Text = currentSetting.Phrase;
-            txtWebsite.Text = currentSetting.WebsiteURL;
+            txtPhrase.Text = currentButtonSetting.Phrase;
+            txtWebsite.Text = currentButtonSetting.WebsiteURL;
 
             UpdateAssignedProgram();
             UpdateKeyboardShortcut();
@@ -367,49 +379,49 @@ namespace CustomMouseController
         {
             if (radLeftClick.Checked)
             {
-                currentSetting.Setting = ButtonSetting.ButtonSettingMode.LeftClick;
+                currentButtonSetting.Setting = ButtonSetting.ButtonSettingMode.LeftClick;
                 radLeftClick.ForeColor = Color.White;
             }
             else
             {
                 radLeftClick.ForeColor = Color.LightGray;
             }
-            settings.SetButtonSetting(currentButton, currentSetting);
+            settings.SetButtonSetting(currentButton, currentButtonSetting);
         }
 
         private void radRightClick_CheckedChanged(object sender, EventArgs e)
         {
             if (radRightClick.Checked)
             {
-                currentSetting.Setting = ButtonSetting.ButtonSettingMode.RightClick;
+                currentButtonSetting.Setting = ButtonSetting.ButtonSettingMode.RightClick;
                 radRightClick.ForeColor = Color.White;
             }
             else
             {
                 radRightClick.ForeColor = Color.LightGray;
             }
-            settings.SetButtonSetting(currentButton, currentSetting);
+            settings.SetButtonSetting(currentButton, currentButtonSetting);
         }
 
         private void radOSK_CheckedChanged(object sender, EventArgs e)
         {
             if (radOSK.Checked)
             {
-                currentSetting.Setting = ButtonSetting.ButtonSettingMode.OnScreenKeyboard;
+                currentButtonSetting.Setting = ButtonSetting.ButtonSettingMode.OnScreenKeyboard;
                 radOSK.ForeColor = Color.White;
             }
             else
             {
                 radOSK.ForeColor = Color.LightGray;
             }
-            settings.SetButtonSetting(currentButton, currentSetting);
+            settings.SetButtonSetting(currentButton, currentButtonSetting);
         }
 
         private void radSentence_CheckedChanged(object sender, EventArgs e)
         {
             if (radSentence.Checked)
             {
-                currentSetting.Setting = ButtonSetting.ButtonSettingMode.TypePhrase;
+                currentButtonSetting.Setting = ButtonSetting.ButtonSettingMode.TypePhrase;
                 lblPhrase.ForeColor = Color.White;
                 radSentence.ForeColor = Color.White;
                 txtPhrase.Enabled = true;
@@ -420,21 +432,21 @@ namespace CustomMouseController
                 radSentence.ForeColor = Color.LightGray;
                 txtPhrase.Enabled = false;
             }
-            settings.SetButtonSetting(currentButton, currentSetting);
+            settings.SetButtonSetting(currentButton, currentButtonSetting);
         }
 
         private void radProgram_CheckedChanged(object sender, EventArgs e)
         {
             if (radProgram.Checked)
             {
-                currentSetting.Setting = ButtonSetting.ButtonSettingMode.OpenProgram;
+                currentButtonSetting.Setting = ButtonSetting.ButtonSettingMode.OpenProgram;
                 lblProgramName.ForeColor = Color.White;
                 radProgram.ForeColor = Color.White;
                 btnProgramChange.Enabled = true;
 
-                if (currentSetting.ProgramInfo != null)
+                if (currentButtonSetting.ProgramInfo != null)
                 {
-                    picProgramIcon.Image = currentSetting.ProgramInfo.Icon.ToBitmap();
+                    picProgramIcon.Image = currentButtonSetting.ProgramInfo.Icon.ToBitmap();
                 }
             }
             else
@@ -443,13 +455,13 @@ namespace CustomMouseController
                 radProgram.ForeColor = Color.LightGray;
                 btnProgramChange.Enabled = false;
 
-                if (currentSetting.ProgramInfo != null)
+                if (currentButtonSetting.ProgramInfo != null)
                 {
-                    picProgramIcon.Image = currentSetting.ProgramInfo.GrayscaleIcon.ToBitmap();
+                    picProgramIcon.Image = currentButtonSetting.ProgramInfo.GrayscaleIcon.ToBitmap();
                 }
             }
 
-            settings.SetButtonSetting(currentButton, currentSetting);
+            settings.SetButtonSetting(currentButton, currentButtonSetting);
         }
 
 
@@ -457,7 +469,7 @@ namespace CustomMouseController
         {
             if (radWebsite.Checked)
             {
-                currentSetting.Setting = ButtonSetting.ButtonSettingMode.OpenWebsite;
+                currentButtonSetting.Setting = ButtonSetting.ButtonSettingMode.OpenWebsite;
                 lblWebsite.ForeColor = Color.White;
                 radWebsite.ForeColor = Color.White;
                 txtWebsite.Enabled = true;
@@ -468,14 +480,14 @@ namespace CustomMouseController
                 radWebsite.ForeColor = Color.LightGray;
                 txtWebsite.Enabled = false;
             }
-            settings.SetButtonSetting(currentButton, currentSetting);
+            settings.SetButtonSetting(currentButton, currentButtonSetting);
         }
 
         private void radShortcut_CheckedChanged(object sender, EventArgs e)
         {
             if (radShortcut.Checked)
             {
-                currentSetting.Setting = ButtonSetting.ButtonSettingMode.KeyboardShortcut;
+                currentButtonSetting.Setting = ButtonSetting.ButtonSettingMode.KeyboardShortcut;
                 lblShortcut.ForeColor = Color.White;
                 radShortcut.ForeColor = Color.White;
                 btnKeyboardShortcutChange.Enabled = true;
@@ -486,22 +498,22 @@ namespace CustomMouseController
                 radShortcut.ForeColor = Color.LightGray;
                 btnKeyboardShortcutChange.Enabled = false;
             }
-            settings.SetButtonSetting(currentButton, currentSetting);
+            settings.SetButtonSetting(currentButton, currentButtonSetting);
         }
 
         private void txtPhrase_TextChanged(object sender, EventArgs e)
         {
-            currentSetting.Phrase = txtPhrase.Text;
+            currentButtonSetting.Phrase = txtPhrase.Text;
         }
 
         private void txtWebsite_TextChanged(object sender, EventArgs e)
         {
-            currentSetting.WebsiteURL = txtWebsite.Text;
+            currentButtonSetting.WebsiteURL = txtWebsite.Text;
         }
 
         private void btnKeyboardShortcutChange_Click(object sender, EventArgs e)
         {
-            using (FrmKeyboardShortcut dialog = new FrmKeyboardShortcut(currentSetting))
+            using (FrmKeyboardShortcut dialog = new FrmKeyboardShortcut(currentButtonSetting))
             {
                 dialog.ShowDialog();
                 if (dialog.DialogResult == DialogResult.OK)
@@ -513,7 +525,7 @@ namespace CustomMouseController
 
         private void btnProgramChange_Click(object sender, EventArgs e)
         {
-            using (FrmSelectProgram dialog = new FrmSelectProgram(currentSetting))
+            using (FrmSelectProgram dialog = new FrmSelectProgram(currentButtonSetting))
             {
                 dialog.ShowDialog();
                 if (dialog.DialogResult == DialogResult.OK)
@@ -525,7 +537,7 @@ namespace CustomMouseController
 
         private void UpdateKeyboardShortcut()
         {
-            if (currentSetting.KeyCombination == null)
+            if (currentButtonSetting.KeyCombination == null)
             {
                 lblShortcut.Text = "Not Assigned";
             }
@@ -533,7 +545,7 @@ namespace CustomMouseController
             {
                 StringBuilder builder = new StringBuilder();
                 builder.Append("Assigned: ");
-                string[] keys = currentSetting.KeyCombination;
+                string[] keys = currentButtonSetting.KeyCombination;
 
                 for (int i = 0; i < keys.Length; i++)
                 {
@@ -575,22 +587,22 @@ namespace CustomMouseController
         private void UpdateAssignedProgram()
         {
 
-            if (currentSetting.ProgramInfo == null)
+            if (currentButtonSetting.ProgramInfo == null)
             {
                 lblProgramName.Text = "Not Assigned";
                 picProgramIcon.Image = null;
             }
             else
             {
-                lblProgramName.Text = currentSetting.ProgramInfo.Name;
+                lblProgramName.Text = currentButtonSetting.ProgramInfo.Name;
 
                 if (!radProgram.Checked)
                 {
-                    picProgramIcon.Image = currentSetting.ProgramInfo.GrayscaleIcon.ToBitmap();
+                    picProgramIcon.Image = currentButtonSetting.ProgramInfo.GrayscaleIcon.ToBitmap();
                 } else if (radProgram.Checked &&
-                    (picProgramIcon.Image == null || !picProgramIcon.Image.Equals(currentSetting.ProgramInfo.Icon.ToBitmap())))
+                    (picProgramIcon.Image == null || !picProgramIcon.Image.Equals(currentButtonSetting.ProgramInfo.Icon.ToBitmap())))
                 {
-                    picProgramIcon.Image = currentSetting.ProgramInfo.Icon.ToBitmap();
+                    picProgramIcon.Image = currentButtonSetting.ProgramInfo.Icon.ToBitmap();
                 }
             }
 
@@ -611,6 +623,21 @@ namespace CustomMouseController
             {
                 btnProgramChange.Location = newLocation;
             }
+        }
+
+        private void trackBar_MouseWheel(object sender, EventArgs e)
+        {
+            ((HandledMouseEventArgs)e).Handled = true;
+        }
+
+        private void trkJoystick_ValueChanged(object sender, EventArgs e)
+        {
+            currentJoystickSetting.SensitivityMultiplier = trkJoystick.Value;
+        }
+
+        private void trkCursor_ValueChanged(object sender, EventArgs e)
+        {
+            currentJoystickSetting.SpeedMultiplier = trkCursor.Value;
         }
     }
 }

@@ -21,6 +21,7 @@ namespace CustomMouseController
 
         private string appDataFolder;
         private string saveFile;
+        private JoystickSetting joystickSetting;
         private ButtonSetting[] buttonSettings;
 
         private DeviceSettings()
@@ -85,6 +86,18 @@ namespace CustomMouseController
                     }
                 }
                 return instance;
+            }
+        }
+
+        public JoystickSetting JoystickSetting
+        {
+            get
+            {
+                return joystickSetting;
+            }
+            set
+            {
+                joystickSetting = value;
             }
         }
 

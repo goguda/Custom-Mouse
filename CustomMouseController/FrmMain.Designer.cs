@@ -44,6 +44,7 @@
             this.btnButton1 = new System.Windows.Forms.Button();
             this.btnJoystick = new System.Windows.Forms.Button();
             this.grpSettings = new System.Windows.Forms.GroupBox();
+            this.trkJoystick = new System.Windows.Forms.TrackBar();
             this.lblCursorSpeed = new System.Windows.Forms.Label();
             this.radProgram = new System.Windows.Forms.RadioButton();
             this.lblJoystickSensitivity = new System.Windows.Forms.Label();
@@ -51,7 +52,6 @@
             this.lblFaster = new System.Windows.Forms.Label();
             this.lblLessSensitive = new System.Windows.Forms.Label();
             this.lblMoreSensitive = new System.Windows.Forms.Label();
-            this.trkJoystick = new System.Windows.Forms.TrackBar();
             this.txtWebsite = new System.Windows.Forms.TextBox();
             this.lblWebsite = new System.Windows.Forms.Label();
             this.radWebsite = new System.Windows.Forms.RadioButton();
@@ -253,6 +253,7 @@
             // 
             // grpSettings
             // 
+            this.grpSettings.Controls.Add(this.trkJoystick);
             this.grpSettings.Controls.Add(this.lblCursorSpeed);
             this.grpSettings.Controls.Add(this.radProgram);
             this.grpSettings.Controls.Add(this.lblJoystickSensitivity);
@@ -260,7 +261,6 @@
             this.grpSettings.Controls.Add(this.lblFaster);
             this.grpSettings.Controls.Add(this.lblLessSensitive);
             this.grpSettings.Controls.Add(this.lblMoreSensitive);
-            this.grpSettings.Controls.Add(this.trkJoystick);
             this.grpSettings.Controls.Add(this.txtWebsite);
             this.grpSettings.Controls.Add(this.lblWebsite);
             this.grpSettings.Controls.Add(this.radWebsite);
@@ -289,6 +289,20 @@
             this.grpSettings.TabIndex = 2;
             this.grpSettings.TabStop = false;
             this.grpSettings.Text = "Settings";
+            // 
+            // trkJoystick
+            // 
+            this.trkJoystick.Location = new System.Drawing.Point(238, 320);
+            this.trkJoystick.Margin = new System.Windows.Forms.Padding(6);
+            this.trkJoystick.Maximum = 11;
+            this.trkJoystick.Minimum = 1;
+            this.trkJoystick.Name = "trkJoystick";
+            this.trkJoystick.Size = new System.Drawing.Size(301, 80);
+            this.trkJoystick.TabIndex = 26;
+            this.trkJoystick.TabStop = false;
+            this.trkJoystick.Value = 1;
+            this.trkJoystick.Visible = false;
+            this.trkJoystick.ValueChanged += new System.EventHandler(this.trkJoystick_ValueChanged);
             // 
             // lblCursorSpeed
             // 
@@ -376,15 +390,6 @@
             this.lblMoreSensitive.TabIndex = 18;
             this.lblMoreSensitive.Text = "More Sensitive";
             this.lblMoreSensitive.Visible = false;
-            // 
-            // trkJoystick
-            // 
-            this.trkJoystick.Location = new System.Drawing.Point(238, 320);
-            this.trkJoystick.Margin = new System.Windows.Forms.Padding(6);
-            this.trkJoystick.Name = "trkJoystick";
-            this.trkJoystick.Size = new System.Drawing.Size(301, 80);
-            this.trkJoystick.TabIndex = 11;
-            this.trkJoystick.Visible = false;
             // 
             // txtWebsite
             // 
@@ -597,10 +602,15 @@
             // 
             this.trkCursor.Location = new System.Drawing.Point(233, 691);
             this.trkCursor.Margin = new System.Windows.Forms.Padding(6);
+            this.trkCursor.Maximum = 11;
+            this.trkCursor.Minimum = 1;
             this.trkCursor.Name = "trkCursor";
             this.trkCursor.Size = new System.Drawing.Size(301, 80);
             this.trkCursor.TabIndex = 12;
+            this.trkCursor.TabStop = false;
+            this.trkCursor.Value = 1;
             this.trkCursor.Visible = false;
+            this.trkCursor.ValueChanged += new System.EventHandler(this.trkCursor_ValueChanged);
             // 
             // lblCursorDescription
             // 
@@ -685,7 +695,6 @@
         private System.Windows.Forms.RadioButton radLeftClick;
         private System.Windows.Forms.Label lblCursorDescription;
         private System.Windows.Forms.Label lblCursorSpeed;
-        private System.Windows.Forms.TrackBar trkJoystick;
         private System.Windows.Forms.Label lblSlower;
         private System.Windows.Forms.Label lblLessSensitive;
         private System.Windows.Forms.Label lblMoreSensitive;
@@ -697,6 +706,7 @@
         private System.Windows.Forms.TextBox txtWebsite;
         private System.Windows.Forms.Label lblWebsite;
         private System.Windows.Forms.RadioButton radWebsite;
+        private System.Windows.Forms.TrackBar trkJoystick;
     }
 }
 
