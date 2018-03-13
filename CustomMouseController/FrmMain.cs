@@ -366,35 +366,89 @@ namespace CustomMouseController
         private void radLeftClick_CheckedChanged(object sender, EventArgs e)
         {
             if (radLeftClick.Checked)
+            {
                 currentSetting.Setting = ButtonSetting.ButtonSettingMode.LeftClick;
+                radLeftClick.ForeColor = Color.White;
+            }
+            else
+            {
+                radLeftClick.ForeColor = Color.LightGray;
+            }
             settings.SetButtonSetting(currentButton, currentSetting);
         }
 
         private void radRightClick_CheckedChanged(object sender, EventArgs e)
         {
             if (radRightClick.Checked)
+            {
                 currentSetting.Setting = ButtonSetting.ButtonSettingMode.RightClick;
+                radRightClick.ForeColor = Color.White;
+            }
+            else
+            {
+                radRightClick.ForeColor = Color.LightGray;
+            }
             settings.SetButtonSetting(currentButton, currentSetting);
         }
 
         private void radOSK_CheckedChanged(object sender, EventArgs e)
         {
             if (radOSK.Checked)
+            {
                 currentSetting.Setting = ButtonSetting.ButtonSettingMode.OnScreenKeyboard;
+                radOSK.ForeColor = Color.White;
+            }
+            else
+            {
+                radOSK.ForeColor = Color.LightGray;
+            }
             settings.SetButtonSetting(currentButton, currentSetting);
         }
 
         private void radSentence_CheckedChanged(object sender, EventArgs e)
         {
             if (radSentence.Checked)
+            {
                 currentSetting.Setting = ButtonSetting.ButtonSettingMode.TypePhrase;
+                lblPhrase.ForeColor = Color.White;
+                radSentence.ForeColor = Color.White;
+                txtPhrase.Enabled = true;
+            }
+            else
+            {
+                lblPhrase.ForeColor = Color.LightGray;
+                radSentence.ForeColor = Color.LightGray;
+                txtPhrase.Enabled = false;
+            }
             settings.SetButtonSetting(currentButton, currentSetting);
         }
 
         private void radProgram_CheckedChanged(object sender, EventArgs e)
         {
             if (radProgram.Checked)
+            {
                 currentSetting.Setting = ButtonSetting.ButtonSettingMode.OpenProgram;
+                lblProgramName.ForeColor = Color.White;
+                radProgram.ForeColor = Color.White;
+                btnProgramChange.Enabled = true;
+
+                if (currentSetting.ProgramInfo != null)
+                {
+                    picProgramIcon.Image = currentSetting.ProgramInfo.Icon.ToBitmap();
+                }
+            }
+            else
+            {
+                lblProgramName.ForeColor = Color.LightGray;
+                radProgram.ForeColor = Color.LightGray;
+                btnProgramChange.Enabled = false;
+
+                if (currentSetting.ProgramInfo != null)
+                {
+                    picProgramIcon.Image = currentSetting.ProgramInfo.GrayscaleIcon.ToBitmap();
+                }
+            }
+
             settings.SetButtonSetting(currentButton, currentSetting);
         }
 
@@ -402,14 +456,36 @@ namespace CustomMouseController
         private void radWebsite_CheckedChanged(object sender, EventArgs e)
         {
             if (radWebsite.Checked)
+            {
                 currentSetting.Setting = ButtonSetting.ButtonSettingMode.OpenWebsite;
+                lblWebsite.ForeColor = Color.White;
+                radWebsite.ForeColor = Color.White;
+                txtWebsite.Enabled = true;
+            }
+            else
+            {
+                lblWebsite.ForeColor = Color.LightGray;
+                radWebsite.ForeColor = Color.LightGray;
+                txtWebsite.Enabled = false;
+            }
             settings.SetButtonSetting(currentButton, currentSetting);
         }
 
         private void radShortcut_CheckedChanged(object sender, EventArgs e)
         {
             if (radShortcut.Checked)
+            {
                 currentSetting.Setting = ButtonSetting.ButtonSettingMode.KeyboardShortcut;
+                lblShortcut.ForeColor = Color.White;
+                radShortcut.ForeColor = Color.White;
+                btnKeyboardShortcutChange.Enabled = true;
+            }
+            else
+            {
+                lblShortcut.ForeColor = Color.LightGray;
+                radShortcut.ForeColor = Color.LightGray;
+                btnKeyboardShortcutChange.Enabled = false;
+            }
             settings.SetButtonSetting(currentButton, currentSetting);
         }
 
@@ -507,7 +583,15 @@ namespace CustomMouseController
             else
             {
                 lblProgramName.Text = currentSetting.ProgramInfo.Name;
-                picProgramIcon.Image = currentSetting.ProgramInfo.Icon.ToBitmap();
+
+                if (!radProgram.Checked)
+                {
+                    picProgramIcon.Image = currentSetting.ProgramInfo.GrayscaleIcon.ToBitmap();
+                } else if (radProgram.Checked &&
+                    (picProgramIcon.Image == null || !picProgramIcon.Image.Equals(currentSetting.ProgramInfo.Icon.ToBitmap())))
+                {
+                    picProgramIcon.Image = currentSetting.ProgramInfo.Icon.ToBitmap();
+                }
             }
 
             lblProgramName.AutoSize = true;
