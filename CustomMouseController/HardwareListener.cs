@@ -61,7 +61,6 @@ namespace CustomMouseController
                                 device.RtsEnable = true;
                                 device.Open();
                                 connected = PerformHandshake();
-                                device.DataReceived += new SerialDataReceivedEventHandler(device_DataReceived);
                             }
 
                         if (connected)
@@ -115,19 +114,11 @@ namespace CustomMouseController
             return device.ReadLine().Contains("start");
         }
 
-        private void device_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            string command = device.ReadLine();
-
-            if (!String.IsNullOrEmpty(command))
-                Console.WriteLine(command.Substring(0, command.IndexOf("\r")));
-        }
-
         private void MoveMouse(string command)
         {
             int i = command.IndexOf("Y");
-            int x = Int32.Parse(command.Substring(2, i));
-            int y = Int32.Parse(command.Substring(i + 2));
+            int x = Int32.Parse(command.Substring(1, i));
+            int y = Int32.Parse(command.Substring(i + 1));
 
             OSController.MoveCursor(x, y);
         }
