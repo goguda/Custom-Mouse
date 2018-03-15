@@ -16,7 +16,7 @@ namespace CustomMouseController
         static void Main()
         {
             // Start hardware listener before GUI on its own thread
-            HardwareListener listener = new HardwareListener();
+            HardwareListener listener = HardwareListener.Instance;
             Thread listeningThread = new Thread(new ThreadStart(listener.Start));
             listeningThread.Start();
 
@@ -24,7 +24,6 @@ namespace CustomMouseController
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmMain());
-
         }
     }
 }
