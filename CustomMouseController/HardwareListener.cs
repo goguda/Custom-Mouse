@@ -63,6 +63,9 @@ namespace CustomMouseController
                                 connected = PerformHandshake();
                             }
 
+                            if (device != null && device.IsOpen && !connected)
+                                connected = PerformHandshake();
+
                         if (connected)
                             break;
                         }
@@ -71,10 +74,13 @@ namespace CustomMouseController
                 else
                 {
                     string data = device.ReadLine();
-
+                    //System.Diagnostics.Debug.WriteLine(data);
                     if (data.Contains("X"))
                     {
                         MoveMouse(data.Substring(0, data.IndexOf("\r")));
+
+                        Thread.Sleep((int)(25 - 2.2 * settings.JoystickSetting.SpeedMultiplier));
+                        device.DiscardInBuffer();
                     }
                     else
                     {
@@ -109,18 +115,19 @@ namespace CustomMouseController
             if (device == null || !device.IsOpen)
                 return false;
 
-            device.WriteLine("start");
+            device.Write("start");
 
             return device.ReadLine().Contains("start");
         }
 
         private void MoveMouse(string command)
         {
+
             int i = command.IndexOf("Y");
-            int x = Int32.Parse(command.Substring(1, i));
+            int x = Int32.Parse(command.Substring(1, i - 1));
             int y = Int32.Parse(command.Substring(i + 1));
 
-            OSController.MoveCursor(x, y);
+            OSController.MoveCursor(x / 50, y / 50);
         }
 
         private void PerformButtonAction(ButtonSetting button)

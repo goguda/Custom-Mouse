@@ -4,154 +4,110 @@ const int NOT_CONNECTED = 0;
 const int JOYSTICK_CONNECTED = 1;
 const int BUTTONS_CONNECTED = 2;
 
-int inp[4];
-int button[6];
-int analogPins[8];
-int joystickSigX, joystickSigY;
+struct Input {
+  int inputMode = NOT_CONNECTED;
+  int xThreshold = -1;
+  int yThreshold = -1;
+  int inp1Val = -1;
+  int inp2Val = -1;
+  bool button1Pressed = false;
+  bool button2Pressed = false;
+};
 
 bool isConnected;
-bool mouseEnabled;
-bool pressed[6];
+
+Input inputs[4];
 
 void setup() {
-  
+  pinMode(A0, INPUT);
+  pinMode(A1, INPUT);
+  pinMode(A2, INPUT);
+  pinMode(A3, INPUT);
+  pinMode(A4, INPUT);
+  pinMode(A5, INPUT);
+  pinMode(A6, INPUT);
+  pinMode(A7, INPUT);
+
   Serial.begin(9600);
-
-  for (int i = 0; i < 6; i++) {
-    if (i < 4) {
-      inp[i] = NOT_CONNECTED;
-    }
-    button[i] = -1;
-    pressed[i] = false;
-  }
-
-  analogPins[0] = A0;
-  analogPins[1] = A1;
-  analogPins[2] = A2;
-  analogPins[3] = A3;
-  analogPins[4] = A4;
-  analogPins[5] = A5;
-  analogPins[6] = A6;
-  analogPins[7] = A7;
-
-  joystickSigX, joystickSigY = -1;
-  isConnected, mouseEnabled = false;
 }
 
 void loop() {
   detectModules();
   if (!isConnected) {
     isConnected = handshake();
-    if (!isConnected) {
-      if (!mouseEnabled) {
-        Mouse.begin();
-      }
-      controlMouse();
-    }
   } else {
-    if (mouseEnabled) {
-      Mouse.end();
-    }
-    processCommands();
-  }
-}
-
-void processCommands() {
-  for (int i = 0; i < 6; i++) {
-    if (button[i] != -1) {
-      if (digitalRead(button[i]) == 1) {
-        if (!pressed[i]) {
-          pressed[i] = true;
-          Serial.println(i);
+    int buttonCounter = 0;
+    for (int i = 0; i < 3; i++) {
+      if (inputs[i].inputMode == JOYSTICK_CONNECTED) {
+        Serial.print("X");
+        Serial.print(inputs[i].inp2Val);
+        Serial.print("Y");
+        Serial.println(inputs[i].inp1Val);
+      } else if (inputs[i].inputMode == BUTTONS_CONNECTED) {
+        if (buttonCounter < 6) {
+          buttonCounter++;
+          if (inputs[i].inp1Val == 0 && !inputs[i].button1Pressed) {
+            Serial.println(buttonCounter);
+            inputs[i].button1Pressed = true;
+          } else if (inputs[i].inp1Val != 0 && inputs[i].button1Pressed) {
+            inputs[i].button1Pressed = false;
+          }
+          buttonCounter++;
+          if (inputs[i].inp2Val == 0 && !inputs[i].button2Pressed) {
+            Serial.println(buttonCounter);
+            inputs[i].button2Pressed = true;
+          } else if (inputs[i].inp2Val != 0 && inputs[i].button2Pressed) {
+            inputs[i].button2Pressed = false;
+          }
         }
-      } else {
-        pressed[i] = false;
       }
-    // Stop loop early if not all buttons are assigned
-    } else {
-      break;
     }
-  }
-
-  if (joystickSigX != -1 && joystickSigY != -1) {
-    Serial.print("X");
-    Serial.print(analogRead(joystickSigX));
-    Serial.print("Y");
-    Serial.print(analogRead(joystickSigY));
   }
 }
 
 void detectModules() {
+  int readings[8];
 
-  int buttonCount = 0;
-  for (int i = 0; i < 7; i += 2) {
-    int pin1 = analogRead(analogPins[i]);
-    int pin2 = analogRead(analogPins[i + 1]);
+  readings[0] = analogRead(A0);
+  readings[1] = analogRead(A1);
+  readings[2] = analogRead(A2);
+  readings[3] = analogRead(A3);
+  readings[4] = analogRead(A4);
+  readings[5] = analogRead(A5);
+  readings[6] = analogRead(A6);
+  readings[7] = analogRead(A7);
 
-    if (i < 6) {
-      button[i] = -1;
-      button[i + 1] = -1;
-    }
-    // nothing connected
-    if (pin1 == 0 && pin2 == 0) {
-      if (inp[i / 2] == JOYSTICK_CONNECTED) {
-        joystickSigX, joystickSigY = -1;
-      }
-      inp[i / 2] = NOT_CONNECTED;
-    // buttons connected
-    // TODO: FIX CONDITION
-    } else if (pin1 > 970) {
-      // failsafe, just incase another sensor reports values in this range
-      if (buttonCount < 6) {
-        button[buttonCount] = analogPins[i];
-        button[buttonCount + 1] = analogPins[i + 1];
-        buttonCount += 2;
-      }
-    // joystick connected
+  for (int i = 0; i < 8; i += 2) {
+    if ((readings[i] > 477 && readings[i] < 489) && (readings[i + 1] > 470 && readings[i + 1] < 482)) {
+      inputs[i / 2].inputMode = JOYSTICK_CONNECTED;
+      inputs[i / 2].xThreshold = readings[i + 1];
+      inputs[i / 2].yThreshold = readings[i];
+    } else if ((readings[i] > 975 && readings[i] < 990) && (readings[i + 1] > 975 && readings[i + 1] < 990)) {
+      inputs[i / 2].inputMode = BUTTONS_CONNECTED;
     } else {
-      inp[i / 2] = JOYSTICK_CONNECTED;
-      joystickSigX = analogPins[i];
-      joystickSigY = analogPins[i + 1];
-    }
-  } 
-}
-
-void controlMouse() {
-
-  int buttonCount = 0;
-  for (int i = 0; i < 7; i += 2) {
-    if (inp[i / 2] == JOYSTICK_CONNECTED && joystickSigX != -1 && joystickSigY != -1) {
-      Mouse.move(analogRead(joystickSigX), analogRead(joystickSigY));
-    } else if (inp[i / 2] == BUTTONS_CONNECTED) {
-      if (buttonCount < 6)
-      {
-        if (digitalRead(analogPins[i]) == 1) {
-          if (!pressed[buttonCount]) {
-            Mouse.click();
-            pressed[buttonCount] = true;
-          }
-        } else {
-          pressed[buttonCount] = false;
-        }
-        if (digitalRead(analogPins[i+1]) == 1) {
-          if (!pressed[buttonCount + 1]) {
-            Mouse.click(MOUSE_RIGHT);
-            pressed[buttonCount + 1] = true;
-          }
-        } else {
-          pressed[buttonCount + 1] = false;
-        }
-        buttonCount += 2;
+      if (inputs[i / 2].inputMode == BUTTONS_CONNECTED && (readings[i] < 900 && readings[i] != 0) &&
+      (readings[i + 1] < 900 && readings[i + 1] != 0)) {
+        inputs[i / 2].inputMode = NOT_CONNECTED;
+      } else if (inputs[i / 2].inputMode == JOYSTICK_CONNECTED && (readings[i] > 972 || readings[i + 1] > 972)) {
+        inputs[i / 2].inputMode = NOT_CONNECTED;
       }
+    }
+    if (inputs[i / 2].inputMode == NOT_CONNECTED) {
+      inputs[i / 2].inp1Val = -1;
+      inputs[i / 2].inp2Val = -1;
+    } else {
+      inputs[i / 2].inp1Val = readings[i];
+      inputs[i / 2].inp2Val = readings[i + 1];
     }
   }
 }
 
 bool handshake() {
-  Serial.println("start");
   bool handshakeCompleted = false;
   if (Serial.available() > 0) {
-    if (Serial.readString() == "start") {
+    String input = Serial.readString();
+    if (input == "start") {
+      Serial.println("start");
       handshakeCompleted = true;
     }
   }
