@@ -33,9 +33,20 @@ void setup() {
 
 void loop() {
   detectModules();
+  
   if (!isConnected) {
     isConnected = handshake();
+
+    if (!isConnected) {
+      Mouse.begin();
+      controlMouse();
+    }
   } else {
+    Mouse.end();
+    if (checkForGoodbye()) {
+      isConnected = false;
+      return;
+    }
     int buttonCounter = 0;
     for (int i = 0; i < 3; i++) {
       if (inputs[i].inputMode == JOYSTICK_CONNECTED) {
@@ -80,8 +91,10 @@ void detectModules() {
   for (int i = 0; i < 8; i += 2) {
     if ((readings[i] > 477 && readings[i] < 489) && (readings[i + 1] > 470 && readings[i + 1] < 482)) {
       inputs[i / 2].inputMode = JOYSTICK_CONNECTED;
-      inputs[i / 2].xThreshold = readings[i + 1];
-      inputs[i / 2].yThreshold = readings[i];
+      if (inputs[i / 2].xThreshold == -1 && inputs[i / 2].yThreshold == -1) {
+        inputs[i / 2].xThreshold = readings[i + 1];
+        inputs[i / 2].yThreshold = readings[i];
+      }
     } else if ((readings[i] > 975 && readings[i] < 990) && (readings[i + 1] > 975 && readings[i + 1] < 990)) {
       inputs[i / 2].inputMode = BUTTONS_CONNECTED;
     } else {
@@ -90,11 +103,15 @@ void detectModules() {
         inputs[i / 2].inputMode = NOT_CONNECTED;
       } else if (inputs[i / 2].inputMode == JOYSTICK_CONNECTED && (readings[i] > 972 || readings[i + 1] > 972)) {
         inputs[i / 2].inputMode = NOT_CONNECTED;
+        inputs[i / 2].xThreshold = -1;
+        inputs[i / 2].yThreshold = -1;
       }
     }
     if (inputs[i / 2].inputMode == NOT_CONNECTED) {
       inputs[i / 2].inp1Val = -1;
       inputs[i / 2].inp2Val = -1;
+      inputs[i / 2].xThreshold = -1;
+      inputs[i / 2].yThreshold = -1;
     } else {
       inputs[i / 2].inp1Val = readings[i];
       inputs[i / 2].inp2Val = readings[i + 1];
@@ -102,14 +119,47 @@ void detectModules() {
   }
 }
 
+void controlMouse() {
+  for (int i = 0; i < 3; i++) {
+    if (inputs[i].inputMode == JOYSTICK_CONNECTED) {
+      Serial.println(inputs[i].inp2Val - inputs[i].xThreshold);
+      Serial.println(inputs[i].inp1Val - inputs[i].yThreshold);
+      Mouse.move((inputs[i].inp2Val - inputs[i].xThreshold) / 150,
+                 (inputs[i].inp1Val - inputs[i].yThreshold) / 150, 0);
+    } else if (inputs[i].inputMode == BUTTONS_CONNECTED) {
+      if (inputs[i].inp1Val == 0 && !inputs[i].button1Pressed) {
+        Mouse.click();
+        inputs[i].button1Pressed = true;
+      } else if (inputs[i].inp1Val != 0 && inputs[i].button1Pressed) {
+        inputs[i].button1Pressed = false;
+      }
+      if (inputs[i].inp2Val == 0 && !inputs[i].button2Pressed) {
+        Mouse.click(MOUSE_RIGHT);
+        inputs[i].button2Pressed = true;
+      } else if (inputs[i].inp2Val != 0 && inputs[i].button2Pressed) {
+        inputs[i].button2Pressed = false;
+      }
+    }
+  }
+}
+
+bool checkForGoodbye() {
+  if (Serial.available() > 0) {
+    String input = Serial.readString();
+    if (input == "stop") {
+      return true;
+    }
+  }
+  return false;
+}
+
 bool handshake() {
-  bool handshakeCompleted = false;
   if (Serial.available() > 0) {
     String input = Serial.readString();
     if (input == "start") {
       Serial.println("start");
-      handshakeCompleted = true;
+      return true;
     }
   }
-  return handshakeCompleted;
+  return false;
 }

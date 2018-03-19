@@ -38,7 +38,7 @@ namespace CustomMouseController
 
         public static void TypePhrase(string phrase)
         {
-            SendKeys.Send(phrase);
+            SendKeys.SendWait(phrase);
         }
 
         public static void SimulateLeftClick()

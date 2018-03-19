@@ -73,18 +73,27 @@ namespace CustomMouseController
                 }
                 else
                 {
-                    string data = device.ReadLine();
+                    string data = String.Empty;
+                    try
+                    {
+                        data = device.ReadLine();
+                    }
+                    catch
+                    {
+                        connected = false;
+                        continue;
+                    }
                     //System.Diagnostics.Debug.WriteLine(data);
                     if (data.Contains("X"))
                     {
                         MoveMouse(data.Substring(0, data.IndexOf("\r")));
 
-                        Thread.Sleep((int)(25 - 2.2 * settings.JoystickSetting.SpeedMultiplier));
-                        device.DiscardInBuffer();
+                        //Thread.Sleep((int)(25 - 2.2 * settings.JoystickSetting.SpeedMultiplier));
+                        //device.DiscardInBuffer();
                     }
                     else
                     {
-                        switch (data)
+                        switch (data.Substring(0, data.IndexOf("\r")))
                         {
                             case "1":
                                 PerformButtonAction(settings.GetButtonSetting(1));
@@ -172,6 +181,10 @@ namespace CustomMouseController
                 {
                     if (device != null)
                     {
+                        if (device.IsOpen)
+                        {
+                            device.Write("stop");
+                        }
                         device.Close();
                         device.Dispose();
                     }
