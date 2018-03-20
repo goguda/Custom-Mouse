@@ -47,7 +47,7 @@ void loop() {
       return;
     }
     int buttonCounter = 0;
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
       if (inputs[i].inputMode == JOYSTICK_CONNECTED) {
         Serial.print("X");
         Serial.print(inputs[i].inp2Val);
@@ -88,19 +88,21 @@ void detectModules() {
   readings[7] = analogRead(A7);
 
   for (int i = 0; i < 8; i += 2) {
-    if ((readings[i] > 477 && readings[i] < 489) && (readings[i + 1] > 470 && readings[i + 1] < 482)) {
+    if ((readings[i] > 506 && readings[i] < 511) && (readings[i + 1] > 500 && readings[i + 1] < 505)) {
       inputs[i / 2].inputMode = JOYSTICK_CONNECTED;
       if (inputs[i / 2].xThreshold == -1 && inputs[i / 2].yThreshold == -1) {
-        inputs[i / 2].xThreshold = readings[i + 1];
-        inputs[i / 2].yThreshold = readings[i];
+        delay(1000);
+        inputs[i / 2].xThreshold = readings[i];
+        inputs[i / 2].yThreshold = readings[i + 1];
       }
-    } else if ((readings[i] > 975 && readings[i] < 990) && (readings[i + 1] > 975 && readings[i + 1] < 990)) {
+    } else if (readings[i] > 1000 && readings[i + 1] > 1000 && inputs[i / 2].inputMode != JOYSTICK_CONNECTED) {
       inputs[i / 2].inputMode = BUTTONS_CONNECTED;
     } else {
-      if (inputs[i / 2].inputMode == BUTTONS_CONNECTED && (readings[i] < 900 && readings[i] != 0) &&
-      (readings[i + 1] < 900 && readings[i + 1] != 0)) {
+      if (inputs[i / 2].inputMode == BUTTONS_CONNECTED && (readings[i] < 1000 && readings[i] != 0) &&
+      (readings[i + 1] < 1000 && readings[i + 1] != 0)) {
         inputs[i / 2].inputMode = NOT_CONNECTED;
-      } else if (inputs[i / 2].inputMode == JOYSTICK_CONNECTED && (readings[i] > 972 || readings[i + 1] > 972)) {
+      } else if (inputs[i / 2].inputMode == JOYSTICK_CONNECTED && readings[i] > 1000 && inputs[i / 2].inp1Val < 1000
+      && readings[i + 1] > 1000 && inputs[i / 2].inp2Val < 1000) {
         inputs[i / 2].inputMode = NOT_CONNECTED;
         inputs[i / 2].xThreshold = -1;
         inputs[i / 2].yThreshold = -1;
@@ -119,12 +121,12 @@ void detectModules() {
 }
 
 void controlMouse() {
-  for (int i = 0; i < 3; i++) {
+  for (int i = 0; i < 4; i++) {
     if (inputs[i].inputMode == JOYSTICK_CONNECTED) {
       Serial.println(inputs[i].inp2Val - inputs[i].xThreshold);
       Serial.println(inputs[i].inp1Val - inputs[i].yThreshold);
-      Mouse.move((inputs[i].inp2Val - inputs[i].xThreshold) / 150,
-                 (inputs[i].inp1Val - inputs[i].yThreshold) / 150, 0);
+      Mouse.move((inputs[i].inp1Val - inputs[i].xThreshold) / 150,
+                 (-(inputs[i].inp2Val - inputs[i].yThreshold)) / 150, 0);
     } else if (inputs[i].inputMode == BUTTONS_CONNECTED) {
       if (inputs[i].inp1Val == 0 && !inputs[i].button1Pressed) {
         Mouse.click();
