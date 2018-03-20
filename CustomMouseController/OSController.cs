@@ -4,6 +4,8 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System;
+using System.Text;
+using System.Linq;
 
 namespace CustomMouseController
 {
@@ -85,7 +87,101 @@ namespace CustomMouseController
 
         public static void PerformKeyboardShortcut(string[] keys)
         {
+            if (keys == null)
+                return;
 
+            StringBuilder commandKeys = new StringBuilder();
+            StringBuilder otherKeys = new StringBuilder();
+
+            int arrLength = keys.Count(x => !string.IsNullOrEmpty(x));
+            for (int i = 0; i < arrLength; i++)
+            {
+                switch(keys[i])
+                {
+                    case "CTRL":
+                        commandKeys.Append("^");
+                        break;
+                    case "ALT":
+                        commandKeys.Append("%");
+                        break;
+                    case "SHIFT":
+                        commandKeys.Append("+");
+                        break;
+                    case "ESC":
+                        otherKeys.Append("{ESC}");
+                        break;
+                    case "SPACE":
+                        otherKeys.Append(" ");
+                        break;
+                    case "TAB":
+                        otherKeys.Append("{TAB}");
+                        break;
+                    case "BACKSPACE":
+                        otherKeys.Append("{BACKSPACE}");
+                        break;
+                    case "DELETE":
+                        otherKeys.Append("{DEL}");
+                        break;
+                    case "ENTER":
+                        otherKeys.Append("{ENTER}");
+                        break;
+                    case "END":
+                        otherKeys.Append("{END}");
+                        break;
+                    case "INSERT":
+                        otherKeys.Append("{INSERT}");
+                        break;
+                    case "HOME":
+                        otherKeys.Append("{HOME}");
+                        break;
+                    case "PGEUP":
+                        otherKeys.Append("{PGUP}");
+                        break;
+                    case "PGEDWN":
+                        otherKeys.Append("{PGDN}");
+                        break;
+                    case "F1":
+                        otherKeys.Append("{F1}");
+                        break;
+                    case "F2":
+                        otherKeys.Append("{F2}");
+                        break;
+                    case "F3":
+                        otherKeys.Append("{F3}");
+                        break;
+                    case "F4":
+                        otherKeys.Append("{F4}");
+                        break;
+                    case "F5":
+                        otherKeys.Append("{F5}");
+                        break;
+                    case "F6":
+                        otherKeys.Append("{F6}");
+                        break;
+                    case "F7":
+                        otherKeys.Append("{F7}");
+                        break;
+                    case "F8":
+                        otherKeys.Append("{F8}");
+                        break;
+                    case "F9":
+                        otherKeys.Append("{F9}");
+                        break;
+                    case "F10":
+                        otherKeys.Append("{F10}");
+                        break;
+                    case "F11":
+                        otherKeys.Append("{F11}");
+                        break;
+                    case "F12":
+                        otherKeys.Append("{F12}");
+                        break;
+                    default:
+                        otherKeys.Append("{" + keys[i] + "}");
+                        break;
+                }
+            }
+            SendKeys.SendWait(commandKeys.ToString() + "(" + otherKeys.ToString() + ")");
         }
     }
 }

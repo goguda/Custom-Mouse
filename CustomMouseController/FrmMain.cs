@@ -32,7 +32,7 @@ namespace CustomMouseController
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            OSController.PerformKeyboardShortcut(new string[] { "CTRL", "C" });
             uiButtons = new Button[7];
 
             uiButtons[0] = btnJoystick;

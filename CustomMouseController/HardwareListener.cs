@@ -153,16 +153,20 @@ namespace CustomMouseController
                     OSController.OpenOnScreenKeyboard();
                     break;
                 case ButtonSetting.ButtonSettingMode.TypePhrase:
-                    OSController.TypePhrase(button.Phrase);
+                    if (!String.IsNullOrEmpty(button.Phrase))
+                        OSController.TypePhrase(button.Phrase);
                     break;
                 case ButtonSetting.ButtonSettingMode.OpenProgram:
-                    OSController.OpenExecutable(button.ProgramInfo.Path);
+                    if (button.ProgramInfo != null && !String.IsNullOrEmpty(button.ProgramInfo.Path))
+                        OSController.OpenExecutable(button.ProgramInfo.Path);
                     break;
                 case ButtonSetting.ButtonSettingMode.OpenWebsite:
+                    if (!String.IsNullOrEmpty(button.WebsiteURL))
                     OSController.OpenWebsite(button.WebsiteURL);
                     break;
                 case ButtonSetting.ButtonSettingMode.KeyboardShortcut:
-                    OSController.PerformKeyboardShortcut(button.KeyCombination);
+                    if (button.KeyCombination != null)
+                        OSController.PerformKeyboardShortcut(button.KeyCombination);
                     break;
             }
         }

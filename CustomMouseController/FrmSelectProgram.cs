@@ -29,8 +29,10 @@ namespace CustomMouseController
 
         private void FrmSelectProgram_Load(object sender, EventArgs e)
         {
-            string[] filePaths = Directory.GetFiles(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs",
-                                        "*.lnk", SearchOption.AllDirectories);
+            string[] filePaths = null;
+
+            filePaths = Directory.GetFiles(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs",
+                            "*.lnk", SearchOption.AllDirectories);
 
             files = new List<IWshShortcut>();
 
