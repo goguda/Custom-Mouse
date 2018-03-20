@@ -50,9 +50,9 @@ void loop() {
     for (int i = 0; i < 4; i++) {
       if (inputs[i].inputMode == JOYSTICK_CONNECTED) {
         Serial.print("X");
-        Serial.print(inputs[i].inp2Val);
+        Serial.print(inputs[i].inp1Val - inputs[i].xThreshold);
         Serial.print("Y");
-        Serial.println(inputs[i].inp1Val);
+        Serial.println(-(inputs[i].inp2Val - inputs[i].yThreshold));
       } else if (inputs[i].inputMode == BUTTONS_CONNECTED) {
         if (buttonCounter < 6) {
           buttonCounter++;
@@ -123,8 +123,8 @@ void detectModules() {
 void controlMouse() {
   for (int i = 0; i < 4; i++) {
     if (inputs[i].inputMode == JOYSTICK_CONNECTED) {
-      Serial.println(inputs[i].inp2Val - inputs[i].xThreshold);
-      Serial.println(inputs[i].inp1Val - inputs[i].yThreshold);
+      //Serial.println(inputs[i].inp2Val - inputs[i].xThreshold);
+      //Serial.println(inputs[i].inp1Val - inputs[i].yThreshold);
       Mouse.move((inputs[i].inp1Val - inputs[i].xThreshold) / 150,
                  (-(inputs[i].inp2Val - inputs[i].yThreshold)) / 150, 0);
     } else if (inputs[i].inputMode == BUTTONS_CONNECTED) {

@@ -72,7 +72,14 @@ namespace CustomMouseController
 
         public static void OpenExecutable(string path)
         {
-            Process.Start(path);
+            try
+            {
+                Process.Start(path);
+            }
+            catch
+            {
+                MessageBox.Show("There was an error opening the program assigned to that button.", "Error Opening Program", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public static void OpenWebsite(string url)

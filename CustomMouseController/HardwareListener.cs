@@ -64,7 +64,9 @@ namespace CustomMouseController
                             }
 
                             if (device != null && device.IsOpen && !connected)
+                            {
                                 connected = PerformHandshake();
+                            }
 
                         if (connected)
                             break;
@@ -73,16 +75,8 @@ namespace CustomMouseController
                 }
                 else
                 {
-                    string data = String.Empty;
-                    try
-                    {
-                        data = device.ReadLine();
-                    }
-                    catch
-                    {
-                        connected = false;
-                        continue;
-                    }
+                    string data = device.ReadLine();
+
                     //System.Diagnostics.Debug.WriteLine(data);
                     if (data.Contains("X"))
                     {
