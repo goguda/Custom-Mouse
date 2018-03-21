@@ -75,7 +75,21 @@ namespace CustomMouseController
                 }
                 else
                 {
-                    string data = device.ReadLine();
+                    string data = String.Empty;
+                    try
+                    {
+                        data = device.ReadLine();
+                    }
+                    catch
+                    {
+                        connected = false;
+                        continue;
+                    }
+
+                    if (data == "start" || data == "stop")
+                    {
+                        continue;
+                    }
 
                     //System.Diagnostics.Debug.WriteLine(data);
                     if (data.Contains("X"))
@@ -118,9 +132,9 @@ namespace CustomMouseController
             if (device == null || !device.IsOpen)
                 return false;
 
-            device.Write("start");
+            device.WriteLine("start");
 
-            return device.ReadLine().Contains("start");
+            return device.ReadLine() == "start\r";
         }
 
         private void MoveMouse(string command)
@@ -181,7 +195,7 @@ namespace CustomMouseController
                     {
                         if (device.IsOpen)
                         {
-                            device.Write("stop");
+                            device.WriteLine("stop");
                         }
                         device.Close();
                         device.Dispose();

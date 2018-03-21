@@ -72,6 +72,9 @@ void loop() {
         }
       }
     }
+    while (Serial.available()) {
+      char t = Serial.read();
+    }
   }
 }
 
@@ -147,7 +150,11 @@ void controlMouse() {
 bool checkForGoodbye() {
   if (Serial.available() > 0) {
     String input = Serial.readString();
-    if (input == "stop") {
+    Serial.println(input);
+    if (input == "stop\n") {
+      while (Serial.available()) {
+        char dispose = Serial.read();
+      }
       return true;
     }
   }
@@ -157,7 +164,10 @@ bool checkForGoodbye() {
 bool handshake() {
   if (Serial.available() > 0) {
     String input = Serial.readString();
-    if (input == "start") {
+    if (input == "start\n") {
+      while (Serial.available()) {
+        char dispose = Serial.read();
+      }
       Serial.println("start");
       return true;
     }
