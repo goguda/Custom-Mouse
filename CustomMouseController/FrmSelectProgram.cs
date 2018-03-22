@@ -16,11 +16,16 @@ namespace CustomMouseController
     {
         private ButtonSetting buttonSetting;
         private List<IWshShortcut> files;
+
         public FrmSelectProgram(ButtonSetting buttonSetting)
         {
             InitializeComponent();
             this.buttonSetting = buttonSetting;
         }
+
+        private delegate ImageList UpdateProgramIconsDelegate(ImageList icons);
+        private delegate ListViewItem AddToProgramListDelegate(ListViewItem item);
+        private delegate void EndListUpdate();
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
@@ -28,6 +33,12 @@ namespace CustomMouseController
         }
 
         private void FrmSelectProgram_Load(object sender, EventArgs e)
+        {
+            Task t = Task.Factory.StartNew(LoadProgramList);
+            lstPrograms.BeginUpdate();
+        }
+
+        private void LoadProgramList()
         {
             string[] filePaths = null;
 
@@ -53,11 +64,10 @@ namespace CustomMouseController
                     files.Add(link);
             }
 
-            files.Sort(delegate(IWshShortcut file1, IWshShortcut file2)
+            files.Sort(delegate (IWshShortcut file1, IWshShortcut file2)
             {
                 return Path.GetFileName(file1.FullName).CompareTo(Path.GetFileName(file2.FullName));
             });
-
             ImageList icons = new ImageList();
             icons.ImageSize = new Size(32, 32);
             icons.ColorDepth = ColorDepth.Depth32Bit;
@@ -76,9 +86,25 @@ namespace CustomMouseController
                 ListViewItem item = new ListViewItem(Path.GetFileNameWithoutExtension(file.FullName));
                 item.ImageIndex = counter;
                 counter++;
-                lstPrograms.Items.Add(item);
+                if (lstPrograms.InvokeRequired)
+                {
+                    lstPrograms.Invoke(new AddToProgramListDelegate(lstPrograms.Items.Add), new object[] { item });
+                }
+                else
+                {
+                    lstPrograms.Items.Add(item);
+                }
             }
-            lstPrograms.SmallImageList = icons;
+            if (lstPrograms.InvokeRequired)
+            {
+                lstPrograms.Invoke(new UpdateProgramIconsDelegate(x => (lstPrograms.SmallImageList = x)), new object[] { icons });
+                lstPrograms.Invoke(new EndListUpdate(lstPrograms.EndUpdate));
+            }
+            else
+            {
+                lstPrograms.SmallImageList = icons;
+                lstPrograms.EndUpdate();
+            }
         }
 
         private void btnOK_Click(object sender, EventArgs e)

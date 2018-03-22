@@ -33,6 +33,8 @@
             this.nfyTrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.cxtTrayIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuOpenControlCenter = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuStartWithWindows = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlInputSelection = new System.Windows.Forms.Panel();
@@ -91,27 +93,44 @@
             this.cxtTrayIcon.ImageScalingSize = new System.Drawing.Size(28, 28);
             this.cxtTrayIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuOpenControlCenter,
+            this.toolStripSeparator2,
+            this.mnuStartWithWindows,
             this.toolStripSeparator1,
             this.mnuExit});
             this.cxtTrayIcon.Name = "cxtTrayIcon";
-            this.cxtTrayIcon.Size = new System.Drawing.Size(279, 78);
+            this.cxtTrayIcon.Size = new System.Drawing.Size(508, 118);
             // 
             // mnuOpenControlCenter
             // 
             this.mnuOpenControlCenter.Name = "mnuOpenControlCenter";
-            this.mnuOpenControlCenter.Size = new System.Drawing.Size(278, 34);
+            this.mnuOpenControlCenter.Size = new System.Drawing.Size(507, 34);
             this.mnuOpenControlCenter.Text = "Open Control Center";
             this.mnuOpenControlCenter.Click += new System.EventHandler(this.mnuOpenControlCenter_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(504, 6);
+            // 
+            // mnuStartWithWindows
+            // 
+            this.mnuStartWithWindows.Checked = true;
+            this.mnuStartWithWindows.CheckOnClick = true;
+            this.mnuStartWithWindows.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.mnuStartWithWindows.Name = "mnuStartWithWindows";
+            this.mnuStartWithWindows.Size = new System.Drawing.Size(507, 34);
+            this.mnuStartWithWindows.Text = "Start Custom Mouse Controller with Windows";
+            this.mnuStartWithWindows.CheckedChanged += new System.EventHandler(this.mnuStartWithWindows_CheckedChanged);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(275, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(504, 6);
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(278, 34);
+            this.mnuExit.Size = new System.Drawing.Size(507, 34);
             this.mnuExit.Text = "Exit";
             this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
             // 
@@ -707,6 +726,8 @@
         private System.Windows.Forms.Label lblWebsite;
         private System.Windows.Forms.RadioButton radWebsite;
         private System.Windows.Forms.TrackBar trkJoystick;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem mnuStartWithWindows;
     }
 }
 

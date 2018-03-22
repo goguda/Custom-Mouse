@@ -344,7 +344,7 @@ namespace CustomMouseController
             if (shortcut.Count(x => !String.IsNullOrEmpty(x)) == 0)
             {
                 DialogResult msg = MessageBox.Show("No keyboard combination has been assigned. Would you " +
-                    "like to go back and assign one?", "No Keyboard Shortcut", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    "like to go back and assign one?", "No Keyboard Shortcut Assigned", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 
                 if (msg == DialogResult.No)
                 {

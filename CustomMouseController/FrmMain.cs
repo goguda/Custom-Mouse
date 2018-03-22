@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace CustomMouseController
 {
@@ -79,8 +80,12 @@ namespace CustomMouseController
             //show warning if programs assigned last session have not been found
             if (settings.NotAllProgramsLoaded)
             {
-                MessageBox.Show("One or more programs that were assigned to the buttons have been uninstalled or moved since " +
-                    "last run. Their assignments have been removed.", "Custom Mouse Controller - Missing Programs", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(this, "One or more programs that were assigned to the buttons have been uninstalled or moved since " +
+                    "last run. Their assignments have been removed.", "Custom Mouse Controller - Missing Programs", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (Visible)
+                {
+                    Focus();
+                }
             }
 
             btnJoystick.PerformClick();
@@ -90,15 +95,22 @@ namespace CustomMouseController
 
         private void mnuExit_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Closing this application will cause the Custom Mouse to operate only as a basic" +
+            DialogResult result = MessageBox.Show(this, "Closing this application will cause the Custom Mouse to operate only as a basic" +
                 " mouse without any additional features such as programmable hotkeys. Are you sure you would like to do this?", "Exiting Custom Mouse Controller",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
 
             if (result == DialogResult.Yes)
             {
                 settings.SaveSettings();
                 HardwareListener.Instance.Dispose();
                 Application.Exit();
+            }
+            else
+            {
+                if (Visible)
+                {
+                    Focus();
+                }
             }
         }
 
@@ -654,6 +666,35 @@ namespace CustomMouseController
         private void trkCursor_ValueChanged(object sender, EventArgs e)
         {
             currentJoystickSetting.SpeedMultiplier = trkCursor.Value;
+        }
+
+        private void mnuStartWithWindows_CheckedChanged(object sender, EventArgs e)
+        {
+            RegistryKey startupKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+            if (mnuStartWithWindows.Checked)
+            {
+                startupKey.SetValue(Application.ProductName, Application.ExecutablePath);
+            }
+            else
+            {
+                DialogResult result = MessageBox.Show(this, "Not starting Custom Mouse Controller with Windows will result in the Custom Mouse operating " +
+                    "only as a basic mouse without additional functionality such as programmable hotkeys. Custom Mouse Controller will have to be started " +
+                    "manually after login to gain access to these features. Are you sure you would like to do this?", "Start Custom Mouse Controller with Windows", MessageBoxButtons.YesNo, MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button2);
+
+                if (result == DialogResult.Yes)
+                {
+                    startupKey.DeleteValue(Application.ProductName, false);
+                } else
+                {
+                    if (Visible)
+                    {
+                        Focus();
+                    }
+                    mnuStartWithWindows.Checked = true;
+                }
+            }
         }
     }
 }
