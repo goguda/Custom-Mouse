@@ -19,6 +19,8 @@ namespace CustomMouseController
         [NonSerialized]
         private bool missingProgramsSinceLastSession;
 
+        private bool runAtStartup;
+
         private string appDataFolder;
         private string saveFile;
         private JoystickSetting joystickSetting;
@@ -29,6 +31,7 @@ namespace CustomMouseController
             buttonSettings = new ButtonSetting[6];
             loadedPreviousSession = false;
             missingProgramsSinceLastSession = false;
+            runAtStartup = true;
             appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         }
 
@@ -114,6 +117,18 @@ namespace CustomMouseController
             get
             {
                 return missingProgramsSinceLastSession;
+            }
+        }
+
+        public bool RunAtStartup
+        {
+            get
+            {
+                return runAtStartup;
+            }
+            set
+            {
+                runAtStartup = value;
             }
         }
 

@@ -65,6 +65,8 @@ namespace CustomMouseController
                 {
                     buttonSettings[i].AssignedButton = uiButtons[i + 1];
                 }
+
+                mnuStartWithWindows.Checked = settings.RunAtStartup;
             }
             else
             {
@@ -674,25 +676,37 @@ namespace CustomMouseController
 
             if (mnuStartWithWindows.Checked)
             {
-                startupKey.SetValue(Application.ProductName, Application.ExecutablePath);
+                if (!settings.RunAtStartup)
+                {
+                    startupKey.SetValue(Application.ProductName, Application.ExecutablePath);
+                    if (!settings.RunAtStartup)
+                    {
+                        settings.RunAtStartup = true;
+                    }
+                }
             }
             else
             {
-                DialogResult result = MessageBox.Show(this, "Not starting Custom Mouse Controller with Windows will result in the Custom Mouse operating " +
-                    "only as a basic mouse without additional functionality such as programmable hotkeys. Custom Mouse Controller will have to be started " +
-                    "manually after login to gain access to these features. Are you sure you would like to do this?", "Start Custom Mouse Controller with Windows", MessageBoxButtons.YesNo, MessageBoxIcon.Warning,
-                    MessageBoxDefaultButton.Button2);
+                if (settings.RunAtStartup)
+                {
+                    DialogResult result = MessageBox.Show(this, "Not starting Custom Mouse Controller with Windows will result in the Custom Mouse operating " +
+                        "only as a basic mouse without additional functionality such as programmable hotkeys. Custom Mouse Controller will have to be started " +
+                        "manually after login to gain access to these features. Are you sure you would like to do this?", "Start Custom Mouse Controller with Windows", MessageBoxButtons.YesNo, MessageBoxIcon.Warning,
+                        MessageBoxDefaultButton.Button2);
 
-                if (result == DialogResult.Yes)
-                {
-                    startupKey.DeleteValue(Application.ProductName, false);
-                } else
-                {
+                    if (result == DialogResult.Yes)
+                    {
+                        startupKey.DeleteValue(Application.ProductName, false);
+                        settings.RunAtStartup = false;
+                    }
+                    else
+                    {
+                        mnuStartWithWindows.Checked = true;
+                    }
                     if (Visible)
                     {
                         Focus();
                     }
-                    mnuStartWithWindows.Checked = true;
                 }
             }
         }
