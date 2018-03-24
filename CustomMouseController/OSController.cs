@@ -78,7 +78,7 @@ namespace CustomMouseController
             }
             catch
             {
-                MessageBox.Show("There was an error opening the program assigned to that button.", "Error Opening Program", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There was an error opening the program assigned to that button.", "Custom Mouse Controller - Error Opening Program", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

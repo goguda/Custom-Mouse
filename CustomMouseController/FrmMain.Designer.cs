@@ -97,7 +97,7 @@
             this.toolStripSeparator1,
             this.mnuExit});
             this.cxtTrayIcon.Name = "cxtTrayIcon";
-            this.cxtTrayIcon.Size = new System.Drawing.Size(317, 82);
+            this.cxtTrayIcon.Size = new System.Drawing.Size(317, 104);
             // 
             // mnuOpenControlCenter
             // 
@@ -113,9 +113,7 @@
             // 
             // mnuStartWithWindows
             // 
-            this.mnuStartWithWindows.Checked = true;
             this.mnuStartWithWindows.CheckOnClick = true;
-            this.mnuStartWithWindows.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuStartWithWindows.Name = "mnuStartWithWindows";
             this.mnuStartWithWindows.Size = new System.Drawing.Size(316, 22);
             this.mnuStartWithWindows.Text = "Start Custom Mouse Controller with Windows";

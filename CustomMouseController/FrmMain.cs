@@ -83,6 +83,19 @@ namespace CustomMouseController
 
                 trayNotifShown = false;
 
+                RegistryKey startupKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+                if (startupKey.GetValue(Application.ProductName) == null)
+                {
+                    settings.RunAtStartup = false;
+                    mnuStartWithWindows.Checked = false;
+                }
+                else
+                {
+                    settings.RunAtStartup = true;
+                    mnuStartWithWindows.Checked = true;
+                }
+
             }
 
             //show warning if programs assigned last session have not been found
