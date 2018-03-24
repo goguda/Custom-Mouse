@@ -36,7 +36,22 @@ namespace CustomMouseController
                     // Start GUI
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
-                    Application.Run(new frmMain());
+
+                    if (DeviceSettings.Instance.LoadedPreviousSession)
+                    {
+                        frmMain form = new frmMain();
+                        form.Opacity = 0;
+                        form.ShowInTaskbar = false;
+                        form.Show();
+                        form.Hide();
+                        form.ShowInTaskbar = true;
+                        form.Opacity = 100;
+                        Application.Run();
+                    }
+                    else
+                    {
+                        Application.Run(new frmMain());
+                    }
                 }
                 else // Application is already loaded; show control center
                 {

@@ -61,7 +61,7 @@ namespace CustomMouseController
             {
                 Process.Start("osk.exe");
             }
-            catch (Win32Exception) // Needed for Windows 10 and some other 64-bit versions of Windows when running in 32-bit mode
+            catch (Win32Exception) // Needed for 64-bit versions of Windows when running in 32-bit mode
             {
                 IntPtr wow64 = IntPtr.Zero;
                 Wow64DisableWow64FsRedirection(ref wow64);

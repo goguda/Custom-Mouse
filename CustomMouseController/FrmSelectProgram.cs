@@ -26,6 +26,7 @@ namespace CustomMouseController
         private delegate ImageList UpdateProgramIconsDelegate(ImageList icons);
         private delegate ListViewItem AddToProgramListDelegate(ListViewItem item);
         private delegate void EndListUpdate();
+        private delegate void HideGettingProgramsLabel();
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
@@ -95,6 +96,16 @@ namespace CustomMouseController
                     lstPrograms.Items.Add(item);
                 }
             }
+
+            if (lblGettingPrograms.InvokeRequired)
+            {
+                lblGettingPrograms.Invoke(new HideGettingProgramsLabel(() => { lblGettingPrograms.Visible = false; }));
+            }
+            else
+            {
+                lblGettingPrograms.Visible = false;
+            }
+
             if (lstPrograms.InvokeRequired)
             {
                 lstPrograms.Invoke(new UpdateProgramIconsDelegate(x => (lstPrograms.SmallImageList = x)), new object[] { icons });

@@ -33,6 +33,7 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.lblInstructions = new System.Windows.Forms.Label();
             this.btnOK = new System.Windows.Forms.Button();
+            this.lblGettingPrograms = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lstPrograms
@@ -91,6 +92,15 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
+            // lblGettingPrograms
+            // 
+            this.lblGettingPrograms.BackColor = System.Drawing.SystemColors.Window;
+            this.lblGettingPrograms.Location = new System.Drawing.Point(12, 57);
+            this.lblGettingPrograms.Name = "lblGettingPrograms";
+            this.lblGettingPrograms.Size = new System.Drawing.Size(407, 151);
+            this.lblGettingPrograms.TabIndex = 20;
+            this.lblGettingPrograms.Text = "Getting list of programs...";
+            // 
             // FrmSelectProgram
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -99,6 +109,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(62)))), ((int)(((byte)(80)))));
             this.ClientSize = new System.Drawing.Size(427, 417);
             this.ControlBox = false;
+            this.Controls.Add(this.lblGettingPrograms);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.lblInstructions);
             this.Controls.Add(this.btnCancel);
@@ -121,5 +132,6 @@
         private System.Windows.Forms.ColumnHeader clmProgram;
         private System.Windows.Forms.Label lblInstructions;
         private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.Label lblGettingPrograms;
     }
 }

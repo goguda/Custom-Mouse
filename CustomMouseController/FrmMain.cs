@@ -31,6 +31,8 @@ namespace CustomMouseController
 
         private bool isJoystickView;
 
+        private bool trayNotifShown;
+
         private void Form1_Load(object sender, EventArgs e)
         {
             uiButtons = new Button[7];
@@ -67,6 +69,7 @@ namespace CustomMouseController
                 }
 
                 mnuStartWithWindows.Checked = settings.RunAtStartup;
+                trayNotifShown = true;
             }
             else
             {
@@ -77,6 +80,9 @@ namespace CustomMouseController
                     buttonSettings[i] = new ButtonSetting(uiButtons[i + 1]);
                     settings.SetButtonSetting(i + 1, buttonSettings[i]);
                 }
+
+                trayNotifShown = false;
+
             }
 
             //show warning if programs assigned last session have not been found
@@ -92,7 +98,6 @@ namespace CustomMouseController
 
             btnJoystick.PerformClick();
             isJoystickView = true;
-
         }
 
         private void mnuExit_Click(object sender, EventArgs e)
@@ -119,6 +124,7 @@ namespace CustomMouseController
         private void mnuOpenControlCenter_Click(object sender, EventArgs e)
         {
             Show();
+            Focus();
         }
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -127,6 +133,12 @@ namespace CustomMouseController
             {
                 e.Cancel = true;
                 Hide();
+                if (!trayNotifShown)
+                {
+                    nfyTrayIcon.ShowBalloonTip(10000, "Custom Mouse Controller is still running in the background.", "Double-click the Custom Mouse Controller tray icon to bring up the Custom Mouse Control Center " +
+                        "and change the mouse settings." , ToolTipIcon.Info);
+                    trayNotifShown = true;
+                }
             }
 
             if (e.CloseReason == CloseReason.WindowsShutDown)
@@ -140,6 +152,7 @@ namespace CustomMouseController
             if (e.Button == MouseButtons.Left)
             {
                 Show();
+                Focus();
             }
         }
 
