@@ -195,9 +195,13 @@ namespace CustomMouseController
                         if (device.IsOpen)
                         {
                             device.WriteLine("stop");
+                            device.Close();
                         }
-                        device.Close();
-                        device.Dispose();
+
+                        if (device != null)
+                        {
+                            device.Dispose();
+                        }
                     }
                 }
             }
