@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO.Ports;
 using System.Management;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace CustomMouseController
 {
@@ -16,6 +17,12 @@ namespace CustomMouseController
         private DeviceSettings settings;
         private bool connected;
         private bool disposed;
+        private int cursorSpeedTick;
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern int Wow64DisableWow64FsRedirection(ref IntPtr ptr);
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern int Wow64EnableWow64FsRedirection(ref IntPtr ptr);
 
         private HardwareListener()
         {
@@ -63,13 +70,11 @@ namespace CustomMouseController
                                 connected = PerformHandshake();
                             }
 
-                            if (device != null && device.IsOpen && !connected)
+                            if (connected)
                             {
-                                connected = PerformHandshake();
+                                cursorSpeedTick = 12 - settings.JoystickSetting.SpeedMultiplier;
+                                break;
                             }
-
-                        if (connected)
-                            break;
                         }
                     }
                 }
@@ -83,21 +88,20 @@ namespace CustomMouseController
                     catch
                     {
                         connected = false;
+                        device.Dispose();
+                        device = null;
                         continue;
                     }
 
-                    if (data == "start" || data == "stop")
-                    {
-                        continue;
-                    }
-
-                    //System.Diagnostics.Debug.WriteLine(data);
                     if (data.Contains("X"))
                     {
-                        MoveMouse(data.Substring(0, data.IndexOf("\r")));
+                        cursorSpeedTick--;
 
-                        //Thread.Sleep((int)(25 - 2.2 * settings.JoystickSetting.SpeedMultiplier));
-                        //device.DiscardInBuffer();
+                        if (cursorSpeedTick == 0)
+                        {
+                            MoveMouse(data.Substring(0, data.IndexOf("\r")));
+                            cursorSpeedTick = 12 - settings.JoystickSetting.SpeedMultiplier;
+                        }
                     }
                     else
                     {
@@ -144,7 +148,7 @@ namespace CustomMouseController
             int x = Int32.Parse(command.Substring(1, i - 1));
             int y = Int32.Parse(command.Substring(i + 1));
 
-            OSController.MoveCursor(x / 50, y / 50);
+            OSController.MoveCursor(x / (221 - 15 * settings.JoystickSetting.SensitivityMultiplier), y / (221 - 15 * settings.JoystickSetting.SensitivityMultiplier));
         }
 
         private void PerformButtonAction(ButtonSetting button)

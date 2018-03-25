@@ -15,6 +15,7 @@ struct Input {
 };
 
 bool isConnected;
+int stayAliveCount;
 
 Input inputs[4];
 
@@ -27,7 +28,6 @@ void setup() {
   pinMode(A5, INPUT);
   pinMode(A6, INPUT);
   pinMode(A7, INPUT);
-
   Serial.begin(9600);
 }
 
@@ -46,35 +46,7 @@ void loop() {
       isConnected = false;
       return;
     }
-    int buttonCounter = 0;
-    for (int i = 0; i < 4; i++) {
-      if (inputs[i].inputMode == JOYSTICK_CONNECTED) {
-        Serial.print("X");
-        Serial.print(inputs[i].inp1Val - inputs[i].xThreshold);
-        Serial.print("Y");
-        Serial.println(-(inputs[i].inp2Val - inputs[i].yThreshold));
-      } else if (inputs[i].inputMode == BUTTONS_CONNECTED) {
-        if (buttonCounter < 6) {
-          buttonCounter++;
-          if (inputs[i].inp1Val == 0 && !inputs[i].button1Pressed) {
-            Serial.println(buttonCounter);
-            inputs[i].button1Pressed = true;
-          } else if (inputs[i].inp1Val != 0 && inputs[i].button1Pressed) {
-            inputs[i].button1Pressed = false;
-          }
-          buttonCounter++;
-          if (inputs[i].inp2Val == 0 && !inputs[i].button2Pressed) {
-            Serial.println(buttonCounter);
-            inputs[i].button2Pressed = true;
-          } else if (inputs[i].inp2Val != 0 && inputs[i].button2Pressed) {
-            inputs[i].button2Pressed = false;
-          }
-        }
-      }
-    }
-    while (Serial.available()) {
-      char t = Serial.read();
-    }
+    sendCommands();
   }
 }
 
@@ -92,20 +64,32 @@ void detectModules() {
 
   for (int i = 0; i < 8; i += 2) {
     if ((readings[i] > 506 && readings[i] < 511) && (readings[i + 1] > 500 && readings[i + 1] < 505)) {
-      inputs[i / 2].inputMode = JOYSTICK_CONNECTED;
-      if (inputs[i / 2].xThreshold == -1 && inputs[i / 2].yThreshold == -1) {
-        delay(1000);
-        inputs[i / 2].xThreshold = readings[i];
-        inputs[i / 2].yThreshold = readings[i + 1];
+      // Make sure that fluctuating readings on other analog inputs
+      // do not simulate the insertion of a joystick if there is
+      // already one connected
+      bool onlyJoystick = true;
+      for (int j = 0; j < 4; j++) {
+        if (inputs[j].inputMode == JOYSTICK_CONNECTED) {
+          onlyJoystick = false;
+          break;
+        }
+      }
+      if (onlyJoystick) {
+        inputs[i / 2].inputMode = JOYSTICK_CONNECTED;
+        if (inputs[i / 2].xThreshold == -1 && inputs[i / 2].yThreshold == -1) {
+          delay(1000);
+          inputs[i / 2].xThreshold = readings[i];
+          inputs[i / 2].yThreshold = readings[i + 1];
+        }
       }
     } else if (readings[i] > 1000 && readings[i + 1] > 1000 && inputs[i / 2].inputMode != JOYSTICK_CONNECTED) {
       inputs[i / 2].inputMode = BUTTONS_CONNECTED;
     } else {
       if (inputs[i / 2].inputMode == BUTTONS_CONNECTED && (readings[i] < 1000 && readings[i] != 0) &&
-      (readings[i + 1] < 1000 && readings[i + 1] != 0)) {
+          (readings[i + 1] < 1000 && readings[i + 1] != 0)) {
         inputs[i / 2].inputMode = NOT_CONNECTED;
       } else if (inputs[i / 2].inputMode == JOYSTICK_CONNECTED && readings[i] > 1000 && inputs[i / 2].inp1Val < 1000
-      && readings[i + 1] > 1000 && inputs[i / 2].inp2Val < 1000) {
+                 && readings[i + 1] > 1000 && inputs[i / 2].inp2Val < 1000) {
         inputs[i / 2].inputMode = NOT_CONNECTED;
         inputs[i / 2].xThreshold = -1;
         inputs[i / 2].yThreshold = -1;
@@ -130,6 +114,7 @@ void controlMouse() {
       //Serial.println(inputs[i].inp1Val - inputs[i].yThreshold);
       Mouse.move((inputs[i].inp1Val - inputs[i].xThreshold) / 150,
                  (-(inputs[i].inp2Val - inputs[i].yThreshold)) / 150, 0);
+      delay(8);
     } else if (inputs[i].inputMode == BUTTONS_CONNECTED) {
       if (inputs[i].inp1Val == 0 && !inputs[i].button1Pressed) {
         Mouse.click();
@@ -147,10 +132,38 @@ void controlMouse() {
   }
 }
 
+void sendCommands() {
+  int buttonCounter = 0;
+  for (int i = 0; i < 4; i++) {
+    if (inputs[i].inputMode == JOYSTICK_CONNECTED) {
+      Serial.print("X");
+      Serial.print(inputs[i].inp1Val - inputs[i].xThreshold);
+      Serial.print("Y");
+      Serial.println(-(inputs[i].inp2Val - inputs[i].yThreshold));
+    } else if (inputs[i].inputMode == BUTTONS_CONNECTED) {
+      if (buttonCounter < 6) {
+        buttonCounter++;
+        if (inputs[i].inp1Val == 0 && !inputs[i].button1Pressed) {
+          Serial.println(buttonCounter);
+          inputs[i].button1Pressed = true;
+        } else if (inputs[i].inp1Val != 0 && inputs[i].button1Pressed) {
+          inputs[i].button1Pressed = false;
+        }
+        buttonCounter++;
+        if (inputs[i].inp2Val == 0 && !inputs[i].button2Pressed) {
+          Serial.println(buttonCounter);
+          inputs[i].button2Pressed = true;
+        } else if (inputs[i].inp2Val != 0 && inputs[i].button2Pressed) {
+          inputs[i].button2Pressed = false;
+        }
+      }
+    }
+  }
+}
+
 bool checkForGoodbye() {
   if (Serial.available() > 0) {
     String input = Serial.readString();
-    Serial.println(input);
     if (input == "stop\n") {
       while (Serial.available()) {
         char dispose = Serial.read();
@@ -174,3 +187,4 @@ bool handshake() {
   }
   return false;
 }
+

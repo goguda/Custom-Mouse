@@ -57,17 +57,7 @@ namespace CustomMouseController
 
         public static void OpenOnScreenKeyboard()
         {
-            try
-            {
-                Process.Start("osk.exe");
-            }
-            catch (Win32Exception) // Needed for 64-bit versions of Windows when running in 32-bit mode
-            {
-                IntPtr wow64 = IntPtr.Zero;
-                Wow64DisableWow64FsRedirection(ref wow64);
-                Process.Start("osk.exe");
-                Wow64EnableWow64FsRedirection(ref wow64);
-            }
+            Process.Start("osk.exe");
         }
 
         public static void OpenExecutable(string path)
