@@ -52,6 +52,8 @@ namespace CustomMouseController
                     {
                         Application.Run(new frmMain());
                     }
+
+                    listeningThread.Abort();
                 }
                 else // Application is already loaded; show control center
                 {

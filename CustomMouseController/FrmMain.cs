@@ -118,7 +118,7 @@ namespace CustomMouseController
             {
                 settings.SaveSettings();
                 HardwareListener.Instance.Dispose();
-                Application.Exit();
+                Application.ExitThread();
             }
             else
             {
@@ -149,9 +149,11 @@ namespace CustomMouseController
                 }
             }
 
-            if (e.CloseReason == CloseReason.WindowsShutDown)
+            if (e.CloseReason == CloseReason.TaskManagerClosing || e.CloseReason == CloseReason.WindowsShutDown)
             {
                 settings.SaveSettings();
+                HardwareListener.Instance.Dispose();
+                Application.ExitThread();
             }
         }
 

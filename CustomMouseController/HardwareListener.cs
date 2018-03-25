@@ -37,6 +37,14 @@ namespace CustomMouseController
             }
         }
 
+        public bool IsDisposed
+        {
+            get
+            {
+                return disposed;
+            }
+        }
+
         public void Start()
         {
             if (connected)
@@ -61,6 +69,10 @@ namespace CustomMouseController
                                 device.BaudRate = 9600;
                                 device.DtrEnable = true;
                                 device.RtsEnable = true;
+                                device.Handshake = Handshake.None;
+                                device.Parity = Parity.None;
+                                device.StopBits = StopBits.Two;
+                                device.DataBits = 8;
                                 device.Open();
                                 connected = PerformHandshake();
                             }
@@ -190,18 +202,14 @@ namespace CustomMouseController
             {
                 if (disposing)
                 {
+                    if (device != null && device.IsOpen)
+                    {
+                        device.WriteLine("stop");
+                        device.Close();
+                    }
                     if (device != null)
                     {
-                        if (device.IsOpen)
-                        {
-                            device.WriteLine("stop");
-                            device.Close();
-                        }
-
-                        if (device != null)
-                        {
-                            device.Dispose();
-                        }
+                        device.Dispose();
                     }
                 }
             }
