@@ -1,4 +1,18 @@
-﻿using System;
+﻿/*
+ * File: FrmMain.cs
+ * Contains: FrmMain class
+ * 
+ * This class controls the main UI and takes care of button and
+ * joystick setting assignment.
+ * 
+ * Author: David Goguen
+ * Original release: March 26, 2018
+ * 
+ * Last updated: March 26, 2018
+ * 
+ */
+
+using System;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -6,30 +20,48 @@ using Microsoft.Win32;
 
 namespace CustomMouseController
 {
-    public partial class frmMain : Form
+    public partial class FrmMain : Form
     {
-        public frmMain()
+        /* stores reference to UI buttons for quicker colour change */
+        private Button[] uiButtons;
+
+        /* stores reference to ButtonSetting instance for each of the 6 buttons */
+        private ButtonSetting[] buttonSettings;
+
+        /* stores the button number of the button that is currently being modified */
+        private int currentButton;
+
+        /* stores a reference to the ButtonSetting instance associated with the button being modified */
+        private ButtonSetting currentButtonSetting;
+
+        /* stores a reference to the settings for the joystick */
+        private JoystickSetting currentJoystickSetting;
+
+        /* stores a reference to the device settings instance */
+        private DeviceSettings settings;
+
+        /* stores whether or not the UI is currently showing the joystick settings view */
+        private bool isJoystickView;
+
+        /* stores whether or not a tray notification has already been showing saying Custom Mouse Controller is running in the background */
+        private bool trayNotifShown;
+
+        /*
+         * Main constructor for main form.
+         */
+        public FrmMain()
         {
             InitializeComponent();
         }
 
-        // Store references to buttons for quicker colour change
-        private Button[] uiButtons;
-
-        private ButtonSetting[] buttonSettings;
-
-        private int currentButton;
-
-        private JoystickSetting currentJoystickSetting;
-        private ButtonSetting currentButtonSetting;
-        private DeviceSettings settings;
-
-        private bool isJoystickView;
-
-        private bool trayNotifShown;
-
-        private void Form1_Load(object sender, EventArgs e)
+        /*
+         * Initializes form values upon load and loads previous settings
+         * into UI, if available. If not, settings are initialized to
+         * defaults.
+         */
+        private void FrmMain_Load(object sender, EventArgs e)
         {
+            // get UI button references
             uiButtons = new Button[7];
 
             uiButtons[0] = btnJoystick;
@@ -40,12 +72,15 @@ namespace CustomMouseController
             uiButtons[5] = btnButton5;
             uiButtons[6] = btnButton6;
 
+            // scroll wheel event handlers so the scroll wheel cannot control the trackbars in joystick view
             trkJoystick.MouseWheel += new MouseEventHandler(trackBar_MouseWheel);
             trkCursor.MouseWheel += new MouseEventHandler(trackBar_MouseWheel);
 
+            // load settings
             settings = DeviceSettings.Instance;
             buttonSettings = new ButtonSetting[6];
 
+            // if previous settings were loaded, update the UI to reflect them
             if (settings.LoadedPreviousSession)
             {
                 buttonSettings[0] = settings.GetButtonSetting(1);
@@ -66,7 +101,7 @@ namespace CustomMouseController
                 mnuStartWithWindows.Checked = settings.RunAtStartup;
                 trayNotifShown = true;
             }
-            else
+            else // set default values if not
             {
                 currentJoystickSetting = new JoystickSetting(uiButtons[0]);
                 settings.JoystickSetting = currentJoystickSetting;
@@ -78,6 +113,9 @@ namespace CustomMouseController
 
                 trayNotifShown = false;
 
+                // since we don't know if the application is to run at startup
+                // from device settings since a previous session was not loaded,
+                // check if the registry key exists and update device settings accordingly
                 RegistryKey startupKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
                 if (startupKey.GetValue(Application.ProductName) == null)
@@ -104,10 +142,16 @@ namespace CustomMouseController
                 }
             }
 
+            // start out on joystick view since it is the first button
             btnJoystick.PerformClick();
             isJoystickView = true;
         }
 
+        /*
+         * Shows a notification asking the user if they are sure they would
+         * like to exit the application when the Exit tray menu item has been
+         * clicked, and cleanly closes the application if yes.
+         */
         private void mnuExit_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show(this, "Closing this application will cause the Custom Mouse to operate only as a basic" +
@@ -118,6 +162,8 @@ namespace CustomMouseController
             {
                 settings.SaveSettings();
                 HardwareListener.Instance.Dispose();
+                // the HardwareListener thread is exited from Program.cs after the UI thread to prevent
+                // an issue where the stop signal is not sent to the Arduino
                 Application.ExitThread();
             }
             else
@@ -129,18 +175,28 @@ namespace CustomMouseController
             }
         }
 
+        /*
+         * Shows the Custom Mouse Control Center when the Open Control Center tray
+         * menu item has been clicked.
+         */
         private void mnuOpenControlCenter_Click(object sender, EventArgs e)
         {
             Show();
             Focus();
         }
 
+        /*
+         * Minimizes the Control Center to the system tray if the user has pressed
+         * the 'X' button instead of completely closing it.
+         */
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 e.Cancel = true;
                 Hide();
+                
+                // Show running in background notification if it has never been shown
                 if (!trayNotifShown)
                 {
                     nfyTrayIcon.ShowBalloonTip(10000, "Custom Mouse Controller is still running in the background.", "Double-click the Custom Mouse Controller tray icon to bring up the Custom Mouse Control Center " +
@@ -149,6 +205,8 @@ namespace CustomMouseController
                 }
             }
 
+            // cleanly exit application if system is shutting down or application is being shut down
+            // from Task Manager
             if (e.CloseReason == CloseReason.TaskManagerClosing || e.CloseReason == CloseReason.WindowsShutDown)
             {
                 settings.SaveSettings();
@@ -157,6 +215,9 @@ namespace CustomMouseController
             }
         }
 
+        /*
+         * Shows the Custom Mouse Control Center when the system tray icon is double-clicked.
+         */
         private void nfyTrayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -166,6 +227,9 @@ namespace CustomMouseController
             }
         }
 
+        /*
+         * Loads joystick view and settings into UI when Joystick button is clicked.
+         */
         private void btnJoystick_Click(object sender, EventArgs e)
         {
             btnJoystick.BackColor = Color.FromArgb(230, 0, 0);
@@ -181,6 +245,10 @@ namespace CustomMouseController
             trkJoystick.Value = currentJoystickSetting.SensitivityMultiplier;
         }
 
+        /*
+         * Loads button view and button 1 settings into UI when Button 1
+         * button is clicked.
+         */
         private void btnButton1_Click(object sender, EventArgs e)
         {
             btnButton1.BackColor = Color.FromArgb(230, 0, 0);
@@ -197,6 +265,10 @@ namespace CustomMouseController
             LoadButtonSettingsIntoLayout(currentButtonSetting);
         }
 
+        /*
+         * Loads button view and button 2 settings into UI when Button 2
+         * button is clicked.
+         */
         private void btnButton2_Click(object sender, EventArgs e)
         {
             btnButton2.BackColor = Color.FromArgb(230, 0, 0);
@@ -213,6 +285,10 @@ namespace CustomMouseController
             LoadButtonSettingsIntoLayout(currentButtonSetting);
         }
 
+        /*
+         * Loads button view and button 3 settings into UI when Button 3
+         * button is clicked.
+         */
         private void btnButton3_Click(object sender, EventArgs e)
         {
             btnButton3.BackColor = Color.FromArgb(230, 0, 0);
@@ -229,6 +305,10 @@ namespace CustomMouseController
             LoadButtonSettingsIntoLayout(currentButtonSetting);
         }
 
+        /*
+         * Loads button view and button 4 settings into UI when Button 4
+         * button is clicked.
+         */
         private void btnButton4_Click(object sender, EventArgs e)
         {
             btnButton4.BackColor = Color.FromArgb(230, 0, 0);
@@ -245,6 +325,10 @@ namespace CustomMouseController
             LoadButtonSettingsIntoLayout(currentButtonSetting);
         }
 
+        /*
+         * Loads button view and button 5 settings into UI when Button 5
+         * button is clicked.
+         */
         private void btnButton5_Click(object sender, EventArgs e)
         {
             btnButton5.BackColor = Color.FromArgb(230, 0, 0);
@@ -261,6 +345,10 @@ namespace CustomMouseController
             LoadButtonSettingsIntoLayout(currentButtonSetting);
         }
 
+        /*
+         * Loads button view and button 6 settings into UI when Button 6
+         * button is clicked.
+         */
         private void btnButton6_Click(object sender, EventArgs e)
         {
             btnButton6.BackColor = Color.FromArgb(230, 0, 0);
@@ -277,6 +365,10 @@ namespace CustomMouseController
             LoadButtonSettingsIntoLayout(currentButtonSetting);
         }
 
+        /*
+         * Sets all buttons to their default colour except for the selected
+         * button.
+         */
         private void SetDefaultButtonColour(Button selected)
         {
             foreach (Button button in uiButtons)
@@ -293,6 +385,10 @@ namespace CustomMouseController
             selected.FlatAppearance.MouseDownBackColor = Color.FromArgb(230, 0, 0);
         }
 
+        /*
+         * Sets the layout of the form to the layout for the joystick
+         * settings.
+         */
         private void SetToJoystickLayout()
         {
             lblJoystickSensitivity.Visible = true;
@@ -329,6 +425,10 @@ namespace CustomMouseController
             isJoystickView = true;
         }
 
+        /*
+         * Sets the layout of the form to the layout for the button
+         * settings.
+         */
         private void SetToButtonLayout()
         {
             radLeftClick.Visible = true;
@@ -365,9 +465,13 @@ namespace CustomMouseController
             isJoystickView = false;
         }
 
+        /*
+         * Loads the values from the ButtonSettings instance passed as an argument
+         * into the UI.
+         */
         private void LoadButtonSettingsIntoLayout(ButtonSetting settings)
         {
-            if (isJoystickView)
+            if (isJoystickView) // don't do anything if we're not in button view
                 return;
 
             switch (currentButtonSetting.Setting)
@@ -409,9 +513,12 @@ namespace CustomMouseController
 
             UpdateAssignedProgram();
             UpdateKeyboardShortcut();
-
         }
 
+        /*
+         * Updates current button's settings and update UI colours to reflect
+         * Left Click being selected.
+         */
         private void radLeftClick_CheckedChanged(object sender, EventArgs e)
         {
             if (radLeftClick.Checked)
@@ -426,6 +533,10 @@ namespace CustomMouseController
             settings.SetButtonSetting(currentButton, currentButtonSetting);
         }
 
+        /*
+         * Updates current button's settings and update UI colours to reflect
+         * Right Click being selected.
+         */
         private void radRightClick_CheckedChanged(object sender, EventArgs e)
         {
             if (radRightClick.Checked)
@@ -440,6 +551,10 @@ namespace CustomMouseController
             settings.SetButtonSetting(currentButton, currentButtonSetting);
         }
 
+        /*
+         * Updates current button's settings and update UI colours to reflect
+         * On Screen Keyboard being selected.
+         */
         private void radOSK_CheckedChanged(object sender, EventArgs e)
         {
             if (radOSK.Checked)
@@ -454,6 +569,10 @@ namespace CustomMouseController
             settings.SetButtonSetting(currentButton, currentButtonSetting);
         }
 
+        /*
+         * Updates current button's settings and update UI colours to reflect
+         * Type a Phrase being selected.
+         */
         private void radSentence_CheckedChanged(object sender, EventArgs e)
         {
             if (radSentence.Checked)
@@ -472,6 +591,10 @@ namespace CustomMouseController
             settings.SetButtonSetting(currentButton, currentButtonSetting);
         }
 
+        /*
+         * Updates current button's settings and update UI colours to reflect
+         * Open a Program being selected.
+         */
         private void radProgram_CheckedChanged(object sender, EventArgs e)
         {
             if (radProgram.Checked)
@@ -481,16 +604,17 @@ namespace CustomMouseController
                 radProgram.ForeColor = Color.White;
                 btnProgramChange.Enabled = true;
 
-                if (currentButtonSetting.ProgramInfo != null)
+                // set program icon
+                if (currentButtonSetting.ProgramInfo != null) 
                 {
                     picProgramIcon.Image = currentButtonSetting.ProgramInfo.Icon.ToBitmap();
                 }
-                else
+                else // set not assigned icon if nothing is assigned to this button yet
                 {
                     picProgramIcon.Image = Properties.Resources.notAssignedIcon;
                 }
             }
-            else
+            else // set gray icon and labels if not selected
             {
                 lblProgramName.ForeColor = Color.LightGray;
                 radProgram.ForeColor = Color.LightGray;
@@ -505,11 +629,13 @@ namespace CustomMouseController
                     picProgramIcon.Image = Properties.Resources.notAssignedGrayscaleIcon;
                 }
             }
-
             settings.SetButtonSetting(currentButton, currentButtonSetting);
         }
 
-
+        /*
+         * Updates current button's settings and update UI colours to reflect
+         * Open a Website being selected.
+         */
         private void radWebsite_CheckedChanged(object sender, EventArgs e)
         {
             if (radWebsite.Checked)
@@ -528,6 +654,10 @@ namespace CustomMouseController
             settings.SetButtonSetting(currentButton, currentButtonSetting);
         }
 
+        /*
+         * Updates current button's settings and update UI colours to reflect
+         * Perform Keyboard Shortcut being selected.
+         */
         private void radShortcut_CheckedChanged(object sender, EventArgs e)
         {
             if (radShortcut.Checked)
@@ -546,16 +676,28 @@ namespace CustomMouseController
             settings.SetButtonSetting(currentButton, currentButtonSetting);
         }
 
+        /*
+         * Updates assigned phrase to current button's settings in real-time
+         * if it has been changed.
+         */
         private void txtPhrase_TextChanged(object sender, EventArgs e)
         {
             currentButtonSetting.Phrase = txtPhrase.Text;
         }
 
+        /*
+         * Updates assigned website to current button's settings in real-time
+         * if it has been changed.
+         */
         private void txtWebsite_TextChanged(object sender, EventArgs e)
         {
             currentButtonSetting.WebsiteURL = txtWebsite.Text;
         }
 
+        /*
+         * Shows keyboard shortcut form when button to change keyboard shortcut
+         * is clicked and updates UI to reflect change afterward.
+         */
         private void btnKeyboardShortcutChange_Click(object sender, EventArgs e)
         {
             using (FrmKeyboardShortcut dialog = new FrmKeyboardShortcut(currentButtonSetting))
@@ -568,6 +710,10 @@ namespace CustomMouseController
             }
         }
 
+        /*
+         * Shows select program form when button to change assigned program
+         * is clicked and updates UI to reflect change afterward.
+         */
         private void btnProgramChange_Click(object sender, EventArgs e)
         {
             using (FrmSelectProgram dialog = new FrmSelectProgram(currentButtonSetting))
@@ -580,6 +726,10 @@ namespace CustomMouseController
             }
         }
 
+        /*
+         * Updates the keyboard shortcut label in the UI from the plain text
+         * shortcut array associated with the current button's settings.
+         */
         private void UpdateKeyboardShortcut()
         {
             if (currentButtonSetting.KeyCombination == null)
@@ -610,10 +760,13 @@ namespace CustomMouseController
                 lblShortcut.Text = builder.ToString();
             }
 
+
+            // place change button right after label
             lblShortcut.AutoSize = true;
 
             Point newLocation = new Point(lblShortcut.Location.X + lblShortcut.Size.Width + 4, btnKeyboardShortcutChange.Location.Y);
 
+            // don't allow button to be pushed off of UI by label
             if (newLocation.X > txtPhrase.Location.X + txtPhrase.Size.Width - btnKeyboardShortcutChange.Width)
             {
                 newLocation = new Point(txtPhrase.Location.X + txtPhrase.Size.Width - btnKeyboardShortcutChange.Width, newLocation.Y);
@@ -629,13 +782,17 @@ namespace CustomMouseController
             }
         }
 
+        /*
+         * Updates the assigned program label and icon in the UI from the
+         * ProgramInfo instance associated with the current button's settings.
+         */
         private void UpdateAssignedProgram()
         {
 
-            if (currentButtonSetting.ProgramInfo == null)
+            if (currentButtonSetting.ProgramInfo == null) // no program assigned
             {
                 lblProgramName.Text = "Not Assigned";
-                if (!radProgram.Checked)
+                if (!radProgram.Checked) // Open a Program not selected radio button
                 {
                     picProgramIcon.Image = Properties.Resources.notAssignedGrayscaleIcon;
                 }
@@ -659,10 +816,12 @@ namespace CustomMouseController
                 }
             }
 
+            // place change button right after label
             lblProgramName.AutoSize = true;
 
             Point newLocation = new Point(lblProgramName.Location.X + lblProgramName.Size.Width + 4, btnProgramChange.Location.Y);
 
+            // don't allow button to be pushed off of UI by label
             if (newLocation.X > txtPhrase.Location.X + txtPhrase.Size.Width - btnProgramChange.Width)
             {
                 newLocation = new Point(txtPhrase.Location.X + txtPhrase.Size.Width - btnProgramChange.Width, newLocation.Y);
@@ -678,21 +837,40 @@ namespace CustomMouseController
             }
         }
 
+        /*
+         * Ignores scroll wheel movement when cursor is on trackbars in joystick
+         * view so that their values don't change with the motion of the scroll
+         * wheel.
+         */
         private void trackBar_MouseWheel(object sender, EventArgs e)
         {
             ((HandledMouseEventArgs)e).Handled = true;
         }
 
+        /*
+         * Updates the value of the joystick sensitivity multiplier in the device
+         * settings whenever its value is changed.
+         */
         private void trkJoystick_ValueChanged(object sender, EventArgs e)
         {
             currentJoystickSetting.SensitivityMultiplier = trkJoystick.Value;
         }
 
+        /*
+         * Updates the value of the cursor speed multiplier in the device
+         * settings whenever its value is changed.
+         */
         private void trkCursor_ValueChanged(object sender, EventArgs e)
         {
             currentJoystickSetting.SpeedMultiplier = trkCursor.Value;
         }
 
+        /*
+         * Updates the device settings and registry whenever the Start with Windows
+         * tray menu item is checked or unchecked. Displays a message box asking the
+         * user if they are sure they would like to disable run at startup if it is
+         * currently enabled and they uncheck the box.
+         */
         private void mnuStartWithWindows_CheckedChanged(object sender, EventArgs e)
         {
             RegistryKey startupKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);

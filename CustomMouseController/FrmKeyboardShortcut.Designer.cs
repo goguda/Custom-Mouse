@@ -52,7 +52,7 @@
             this.btnOK.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnOK.ForeColor = System.Drawing.Color.Black;
             this.btnOK.Location = new System.Drawing.Point(603, 214);
-            this.btnOK.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnOK.Margin = new System.Windows.Forms.Padding(6);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(138, 42);
             this.btnOK.TabIndex = 15;
@@ -68,7 +68,7 @@
             this.btnClear.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClear.ForeColor = System.Drawing.Color.Black;
             this.btnClear.Location = new System.Drawing.Point(453, 214);
-            this.btnClear.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnClear.Margin = new System.Windows.Forms.Padding(6);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(138, 42);
             this.btnClear.TabIndex = 16;
@@ -83,7 +83,7 @@
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.ForeColor = System.Drawing.Color.Black;
             this.btnCancel.Location = new System.Drawing.Point(15, 214);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(6);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(138, 42);
             this.btnCancel.TabIndex = 17;
@@ -119,12 +119,11 @@
             this.Controls.Add(this.lblInstructions);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmKeyboardShortcut";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Assign Keyboard Shortcut";
-            this.Load += new System.EventHandler(this.FrmKeyboardShortcut_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmKeyboardShortcut_KeyDown);
             this.ResumeLayout(false);
 

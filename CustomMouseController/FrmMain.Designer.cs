@@ -1,6 +1,6 @@
 ﻿namespace CustomMouseController
 {
-    partial class frmMain
+    partial class FrmMain
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.nfyTrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.cxtTrayIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuOpenControlCenter = new System.Windows.Forms.ToolStripMenuItem();
@@ -641,7 +641,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Custom Mouse Control Center";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.FrmMain_Load);
             this.cxtTrayIcon.ResumeLayout(false);
             this.pnlInputSelection.ResumeLayout(false);
             this.grpSettings.ResumeLayout(false);

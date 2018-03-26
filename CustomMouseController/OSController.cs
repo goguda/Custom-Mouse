@@ -1,8 +1,22 @@
-﻿using System.Diagnostics;
+﻿/*
+ * File: OSController.cs
+ * Contains: OSController class
+ * 
+ * This static class is used to perform OS functions such
+ * as controlling the mouse, performing keyboard shortcuts,
+ * and starting processes.
+ * 
+ * Author: David Goguen
+ * Original release: March 26, 2018
+ * 
+ * Last updated: March 26, 2018
+ * 
+ */
+
+using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using System;
 using System.Text;
 using System.Linq;
 
@@ -10,55 +24,73 @@ namespace CustomMouseController
 {
     static class OSController
     {
+        /* constant values for mouse activity used with mouse_event from user32.dll */
         // Reference: https://www.codeproject.com/Articles/32556/Auto-Clicker-C
         private const int MOUSEEVENTF_MOVE =      0x0001; /* mouse move */
         private const int MOUSEEVENTF_LEFTDOWN =  0x0002; /* left button down */
         private const int MOUSEEVENTF_LEFTUP =    0x0004; /* left button up */
         private const int MOUSEEVENTF_RIGHTDOWN = 0x0008; /* right button down */
         private const int MOUSEEVENTF_RIGHTUP =   0x0010; /* right button up */
-
-
+        
+        /*
+         * Low-level Windows method imported from user32.dll that controls
+         * mouse functions.
+         */
         [DllImport("user32.dll",
         CharSet = CharSet.Auto, CallingConvention= CallingConvention.StdCall)]
         public static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons,
         int dwExtraInfo);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
-
-
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern int Wow64DisableWow64FsRedirection(ref IntPtr ptr);
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern int Wow64EnableWow64FsRedirection(ref IntPtr ptr);
-
+        /*
+         * Moves the cursor by x and y pixels.
+         */
         public static void MoveCursor(int x, int y)
         {
             Cursor.Position = new Point(Cursor.Position.X + x, Cursor.Position.Y + y);
         }
 
+        /*
+         * Types a phrase passed as a string parameter into an active
+         * text input field.
+         */
         public static void TypePhrase(string phrase)
         {
             SendKeys.SendWait(phrase);
         }
 
+        /*
+         * Simulates a left-click of the mouse.
+         */
         public static void SimulateLeftClick()
         {
             mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
             mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
         }
 
+        /*
+         * Simulates a right-click of the mouse.
+         */
         public static void SimulateRightClick()
         {
             mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0);
             mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
         }
 
+        /*
+         * Opens the Windows On-Screen Keyboard.
+         * Note: This method will throw an exception if called from a 64-bit
+         * version of Windows in a 32-bit application.
+         */
         public static void OpenOnScreenKeyboard()
         {
             Process.Start("osk.exe");
         }
 
+        /*
+         * Opens a process that is passed as a string argument
+         * and shows a message box if the process was not started
+         * successfully.
+         */
         public static void OpenExecutable(string path)
         {
             try
@@ -71,6 +103,10 @@ namespace CustomMouseController
             }
         }
 
+        /*
+         * Opens a website in the user's default web browser
+         * using the URL of the website passed as a string argument.
+         */
         public static void OpenWebsite(string url)
         {
             if (url.Length < 7 || url.Substring(0, 7) != "http://" && url.Substring(0, 8) != "https://")
@@ -81,19 +117,24 @@ namespace CustomMouseController
             Process.Start(url);
         }
 
+        /*
+         * Performs the keyboard shortcut passed as an array of
+         * strings.
+         * */
         public static void PerformKeyboardShortcut(string[] keys)
         {
             if (keys == null)
                 return;
 
-            StringBuilder commandKeys = new StringBuilder();
-            StringBuilder otherKeys = new StringBuilder();
+            StringBuilder commandKeys = new StringBuilder(); // stores CTRL, ALT, and SHIFT keys
+            StringBuilder otherKeys = new StringBuilder(); // stores all other keys
 
             int arrLength = keys.Count(x => !string.IsNullOrEmpty(x));
             for (int i = 0; i < arrLength; i++)
             {
                 switch(keys[i])
                 {
+                    // CTRL, ALT, and SHIFT keys
                     case "CTRL":
                         commandKeys.Append("^");
                         break;
@@ -103,6 +144,7 @@ namespace CustomMouseController
                     case "SHIFT":
                         commandKeys.Append("+");
                         break;
+                    // other control keys
                     case "ESC":
                         otherKeys.Append("{ESC}");
                         break;
@@ -136,6 +178,7 @@ namespace CustomMouseController
                     case "PGEDWN":
                         otherKeys.Append("{PGDN}");
                         break;
+                    // function keys
                     case "F1":
                         otherKeys.Append("{F1}");
                         break;
@@ -172,11 +215,13 @@ namespace CustomMouseController
                     case "F12":
                         otherKeys.Append("{F12}");
                         break;
+                    // letters and numbers
                     default:
                         otherKeys.Append("{" + keys[i] + "}");
                         break;
                 }
             }
+            // combine control and other keys and perform combination
             SendKeys.SendWait(commandKeys.ToString() + "(" + otherKeys.ToString() + ")");
         }
     }

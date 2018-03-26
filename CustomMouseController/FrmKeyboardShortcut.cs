@@ -1,4 +1,18 @@
-﻿using System;
+﻿/*
+ * File: FrmKeyboardShortcut.cs
+ * Contains: FrmKeyboardShortcut class
+ * 
+ * This class interacts with the keyboard shortcut form and saves
+ * the specified shortcut to the passed ButtonSetting instance.
+ * 
+ * Author: David Goguen
+ * Original release: March 26, 2018
+ * 
+ * Last updated: March 26, 2018
+ * 
+ */
+
+using System;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -7,10 +21,17 @@ namespace CustomMouseController
 {
     public partial class FrmKeyboardShortcut : Form
     {
-
+        /* stores the specified key combination in plain text */
         private string[] shortcut;
+
+        /* stores the passed reference to the ButtonSetting instance that is to be modified */
         private ButtonSetting buttonSetting;
 
+        /*
+         * Main constructor for the keyboard shortcut form. Takes a
+         * reference to the ButtonSetting instance for the button that
+         * is to be modified.
+         */
         public FrmKeyboardShortcut(ButtonSetting buttonSetting)
         {
             InitializeComponent();
@@ -19,19 +40,30 @@ namespace CustomMouseController
             this.buttonSetting = buttonSetting;
         }
 
+        /*
+         * Indicates that the assignment has been cancelled and closes
+         * the form when the Cancel button is pressed.
+         */
         private void btnCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();
         }
 
+        /*
+         * Detects which keys have been pressed down and saves them to
+         * the shortcut array in plain text.
+         */
         private void FrmKeyboardShortcut_KeyDown(object sender, KeyEventArgs e)
         {
+            // get number of keys currently in array
             int numItems = shortcut.Count(x => !string.IsNullOrEmpty(x));
 
+            // if there are already 4 (max number of keys supported for the combination), do nothing
             if (numItems == 4)
                 return;
 
+            // otherwise, detect the key that is to be added to the array and store it in plain text
             string toAdd = String.Empty;
 
             // One of the control keys
@@ -45,6 +77,7 @@ namespace CustomMouseController
             // If not, add the right key
             if (toAdd == String.Empty)
             {
+                // this is tedious, but seems to be the best way to do this to prevent errors
                 switch (e.KeyCode)
                 {
                     // other control keys
@@ -81,7 +114,7 @@ namespace CustomMouseController
                     case Keys.PageDown:
                         toAdd = "PGEDWN";
                         break;
-                    // number keys
+                    // top number keys
                     case Keys.Oemtilde:
                         toAdd = "`";
                         break;
@@ -264,26 +297,28 @@ namespace CustomMouseController
                         break;
                 }
             }
-
-
+            
             if (!(toAdd == String.Empty))
             {
+                // do not allow more than one of the same key in the shortcut array
                 if (shortcut.Contains(toAdd))
                     return;
 
                 shortcut[numItems] = toAdd;
                 UpdateUI();
             }
-
         }
 
+        /*
+         * Updates the UI to display the key combination that is being assigned.
+         */
         private void UpdateUI()
         {
             StringBuilder builder = new StringBuilder();
 
             for (int i = 0; i < shortcut.Length; i++)
             {
-                if (shortcut[i] == null)
+                if (shortcut[i] == null) // stop the loop once we've hit the end of assigned keys
                     break;
 
                 if (i == 0)
@@ -297,6 +332,7 @@ namespace CustomMouseController
 
             lblShortcut.Text = builder.ToString();
 
+            // disable clear button if nothing has been assigned
             if (shortcut.Count(x => !String.IsNullOrEmpty(x)) == 0)
             {
                 btnClear.Enabled = false;
@@ -307,11 +343,10 @@ namespace CustomMouseController
             }
         }
 
-        private void FrmKeyboardShortcut_Load(object sender, EventArgs e)
-        {
-
-        }
-
+        /*
+         * Clears the shortcut array for a new key combination when pressed.
+         * Also clears the label indicating the shortcut on the UI.
+         */
         private void btnClear_Click(object sender, EventArgs e)
         {
             shortcut = new string[4];
@@ -319,21 +354,38 @@ namespace CustomMouseController
             lblInstructions.Focus();
         }
 
+        /*
+         * Never allows Clear button to have focus since it may interrupt
+         * assignment of key combination depending on keys pressed.
+         */
         private void btnClear_MouseLeave(object sender, EventArgs e)
         {
             lblInstructions.Focus();
         }
 
+        /*
+         * Never allows Cancel button to have focus since it may interrupt
+         * assignment of key combination depending on keys pressed.
+         */
         private void btnCancel_MouseLeave(object sender, EventArgs e)
         {
             lblInstructions.Focus();
         }
-
+        /*
+         * 
+         * Never allows OK button to have focus since it may interrupt
+         * assignment of key combination depending on keys pressed.
+         */
         private void btnOK_MouseLeave(object sender, EventArgs e)
         {
             lblInstructions.Focus();
         }
 
+        /*
+         * Saves the key combination to the passed ButtonSetting instance
+         * and closes the form when the OK button is pressed. Displays
+         * a warning message box if no key combination has been assigned.
+         */
         private void btnOK_Click(object sender, EventArgs e)
         {
             if (shortcut.Count(x => !String.IsNullOrEmpty(x)) == 0)
@@ -341,7 +393,7 @@ namespace CustomMouseController
                 DialogResult msg = MessageBox.Show("No keyboard combination has been assigned. Would you " +
                     "like to go back and assign one?", "No Keyboard Shortcut Assigned", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 
-                if (msg == DialogResult.No)
+                if (msg == DialogResult.No) // assign null key combination if user has specified they do not want to assign one
                 {
                     buttonSetting.KeyCombination = null;
                     DialogResult = DialogResult.OK;
