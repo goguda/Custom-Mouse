@@ -89,7 +89,7 @@ begin
 end;
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
 
 [Files]
 Source: "D:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x86\Release\Custom Mouse Controller.exe"; DestDir: "{app}"; Flags: ignoreversion; Check: not Is64BitInstallMode 
