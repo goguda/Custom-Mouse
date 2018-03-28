@@ -136,7 +136,7 @@ void detectModules() {
 
   for (int i = 0; i < 8; i += 2) {
     // detect a joystick
-    if ((readings[i] > 506 && readings[i] < 511) && (readings[i + 1] > 500 && readings[i + 1] < 505)) {
+    if ((readings[i] > 504 && readings[i] < 514) && (readings[i + 1] > 480 && readings[i + 1] < 490)) {
       // make sure that fluctuating readings on other analog inputs
       // do not simulate the insertion of a joystick if there is
       // already one connected
