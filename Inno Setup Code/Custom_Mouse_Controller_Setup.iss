@@ -23,7 +23,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
-OutputBaseFilename=Custom_Mouse_Controller_Setup
+OutputBaseFilename=Custom_Mouse_Controller_1.0_Setup
 ArchitecturesInstallIn64BitMode=x64
 Compression=lzma
 SolidCompression=yes
@@ -92,12 +92,12 @@ end;
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
 
 [Files]
-Source: "D:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x86\Release\Custom Mouse Controller.exe"; DestDir: "{app}"; Flags: ignoreversion; Check: not Is64BitInstallMode 
-Source: "D:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x86\Release\Custom Mouse Controller.exe.config"; DestDir: "{app}"; Flags: ignoreversion; Check: not Is64BitInstallMode
-Source: "D:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x86\Release\Custom Mouse Controller.pdb"; DestDir: "{app}"; Flags: ignoreversion; Check: not Is64BitInstallMode
-Source: "D:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x64\Release\Custom Mouse Controller.exe"; DestDir: "{app}"; Flags: ignoreversion; Check: Is64BitInstallMode
-Source: "D:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x64\Release\Custom Mouse Controller.exe.config"; DestDir: "{app}"; Flags: ignoreversion; Check: Is64BitInstallMode
-Source: "D:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x64\Release\Custom Mouse Controller.pdb"; DestDir: "{app}"; Flags: ignoreversion; Check: Is64BitInstallMode
+Source: "C:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x86\Release\Custom Mouse Controller.exe"; DestDir: "{app}"; Flags: ignoreversion; Check: not Is64BitInstallMode 
+Source: "C:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x86\Release\Custom Mouse Controller.exe.config"; DestDir: "{app}"; Flags: ignoreversion; Check: not Is64BitInstallMode
+Source: "C:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x86\Release\Custom Mouse Controller.pdb"; DestDir: "{app}"; Flags: ignoreversion; Check: not Is64BitInstallMode
+Source: "C:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x64\Release\Custom Mouse Controller.exe"; DestDir: "{app}"; Flags: ignoreversion; Check: Is64BitInstallMode
+Source: "C:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x64\Release\Custom Mouse Controller.exe.config"; DestDir: "{app}"; Flags: ignoreversion; Check: Is64BitInstallMode
+Source: "C:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x64\Release\Custom Mouse Controller.pdb"; DestDir: "{app}"; Flags: ignoreversion; Check: Is64BitInstallMode
 Source: "C:\Program Files (x86)\Arduino\drivers\*"; DestDir: "{app}\drivers"; Flags: ignoreversion recursesubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
