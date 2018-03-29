@@ -217,7 +217,7 @@ namespace CustomMouseController
                         break;
                     // letters and numbers
                     default:
-                        otherKeys.Append("{" + keys[i] + "}");
+                        otherKeys.Append("{" + keys[i].ToLower() + "}");
                         break;
                 }
             }
