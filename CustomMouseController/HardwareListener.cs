@@ -108,10 +108,17 @@ namespace CustomMouseController
                                 device.DtrEnable = true;
                                 device.RtsEnable = true;
                                 device.Handshake = Handshake.None;
-                                device.Parity = Parity.None;
+                                device.Parity = Parity.None; 
                                 device.StopBits = StopBits.Two;
                                 device.DataBits = 8;
-                                device.Open();
+                                try
+                                {
+                                    device.Open();
+                                }
+                                catch
+                                {
+                                    continue;
+                                }
                                 // perform a handshake to ensure we have the right Arduino and that it is working properly
                                 connected = PerformHandshake();
                             }
