@@ -9,7 +9,7 @@
  * Author: David Goguen
  * Original release: March 26, 2018
  * 
- * Last updated: March 26, 2018
+ * Last updated: April 2, 2018
  * 
  */
 
@@ -99,7 +99,7 @@ namespace CustomMouseController
             }
             catch
             {
-                MessageBox.Show("There was an error opening the program assigned to that button.", "Custom Mouse Controller - Error Opening Program", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ; // hopefully implement a top-most message box later, but for now do nothing
             }
         }
 
@@ -109,12 +109,19 @@ namespace CustomMouseController
          */
         public static void OpenWebsite(string url)
         {
-            if (url.Length < 7 || url.Substring(0, 7) != "http://" && url.Substring(0, 8) != "https://")
+            try
             {
-                url = "http://" + url;
-            }
+                if (url.Length < 7 || url.Substring(0, 7) != "http://" && url.Substring(0, 8) != "https://")
+                {
+                    url = "http://" + url;
+                }
 
-            Process.Start(url);
+                Process.Start(url);
+            }
+            catch
+            {
+                ; // hopefully implement a top-most message box later, but for now do nothing            
+            }
         }
 
         /*

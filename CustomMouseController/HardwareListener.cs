@@ -18,7 +18,7 @@
  * Author: David Goguen
  * Original release: March 26, 2018
  * 
- * Last updated: March 26, 2018
+ * Last updated: April 2, 2018
  * 
  */
 
@@ -111,14 +111,18 @@ namespace CustomMouseController
                                 device.Parity = Parity.None; 
                                 device.StopBits = StopBits.Two;
                                 device.DataBits = 8;
+
                                 try
                                 {
                                     device.Open();
                                 }
-                                catch
+                                catch // device was probably just plugged in and is still open by Windows, so try again on next iteration of loop
                                 {
+                                    device.Dispose();
+                                    device = null;
                                     continue;
                                 }
+
                                 // perform a handshake to ensure we have the right Arduino and that it is working properly
                                 connected = PerformHandshake();
                             }
@@ -128,6 +132,11 @@ namespace CustomMouseController
                             {
                                 cursorSpeedTick = 12 - settings.JoystickSetting.SpeedMultiplier;
                                 break;
+                            }
+                            else
+                            {
+                                device.Dispose();
+                                device = null;
                             }
                         }
                     }
@@ -147,7 +156,7 @@ namespace CustomMouseController
                         continue;
                     }
 
-                    if (data.Contains("X")) // joystick signal from Arduino
+                    if (data.Contains("X") && data.Contains("Y")) // joystick signal from Arduino
                     {
                         cursorSpeedTick--; // decrement with each iteration of loop
 
