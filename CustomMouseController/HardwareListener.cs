@@ -120,7 +120,15 @@ namespace CustomMouseController
                                 }
                                 catch // device was probably just plugged in and is still open by Windows, so try again on next iteration of loop
                                 {
-                                    device.Dispose();
+                                    try
+                                    {
+                                        device.Dispose();
+                                    }
+                                    catch // no need to handle serial port exceptions here
+                                    {
+                                        ;
+                                    }
+
                                     device = null;
                                     continue;
                                 }
@@ -134,11 +142,20 @@ namespace CustomMouseController
                             {
                                 cursorSpeedTick = 12 - settings.JoystickSetting.SpeedMultiplier;
                                 device.ReadTimeout = 1000;
+                                device.WriteTimeout = 1000;
                                 break;
                             }
                             else
                             {
-                                device.Dispose();
+                                try
+                                {
+                                    device.Dispose();
+                                }
+                                catch // no need to handle serial port exceptions here
+                                {
+                                    ;
+                                }
+
                                 device = null;
                             }
                         }
@@ -171,8 +188,18 @@ namespace CustomMouseController
                         // disconnect if device is no longer connected
                         if (!stillConnected)
                         {
+
                             connected = false;
-                            device.Dispose();
+
+                            try
+                            {
+                                device.Dispose();
+                            }
+                            catch // no need to handle serial port exceptions here
+                            {
+                                ;
+                            }
+
                             device = null;
                         }
 
@@ -322,7 +349,14 @@ namespace CustomMouseController
                     }
                     if (device != null)
                     {
-                        device.Dispose();
+                        try
+                        {
+                            device.Dispose();
+                        }
+                        catch // no need to handle serial port exceptions here
+                        {
+
+                        }
                     }
                 }
             }
