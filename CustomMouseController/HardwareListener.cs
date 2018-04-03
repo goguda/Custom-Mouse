@@ -24,6 +24,7 @@
 
 using System;
 using System.IO.Ports;
+using System.Linq;
 using System.Management;
 
 namespace CustomMouseController
@@ -110,6 +111,7 @@ namespace CustomMouseController
                                 device.Handshake = Handshake.None;
                                 device.Parity = Parity.None; 
                                 device.StopBits = StopBits.Two;
+                                device.ReadTimeout = 10000; // setting to 10000 here for handshake
                                 device.DataBits = 8;
 
                                 try
@@ -127,10 +129,11 @@ namespace CustomMouseController
                                 connected = PerformHandshake();
                             }
 
-                            // initialize cursorSpeedTick if connected and break the loop
+                            // initialize cursorSpeedTick if connected, shorten read timeout and break the loop
                             if (connected)
                             {
                                 cursorSpeedTick = 12 - settings.JoystickSetting.SpeedMultiplier;
+                                device.ReadTimeout = 1000;
                                 break;
                             }
                             else
@@ -143,16 +146,36 @@ namespace CustomMouseController
                 }
                 else // connected to Arduino, so read and process data that is being sent
                 {
+
                     string data = String.Empty;
                     try
                     {
                         data = device.ReadLine();
                     }
-                    catch // if there is any error reading from the Arduino, disconnect and start search loop again
+                    catch // if there is any error reading from the Arduino, check if it is still connected
                     {
-                        connected = false;
-                        device.Dispose();
-                        device = null;
+                        ManagementObjectSearcher portSearcher = new ManagementObjectSearcher("Select * From Win32_SerialPort");
+                        ManagementObjectCollection ports = portSearcher.Get();
+
+                        bool stillConnected = false;
+
+                        // check to see if port is still in list of ports
+                        foreach (ManagementObject port in ports)
+                        {
+                            if (port.GetPropertyValue("DeviceID").ToString() == device.PortName)
+                            {
+                                stillConnected = true;
+                            }
+                        }
+
+                        // disconnect if device is no longer connected
+                        if (!stillConnected)
+                        {
+                            connected = false;
+                            device.Dispose();
+                            device = null;
+                        }
+
                         continue;
                     }
 
@@ -205,7 +228,18 @@ namespace CustomMouseController
 
             device.WriteLine("start");
 
-            return device.ReadLine() == "start\r";
+            string inp = String.Empty;
+
+            try
+            {
+                inp = device.ReadLine();
+            }
+            catch
+            {
+                inp = String.Empty;
+            }
+
+            return inp == "start\r";
         }
 
         /*
