@@ -8,7 +8,7 @@
  * Author: David Goguen
  * Original release: March 26, 2018
  * 
- * Last updated: March 26, 2018
+ * Last updated: April 4, 2018
  * 
  */
 
@@ -16,7 +16,7 @@ using System;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using Microsoft.Win32;
+using Microsoft.Win32.TaskScheduler;
 
 namespace CustomMouseController
 {
@@ -115,20 +115,20 @@ namespace CustomMouseController
 
                 // since we don't know if the application is to run at startup
                 // from device settings since a previous session was not loaded,
-                // check if the registry key exists and update device settings accordingly
-                RegistryKey startupKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-
-                if (startupKey.GetValue(Application.ProductName) == null)
+                // check if the task exists and update device settings accordingly
+                using (TaskService scheduler = new TaskService())
                 {
-                    settings.RunAtStartup = false;
-                    mnuStartWithWindows.Checked = false;
+                    if (scheduler.GetTask("Custom Mouse Controller") == null)
+                    {
+                        settings.RunAtStartup = false;
+                        mnuStartWithWindows.Checked = false;
+                    }
+                    else
+                    {
+                        settings.RunAtStartup = true;
+                        mnuStartWithWindows.Checked = true;
+                    }
                 }
-                else
-                {
-                    settings.RunAtStartup = true;
-                    mnuStartWithWindows.Checked = true;
-                }
-
             }
 
             //show warning if programs assigned last session have not been found
@@ -866,47 +866,53 @@ namespace CustomMouseController
         }
 
         /*
-         * Updates the device settings and registry whenever the Start with Windows
-         * tray menu item is checked or unchecked. Displays a message box asking the
-         * user if they are sure they would like to disable run at startup if it is
-         * currently enabled and they uncheck the box.
+         * Updates the device settings and task scheduler whenever the Start with Windows
+         * tray menu item is checked or unchecked. Displays a message box asking the user
+         * if they are sure they would like to disable run at startup if it is currently
+         * enabled and they uncheck the box.
          */
         private void mnuStartWithWindows_CheckedChanged(object sender, EventArgs e)
         {
-            RegistryKey startupKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-
-            if (mnuStartWithWindows.Checked)
+            using (TaskService scheduler = new TaskService())
             {
-                if (!settings.RunAtStartup)
+                if (mnuStartWithWindows.Checked)
                 {
-                    startupKey.SetValue(Application.ProductName, Application.ExecutablePath);
                     if (!settings.RunAtStartup)
                     {
-                        settings.RunAtStartup = true;
+                        TaskDefinition def = scheduler.NewTask();
+                        def.RegistrationInfo.Description = "Opens Custom Mouse Controller at user log on";
+                        def.Triggers.Add(new LogonTrigger());
+                        def.Principal.RunLevel = TaskRunLevel.Highest;
+                        def.Actions.Add(new ExecAction(Application.ExecutablePath));
+                        scheduler.RootFolder.RegisterTaskDefinition("Custom Mouse Controller", def);
+                        if (!settings.RunAtStartup)
+                        {
+                            settings.RunAtStartup = true;
+                        }
                     }
                 }
-            }
-            else
-            {
-                if (settings.RunAtStartup)
+                else
                 {
-                    DialogResult result = MessageBox.Show(this, "Not starting Custom Mouse Controller with Windows will result in the Custom Mouse operating " +
-                        "only as a basic mouse without additional functionality such as programmable hotkeys. Custom Mouse Controller will have to be started " +
-                        "manually after login to gain access to these features. Are you sure you would like to do this?", "Start Custom Mouse Controller with Windows", MessageBoxButtons.YesNo, MessageBoxIcon.Warning,
-                        MessageBoxDefaultButton.Button2);
+                    if (settings.RunAtStartup)
+                    {
+                        DialogResult result = MessageBox.Show(this, "Not starting Custom Mouse Controller with Windows will result in the Custom Mouse operating " +
+                            "only as a basic mouse without additional functionality such as programmable hotkeys. Custom Mouse Controller will have to be started " +
+                            "manually after login to gain access to these features. Are you sure you would like to do this?", "Start Custom Mouse Controller with Windows", MessageBoxButtons.YesNo, MessageBoxIcon.Warning,
+                            MessageBoxDefaultButton.Button2);
 
-                    if (result == DialogResult.Yes)
-                    {
-                        startupKey.DeleteValue(Application.ProductName, false);
-                        settings.RunAtStartup = false;
-                    }
-                    else
-                    {
-                        mnuStartWithWindows.Checked = true;
-                    }
-                    if (Visible)
-                    {
-                        Focus();
+                        if (result == DialogResult.Yes)
+                        {
+                            scheduler.RootFolder.DeleteTask("Custom Mouse Controller", false);
+                            settings.RunAtStartup = false;
+                        }
+                        else
+                        {
+                            mnuStartWithWindows.Checked = true;
+                        }
+                        if (Visible)
+                        {
+                            Focus();
+                        }
                     }
                 }
             }
