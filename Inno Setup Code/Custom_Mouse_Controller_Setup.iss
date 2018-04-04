@@ -4,7 +4,7 @@
 #include <idp.iss>
 
 #define MyAppName "Custom Mouse Controller"
-#define MyAppVersion "1.0.1"
+#define MyAppVersion "1.1"
 #define MyAppPublisher "David Goguen"
 #define MyAppURL "https://github.com/goguda/Custom-Mouse/releases"
 #define MyAppExeName "Custom Mouse Controller.exe"
@@ -23,10 +23,11 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
-OutputBaseFilename=Custom_Mouse_Controller_1.0.1_Setup
+OutputBaseFilename=Custom_Mouse_Controller_1.1_Setup
 ArchitecturesInstallIn64BitMode=x64
 Compression=lzma
 SolidCompression=yes
+AppMutex="Custom Mouse Controller"
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -92,17 +93,11 @@ end;
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
 
 [Files]
-Source: "D:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x86\Release\Custom Mouse Controller.exe"; DestDir: "{app}"; Flags: ignoreversion; Check: not Is64BitInstallMode 
-Source: "D:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x86\Release\Custom Mouse Controller.exe.config"; DestDir: "{app}"; Flags: ignoreversion; Check: not Is64BitInstallMode
-Source: "D:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x86\Release\Custom Mouse Controller.pdb"; DestDir: "{app}"; Flags: ignoreversion; Check: not Is64BitInstallMode
-Source: "D:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x64\Release\Custom Mouse Controller.exe"; DestDir: "{app}"; Flags: ignoreversion; Check: Is64BitInstallMode
-Source: "D:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x64\Release\Custom Mouse Controller.exe.config"; DestDir: "{app}"; Flags: ignoreversion; Check: Is64BitInstallMode
-Source: "D:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x64\Release\Custom Mouse Controller.pdb"; DestDir: "{app}"; Flags: ignoreversion; Check: Is64BitInstallMode
+Source: "C:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x86\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Check: not Is64BitInstallMode
+Source: "C:\Users\david\Documents\Visual Studio 2017\Projects\Custom-Mouse\CustomMouseController\bin\x64\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Check: Is64BitInstallMode
 Source: "C:\Program Files (x86)\Arduino\drivers\*"; DestDir: "{app}\drivers"; Flags: ignoreversion recursesubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
-[Registry]
-Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Custom Mouse Controller"; ValueData: "{app}\Custom Mouse Controller.exe"; Flags: uninsdeletekey
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
@@ -110,4 +105,11 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: 
 [Run]
 Filename: "{app}\drivers\dpinst-x86.exe"; Parameters: "/A /LM"; Check: not Is64BitInstallMode
 Filename: "{app}\drivers\dpinst-amd64.exe"; Parameters: "/A /LM"; Check: Is64BitInstallMode
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename: "schtasks"; Parameters: "/Create /F /SC ONLOGON /RL HIGHEST /TN ""Custom Mouse Controller"" /TR ""'{app}\Custom Mouse Controller.exe'"""; Flags: runhidden
+Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent runascurrentuser
+
+[UninstallRun]
+Filename: "schtasks"; Parameters: "/Delete /F /TN ""Custom Mouse Controller"""; Flags: runhidden
+
+[UninstallDelete]
+Type: filesandordirs; Name: "{localappdata}\Custom Mouse Controller"

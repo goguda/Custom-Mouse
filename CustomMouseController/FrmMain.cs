@@ -880,7 +880,6 @@ namespace CustomMouseController
                     if (!settings.RunAtStartup)
                     {
                         TaskDefinition def = scheduler.NewTask();
-                        def.RegistrationInfo.Description = "Opens Custom Mouse Controller at user log on";
                         def.Triggers.Add(new LogonTrigger());
                         def.Principal.RunLevel = TaskRunLevel.Highest;
                         def.Actions.Add(new ExecAction(Application.ExecutablePath));
